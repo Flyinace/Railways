@@ -1,0 +1,504 @@
+[
+  {
+    "station_code": "NDLS",
+    "station_name": "New Delhi",
+    "km": 0.0,
+    "division": "Delhi (NR)",
+    "interlocking_type": "Electronic Interlocking (EI - Westrace)",
+    "layout_type": "MAJOR_TERMINAL_JUNCTION",
+    "layout_source": "Standard IRSEM Reference Layout based on Official Station Infrastructure Data",
+    "platform_count": 16,
+    "track_count": 20,
+    "speed_limit_kmph": 110,
+    "tracks": [
+      { "id": "NDLS-T1", "label": "Platform Line 1 (Paharganj)", "type": "platform", "y": 40, "is_main": false },
+      { "id": "NDLS-T2", "label": "Platform Line 2", "type": "platform", "y": 70, "is_main": false },
+      { "id": "NDLS-T3", "label": "Platform Line 3", "type": "platform", "y": 100, "is_main": false },
+      { "id": "NDLS-DN-MAIN", "label": "DN Main Line (To Kanpur/Howrah)", "type": "mainline", "y": 140, "is_main": true },
+      { "id": "NDLS-UP-MAIN", "label": "UP Main Line (From Kanpur)", "type": "mainline", "y": 180, "is_main": true },
+      { "id": "NDLS-T4", "label": "Platform Line 4 & 5", "type": "platform", "y": 220, "is_main": false },
+      { "id": "NDLS-T5", "label": "Platform Line 6 & 7", "type": "platform", "y": 250, "is_main": false },
+      { "id": "NDLS-T6", "label": "Platform Line 8 & 9", "type": "platform", "y": 280, "is_main": false },
+      { "id": "NDLS-T7", "label": "Platform Line 10 & 11", "type": "platform", "y": 310, "is_main": false },
+      { "id": "NDLS-T8", "label": "Platform Line 12 & 13", "type": "platform", "y": 340, "is_main": false },
+      { "id": "NDLS-T9", "label": "Platform Line 14 & 15", "type": "platform", "y": 370, "is_main": false },
+      { "id": "NDLS-T10", "label": "Platform Line 16 (Ajmeri Gate)", "type": "platform", "y": 400, "is_main": false },
+      { "id": "NDLS-BRANCH-REWARI", "label": "Rewari / Ring Railway Branch", "type": "branch", "y": 440, "is_main": false }
+    ],
+    "platforms": [
+      { "number": "1", "y": 40, "x_start": 320, "x_end": 780, "side": "north" },
+      { "number": "2-3", "y": 85, "x_start": 320, "x_end": 780, "side": "island" },
+      { "number": "4-5", "y": 220, "x_start": 320, "x_end": 780, "side": "island" },
+      { "number": "6-7", "y": 250, "x_start": 320, "x_end": 780, "side": "island" },
+      { "number": "8-9", "y": 280, "x_start": 320, "x_end": 780, "side": "island" },
+      { "number": "10-11", "y": 310, "x_start": 320, "x_end": 780, "side": "island" },
+      { "number": "12-13", "y": 340, "x_start": 320, "x_end": 780, "side": "island" },
+      { "number": "14-15", "y": 370, "x_start": 320, "x_end": 780, "side": "island" },
+      { "number": "16", "y": 400, "x_start": 320, "x_end": 780, "side": "south" }
+    ],
+    "points": [
+      { "id": "Pt-101A", "name": "Point 101A (DN Entry Turnout)", "from_track": "NDLS-DN-MAIN", "to_track": "NDLS-T1", "x1": 180, "y1": 140, "x2": 260, "y2": 40, "type": "turnout" },
+      { "id": "Pt-101B", "name": "Point 101B (DN Loop 2 Turnout)", "from_track": "NDLS-DN-MAIN", "to_track": "NDLS-T2", "x1": 210, "y1": 140, "x2": 270, "y2": 70, "type": "turnout" },
+      { "id": "Pt-102A", "name": "Point 102A (DN-UP Main Crossover)", "from_track": "NDLS-DN-MAIN", "to_track": "NDLS-UP-MAIN", "x1": 240, "y1": 140, "x2": 290, "y2": 180, "type": "crossover" },
+      { "id": "Pt-102B", "name": "Point 102B (UP Main Crossover Return)", "from_track": "NDLS-UP-MAIN", "to_track": "NDLS-DN-MAIN", "x1": 290, "y1": 180, "x2": 340, "y2": 140, "type": "crossover" },
+      { "id": "Pt-103A", "name": "Point 103A (Plf 4-5 Ladder Lead)", "from_track": "NDLS-UP-MAIN", "to_track": "NDLS-T4", "x1": 220, "y1": 180, "x2": 270, "y2": 220, "type": "turnout" },
+      { "id": "Pt-104A", "name": "Point 104A (Plf 6-7 Ladder Lead)", "from_track": "NDLS-T4", "to_track": "NDLS-T5", "x1": 250, "y1": 220, "x2": 290, "y2": 250, "type": "turnout" },
+      { "id": "Pt-105A", "name": "Point 105A (Plf 8-11 Branch Ladder)", "from_track": "NDLS-T5", "to_track": "NDLS-T7", "x1": 260, "y1": 250, "x2": 310, "y2": 310, "type": "turnout" },
+      { "id": "Pt-106A", "name": "Point 106A (Ajmeri Gate Plf 16 Lead)", "from_track": "NDLS-T7", "to_track": "NDLS-T10", "x1": 270, "y1": 310, "x2": 315, "y2": 400, "type": "turnout" },
+      { "id": "Pt-107A", "name": "Point 107A (Rewari Branch Crossover)", "from_track": "NDLS-T10", "to_track": "NDLS-BRANCH-REWARI", "x1": 290, "y1": 400, "x2": 330, "y2": 440, "type": "turnout" },
+      { "id": "Pt-111A", "name": "Point 111A (DN Trailing Crossover East)", "from_track": "NDLS-T1", "to_track": "NDLS-DN-MAIN", "x1": 800, "y1": 40, "x2": 860, "y2": 140, "type": "trailing" },
+      { "id": "Pt-112A", "name": "Point 112A (UP East Departure Turnout)", "from_track": "NDLS-T4", "to_track": "NDLS-UP-MAIN", "x1": 800, "y1": 220, "x2": 850, "y2": 180, "type": "trailing" },
+      { "id": "Pt-113A", "name": "Point 113A (Ajmeri Gate Exit Crossover)", "from_track": "NDLS-T10", "to_track": "NDLS-UP-MAIN", "x1": 810, "y1": 400, "x2": 880, "y2": 180, "type": "trailing" }
+    ],
+    "signals": [
+      { "id": "S-1 (Home DN)", "type": "HOME", "x": 120, "y": 140, "direction": "DN", "label": "1HS" },
+      { "id": "S-2 (Home UP)", "type": "HOME", "x": 920, "y": 180, "direction": "UP", "label": "2HS" },
+      { "id": "S-11 (Starter Plf 1)", "type": "STARTER", "x": 780, "y": 40, "direction": "DN", "label": "S11" },
+      { "id": "S-12 (Starter DN Main)", "type": "STARTER", "x": 780, "y": 140, "direction": "DN", "label": "S12" },
+      { "id": "S-14 (Starter UP Main)", "type": "STARTER", "x": 320, "y": 180, "direction": "UP", "label": "S14" },
+      { "id": "S-20 (Adv Starter DN)", "type": "ADV_STARTER", "x": 940, "y": 140, "direction": "DN", "label": "20AS" },
+      { "id": "S-21 (Adv Starter UP)", "type": "ADV_STARTER", "x": 100, "y": 180, "direction": "UP", "label": "21AS" }
+    ],
+    "ohe_masts": [
+      { "id": "M-0/1", "km": 0.1, "x": 140, "y": 125, "wear_pct": 18.5, "status": "GOOD" },
+      { "id": "M-0/5", "km": 0.3, "x": 350, "y": 125, "wear_pct": 32.0, "status": "GOOD" },
+      { "id": "M-0/9", "km": 0.5, "x": 550, "y": 125, "wear_pct": 48.2, "status": "WORN" },
+      { "id": "M-0/13", "km": 0.7, "x": 750, "y": 125, "wear_pct": 24.0, "status": "GOOD" },
+      { "id": "M-0/17", "km": 0.9, "x": 910, "y": 125, "wear_pct": 72.4, "status": "CRITICAL" }
+    ]
+  },
+  {
+    "station_code": "GZB",
+    "station_name": "Ghaziabad Junction",
+    "km": 25.0,
+    "division": "Delhi (NR)",
+    "interlocking_type": "Electronic Interlocking (EI - Siemens)",
+    "layout_type": "MAJOR_CONVERGING_JUNCTION",
+    "layout_source": "Standard IRSEM Reference Layout based on Official Station Infrastructure Data",
+    "platform_count": 6,
+    "track_count": 13,
+    "speed_limit_kmph": 130,
+    "tracks": [
+      { "id": "GZB-BRANCH-MEERUT", "label": "Meerut City / Saharanpur Branch", "type": "branch", "y": 50, "is_main": false },
+      { "id": "GZB-BRANCH-MORADABAD", "label": "Moradabad / Bareilly Branch", "type": "branch", "y": 85, "is_main": false },
+      { "id": "GZB-LOOP-1", "label": "Platform Line 1 (Loop)", "type": "platform", "y": 125, "is_main": false },
+      { "id": "GZB-DN-MAIN", "label": "DN Main Line (NDLS -> CNB)", "type": "mainline", "y": 165, "is_main": true },
+      { "id": "GZB-UP-MAIN", "label": "UP Main Line (CNB -> NDLS)", "type": "mainline", "y": 205, "is_main": true },
+      { "id": "GZB-LOOP-2", "label": "Platform Line 4 & 5 (Loop)", "type": "platform", "y": 245, "is_main": false },
+      { "id": "GZB-LOOP-3", "label": "Platform Line 6 (Loop)", "type": "platform", "y": 285, "is_main": false },
+      { "id": "GZB-GOODS-AVOIDER", "label": "Freight Yard Avoider Line", "type": "siding", "y": 325, "is_main": false }
+    ],
+    "platforms": [
+      { "number": "1", "y": 125, "x_start": 340, "x_end": 750, "side": "north" },
+      { "number": "2-3", "y": 165, "x_start": 340, "x_end": 750, "side": "island" },
+      { "number": "4-5", "y": 245, "x_start": 340, "x_end": 750, "side": "island" },
+      { "number": "6", "y": 285, "x_start": 340, "x_end": 750, "side": "south" }
+    ],
+    "points": [
+      { "id": "Pt-201A", "name": "Point 201A (Meerut Jn Diverging Lead)", "from_track": "GZB-DN-MAIN", "to_track": "GZB-BRANCH-MEERUT", "x1": 180, "y1": 165, "x2": 270, "y2": 50, "type": "turnout" },
+      { "id": "Pt-202A", "name": "Point 202A (Moradabad Line Turnout)", "from_track": "GZB-DN-MAIN", "to_track": "GZB-BRANCH-MORADABAD", "x1": 210, "y1": 165, "x2": 280, "y2": 85, "type": "turnout" },
+      { "id": "Pt-203A", "name": "Point 203A (Plf 1 Diverging Point)", "from_track": "GZB-DN-MAIN", "to_track": "GZB-LOOP-1", "x1": 240, "y1": 165, "x2": 300, "y2": 125, "type": "turnout" },
+      { "id": "Pt-204A", "name": "Point 204A (DN-UP Diamond Crossover)", "from_track": "GZB-DN-MAIN", "to_track": "GZB-UP-MAIN", "x1": 260, "y1": 165, "x2": 310, "y2": 205, "type": "crossover" },
+      { "id": "Pt-205A", "name": "Point 205A (Plf 4-5 UP Loop Turnout)", "from_track": "GZB-UP-MAIN", "to_track": "GZB-LOOP-2", "x1": 240, "y1": 205, "x2": 295, "y2": 245, "type": "turnout" },
+      { "id": "Pt-206A", "name": "Point 206A (Plf 6 Loop Turnout)", "from_track": "GZB-LOOP-2", "to_track": "GZB-LOOP-3", "x1": 270, "y1": 245, "x2": 315, "y2": 285, "type": "turnout" },
+      { "id": "Pt-207A", "name": "Point 207A (Freight Avoider Diverge)", "from_track": "GZB-LOOP-3", "to_track": "GZB-GOODS-AVOIDER", "x1": 280, "y1": 285, "x2": 325, "y2": 325, "type": "turnout" },
+      { "id": "Pt-211A", "name": "Point 211A (DN Exit Trailing Crossover)", "from_track": "GZB-LOOP-1", "to_track": "GZB-DN-MAIN", "x1": 770, "y1": 125, "x2": 830, "y2": 165, "type": "trailing" },
+      { "id": "Pt-212A", "name": "Point 212A (UP Main Departure Turnout)", "from_track": "GZB-LOOP-2", "to_track": "GZB-UP-MAIN", "x1": 770, "y1": 245, "x2": 825, "y2": 205, "type": "trailing" },
+      { "id": "Pt-213A", "name": "Point 213A (East Exit Main Crossover)", "from_track": "GZB-UP-MAIN", "to_track": "GZB-DN-MAIN", "x1": 840, "y1": 205, "x2": 890, "y2": 165, "type": "crossover" }
+    ],
+    "signals": [
+      { "id": "S-101 (Home DN)", "type": "HOME", "x": 130, "y": 165, "direction": "DN", "label": "101HS" },
+      { "id": "S-102 (Home UP)", "type": "HOME", "x": 920, "y": 205, "direction": "UP", "label": "102HS" },
+      { "id": "S-111 (Starter Plf 1)", "type": "STARTER", "x": 750, "y": 125, "direction": "DN", "label": "S111" },
+      { "id": "S-112 (Starter DN Main)", "type": "STARTER", "x": 750, "y": 165, "direction": "DN", "label": "S112" },
+      { "id": "S-114 (Starter UP Main)", "type": "STARTER", "x": 340, "y": 205, "direction": "UP", "label": "S114" },
+      { "id": "S-120 (Adv Starter DN)", "type": "ADV_STARTER", "x": 930, "y": 165, "direction": "DN", "label": "120AS" },
+      { "id": "S-121 (Adv Starter UP)", "type": "ADV_STARTER", "x": 110, "y": 205, "direction": "UP", "label": "121AS" }
+    ],
+    "ohe_masts": [
+      { "id": "M-25/2", "km": 25.1, "x": 150, "y": 150, "wear_pct": 21.0, "status": "GOOD" },
+      { "id": "M-25/6", "km": 25.3, "x": 380, "y": 150, "wear_pct": 52.4, "status": "WORN" },
+      { "id": "M-25/10", "km": 25.5, "x": 580, "y": 150, "wear_pct": 78.6, "status": "CRITICAL" },
+      { "id": "M-25/14", "km": 25.7, "x": 760, "y": 150, "wear_pct": 34.1, "status": "GOOD" },
+      { "id": "M-25/18", "km": 25.9, "x": 900, "y": 150, "wear_pct": 19.5, "status": "GOOD" }
+    ]
+  },
+  {
+    "station_code": "DER",
+    "station_name": "Dadri (DFC Junction)",
+    "km": 37.0,
+    "division": "Prayagraj (NCR)",
+    "interlocking_type": "Electronic Interlocking (EI)",
+    "layout_type": "FREIGHT_DFC_INTERCHANGE",
+    "layout_source": "Standard IRSEM Reference Layout based on Official Station Infrastructure Data",
+    "platform_count": 4,
+    "track_count": 6,
+    "speed_limit_kmph": 130,
+    "tracks": [
+      { "id": "DER-DN-LOOP", "label": "DN Loop Line (Plf 1)", "type": "loop", "y": 90, "is_main": false },
+      { "id": "DER-DN-MAIN", "label": "DN Main Line", "type": "mainline", "y": 140, "is_main": true },
+      { "id": "DER-UP-MAIN", "label": "UP Main Line", "type": "mainline", "y": 190, "is_main": true },
+      { "id": "DER-UP-LOOP", "label": "UP Loop Line (Plf 4)", "type": "loop", "y": 240, "is_main": false },
+      { "id": "DER-DFC-CHORD", "label": "Eastern Dedicated Freight Corridor (EDFC Chord)", "type": "branch", "y": 290, "is_main": false }
+    ],
+    "platforms": [
+      { "number": "1", "y": 90, "x_start": 350, "x_end": 720, "side": "north" },
+      { "number": "2-3", "y": 165, "x_start": 350, "x_end": 720, "side": "island" },
+      { "number": "4", "y": 240, "x_start": 350, "x_end": 720, "side": "south" }
+    ],
+    "points": [
+      { "id": "Pt-251A", "name": "Point 251A (DN Loop Diverge)", "from_track": "DER-DN-MAIN", "to_track": "DER-DN-LOOP", "x1": 220, "y1": 140, "x2": 290, "y2": 90, "type": "turnout" },
+      { "id": "Pt-252A", "name": "Point 252A (DN-UP Main Crossover)", "from_track": "DER-DN-MAIN", "to_track": "DER-UP-MAIN", "x1": 240, "y1": 140, "x2": 295, "y2": 190, "type": "crossover" },
+      { "id": "Pt-253A", "name": "Point 253A (UP Loop Diverge)", "from_track": "DER-UP-MAIN", "to_track": "DER-UP-LOOP", "x1": 230, "y1": 190, "x2": 290, "y2": 240, "type": "turnout" },
+      { "id": "Pt-254A", "name": "Point 254A (EDFC Chord Connection)", "from_track": "DER-UP-LOOP", "to_track": "DER-DFC-CHORD", "x1": 250, "y1": 240, "x2": 310, "y2": 290, "type": "turnout" },
+      { "id": "Pt-261A", "name": "Point 261A (DN Loop Trailing Entry)", "from_track": "DER-DN-LOOP", "to_track": "DER-DN-MAIN", "x1": 740, "y1": 90, "x2": 800, "y2": 140, "type": "trailing" },
+      { "id": "Pt-262A", "name": "Point 262A (UP Loop Trailing Entry)", "from_track": "DER-UP-LOOP", "to_track": "DER-UP-MAIN", "x1": 740, "y1": 240, "x2": 795, "y2": 190, "type": "trailing" }
+    ],
+    "signals": [
+      { "id": "S-51 (Home DN)", "type": "HOME", "x": 150, "y": 140, "direction": "DN", "label": "51HS" },
+      { "id": "S-52 (Home UP)", "type": "HOME", "x": 880, "y": 190, "direction": "UP", "label": "52HS" },
+      { "id": "S-61 (Starter DN Main)", "type": "STARTER", "x": 720, "y": 140, "direction": "DN", "label": "S61" },
+      { "id": "S-62 (Starter UP Main)", "type": "STARTER", "x": 350, "y": 190, "direction": "UP", "label": "S62" }
+    ],
+    "ohe_masts": [
+      { "id": "M-37/2", "km": 37.1, "x": 180, "y": 125, "wear_pct": 14.5, "status": "GOOD" },
+      { "id": "M-37/8", "km": 37.5, "x": 530, "y": 125, "wear_pct": 42.0, "status": "WORN" },
+      { "id": "M-37/14", "km": 37.9, "x": 840, "y": 125, "wear_pct": 28.0, "status": "GOOD" }
+    ]
+  },
+  {
+    "station_code": "KRJ",
+    "station_name": "Khurja Junction",
+    "km": 83.0,
+    "division": "Prayagraj (NCR)",
+    "interlocking_type": "Electronic Interlocking (EI)",
+    "layout_type": "PASSENGER_JUNCTION",
+    "layout_source": "Standard IRSEM Reference Layout based on Official Station Infrastructure Data",
+    "platform_count": 5,
+    "track_count": 8,
+    "speed_limit_kmph": 130,
+    "tracks": [
+      { "id": "KRJ-BRANCH-MEERUT", "label": "Khurja - Meerut Branch", "type": "branch", "y": 80, "is_main": false },
+      { "id": "KRJ-DN-LOOP", "label": "DN Loop Line (Plf 1)", "type": "loop", "y": 120, "is_main": false },
+      { "id": "KRJ-DN-MAIN", "label": "DN Main Line", "type": "mainline", "y": 160, "is_main": true },
+      { "id": "KRJ-UP-MAIN", "label": "UP Main Line", "type": "mainline", "y": 200, "is_main": true },
+      { "id": "KRJ-UP-LOOP", "label": "UP Loop Line (Plf 4-5)", "type": "loop", "y": 240, "is_main": false }
+    ],
+    "platforms": [
+      { "number": "1", "y": 120, "x_start": 350, "x_end": 720, "side": "north" },
+      { "number": "2-3", "y": 180, "x_start": 350, "x_end": 720, "side": "island" },
+      { "number": "4-5", "y": 240, "x_start": 350, "x_end": 720, "side": "island" }
+    ],
+    "points": [
+      { "id": "Pt-281A", "name": "Point 281A (Meerut Branch Diverge)", "from_track": "KRJ-DN-MAIN", "to_track": "KRJ-BRANCH-MEERUT", "x1": 210, "y1": 160, "x2": 280, "y2": 80, "type": "turnout" },
+      { "id": "Pt-282A", "name": "Point 282A (DN Loop Diverge)", "from_track": "KRJ-DN-MAIN", "to_track": "KRJ-DN-LOOP", "x1": 230, "y1": 160, "x2": 290, "y2": 120, "type": "turnout" },
+      { "id": "Pt-283A", "name": "Point 283A (DN-UP Crossover)", "from_track": "KRJ-DN-MAIN", "to_track": "KRJ-UP-MAIN", "x1": 250, "y1": 160, "x2": 300, "y2": 200, "type": "crossover" },
+      { "id": "Pt-284A", "name": "Point 284A (UP Loop Diverge)", "from_track": "KRJ-UP-MAIN", "to_track": "KRJ-UP-LOOP", "x1": 240, "y1": 200, "x2": 295, "y2": 240, "type": "turnout" },
+      { "id": "Pt-291A", "name": "Point 291A (DN Loop Trailing Entry)", "from_track": "KRJ-DN-LOOP", "to_track": "KRJ-DN-MAIN", "x1": 740, "y1": 120, "x2": 800, "y2": 160, "type": "trailing" },
+      { "id": "Pt-292A", "name": "Point 292A (UP Loop Trailing Entry)", "from_track": "KRJ-UP-LOOP", "to_track": "KRJ-UP-MAIN", "x1": 740, "y1": 240, "x2": 795, "y2": 200, "type": "trailing" }
+    ],
+    "signals": [
+      { "id": "S-81 (Home DN)", "type": "HOME", "x": 150, "y": 160, "direction": "DN", "label": "81HS" },
+      { "id": "S-82 (Home UP)", "type": "HOME", "x": 880, "y": 200, "direction": "UP", "label": "82HS" },
+      { "id": "S-91 (Starter DN Main)", "type": "STARTER", "x": 720, "y": 160, "direction": "DN", "label": "S91" },
+      { "id": "S-92 (Starter UP Main)", "type": "STARTER", "x": 350, "y": 200, "direction": "UP", "label": "S92" }
+    ],
+    "ohe_masts": [
+      { "id": "M-83/2", "km": 83.1, "x": 180, "y": 145, "wear_pct": 22.0, "status": "GOOD" },
+      { "id": "M-83/8", "km": 83.5, "x": 530, "y": 145, "wear_pct": 35.0, "status": "GOOD" },
+      { "id": "M-83/14", "km": 83.9, "x": 840, "y": 145, "wear_pct": 69.2, "status": "CRITICAL" }
+    ]
+  },
+  {
+    "station_code": "ALJN",
+    "station_name": "Aligarh Junction",
+    "km": 131.0,
+    "division": "Prayagraj (NCR)",
+    "interlocking_type": "Electronic Interlocking (EI - Kyosan)",
+    "layout_type": "MAJOR_PASSENGER_JUNCTION",
+    "layout_source": "Standard IRSEM Reference Layout based on Official Station Infrastructure Data",
+    "platform_count": 7,
+    "track_count": 12,
+    "speed_limit_kmph": 160,
+    "tracks": [
+      { "id": "ALJN-BRANCH-BAREILLY", "label": "Bareilly Junction Branch Line", "type": "branch", "y": 60, "is_main": false },
+      { "id": "ALJN-LOOP-1", "label": "Platform Line 1 (Loop)", "type": "platform", "y": 105, "is_main": false },
+      { "id": "ALJN-DN-MAIN", "label": "DN Main Line (Speed 160 kmph)", "type": "mainline", "y": 150, "is_main": true },
+      { "id": "ALJN-UP-MAIN", "label": "UP Main Line (Speed 160 kmph)", "type": "mainline", "y": 195, "is_main": true },
+      { "id": "ALJN-LOOP-2", "label": "Platform Line 4 & 5 (Loop)", "type": "platform", "y": 240, "is_main": false },
+      { "id": "ALJN-LOOP-3", "label": "Platform Line 6 & 7 (Loop)", "type": "platform", "y": 285, "is_main": false },
+      { "id": "ALJN-GOODS", "label": "Goods Shed & Siding", "type": "siding", "y": 330, "is_main": false }
+    ],
+    "platforms": [
+      { "number": "1", "y": 105, "x_start": 330, "x_end": 760, "side": "north" },
+      { "number": "2-3", "y": 172, "x_start": 330, "x_end": 760, "side": "island" },
+      { "number": "4-5", "y": 240, "x_start": 330, "x_end": 760, "side": "island" },
+      { "number": "6-7", "y": 285, "x_start": 330, "x_end": 760, "side": "island" }
+    ],
+    "points": [
+      { "id": "Pt-321A", "name": "Point 321A (Bareilly Branch Diverge)", "from_track": "ALJN-DN-MAIN", "to_track": "ALJN-BRANCH-BAREILLY", "x1": 190, "y1": 150, "x2": 275, "y2": 60, "type": "turnout" },
+      { "id": "Pt-322A", "name": "Point 322A (Plf 1 Loop Turnout)", "from_track": "ALJN-DN-MAIN", "to_track": "ALJN-LOOP-1", "x1": 220, "y1": 150, "x2": 285, "y2": 105, "type": "turnout" },
+      { "id": "Pt-323A", "name": "Point 323A (DN-UP Diamond Crossover)", "from_track": "ALJN-DN-MAIN", "to_track": "ALJN-UP-MAIN", "x1": 240, "y1": 150, "x2": 295, "y2": 195, "type": "crossover" },
+      { "id": "Pt-324A", "name": "Point 324A (Plf 4-5 Loop Turnout)", "from_track": "ALJN-UP-MAIN", "to_track": "ALJN-LOOP-2", "x1": 235, "y1": 195, "x2": 290, "y2": 240, "type": "turnout" },
+      { "id": "Pt-325A", "name": "Point 325A (Plf 6-7 Loop Turnout)", "from_track": "ALJN-LOOP-2", "to_track": "ALJN-LOOP-3", "x1": 260, "y1": 240, "x2": 305, "y2": 285, "type": "turnout" },
+      { "id": "Pt-331A", "name": "Point 331A (Plf 1 Exit Trailing)", "from_track": "ALJN-LOOP-1", "to_track": "ALJN-DN-MAIN", "x1": 780, "y1": 105, "x2": 840, "y2": 150, "type": "trailing" },
+      { "id": "Pt-332A", "name": "Point 332A (UP Loop Exit Trailing)", "from_track": "ALJN-LOOP-2", "to_track": "ALJN-UP-MAIN", "x1": 780, "y1": 240, "x2": 835, "y2": 195, "type": "trailing" },
+      { "id": "Pt-333A", "name": "Point 333A (East Mainline Crossover)", "from_track": "ALJN-UP-MAIN", "to_track": "ALJN-DN-MAIN", "x1": 850, "y1": 195, "x2": 900, "y2": 150, "type": "crossover" }
+    ],
+    "signals": [
+      { "id": "S-131 (Home DN)", "type": "HOME", "x": 130, "y": 150, "direction": "DN", "label": "131HS" },
+      { "id": "S-132 (Home UP)", "type": "HOME", "x": 920, "y": 195, "direction": "UP", "label": "132HS" },
+      { "id": "S-141 (Starter DN Main)", "type": "STARTER", "x": 760, "y": 150, "direction": "DN", "label": "S141" },
+      { "id": "S-142 (Starter UP Main)", "type": "STARTER", "x": 330, "y": 195, "direction": "UP", "label": "S142" }
+    ],
+    "ohe_masts": [
+      { "id": "M-131/2", "km": 131.1, "x": 160, "y": 135, "wear_pct": 19.2, "status": "GOOD" },
+      { "id": "M-131/8", "km": 131.5, "x": 540, "y": 135, "wear_pct": 58.0, "status": "WORN" },
+      { "id": "M-131/14", "km": 131.9, "x": 880, "y": 135, "wear_pct": 24.5, "status": "GOOD" }
+    ]
+  },
+  {
+    "station_code": "TDL",
+    "station_name": "Tundla Junction",
+    "km": 209.0,
+    "division": "Prayagraj (NCR)",
+    "interlocking_type": "Electronic Interlocking (EI - Modernized 613 Routes)",
+    "layout_type": "MAJOR_OPERATIONAL_JUNCTION",
+    "layout_source": "Standard IRSEM Reference Layout based on Official Station Infrastructure Data",
+    "platform_count": 7,
+    "track_count": 14,
+    "speed_limit_kmph": 160,
+    "tracks": [
+      { "id": "TDL-BRANCH-AGRA", "label": "Agra Fort / Agra Cantt Branch Line", "type": "branch", "y": 50, "is_main": false },
+      { "id": "TDL-LOOP-1", "label": "Platform Line 1 & 2 (Loop)", "type": "platform", "y": 95, "is_main": false },
+      { "id": "TDL-DN-MAIN", "label": "DN Main Line (Speed 160 kmph)", "type": "mainline", "y": 140, "is_main": true },
+      { "id": "TDL-UP-MAIN", "label": "UP Main Line (Speed 160 kmph)", "type": "mainline", "y": 185, "is_main": true },
+      { "id": "TDL-LOOP-2", "label": "Platform Line 3 & 4 (Loop)", "type": "platform", "y": 230, "is_main": false },
+      { "id": "TDL-LOOP-3", "label": "Platform Line 5, 6 & 7 (Loop)", "type": "platform", "y": 275, "is_main": false },
+      { "id": "TDL-TAMPING-DEPOT", "label": "Civil Track Machine Tamping Depot Siding", "type": "siding", "y": 320, "is_main": false },
+      { "id": "TDL-CREW-SIDING", "label": "Crew Change & Engine Siding", "type": "siding", "y": 360, "is_main": false }
+    ],
+    "platforms": [
+      { "number": "1-2", "y": 95, "x_start": 330, "x_end": 760, "side": "island" },
+      { "number": "3-4", "y": 230, "x_start": 330, "x_end": 760, "side": "island" },
+      { "number": "5-7", "y": 275, "x_start": 330, "x_end": 760, "side": "island" }
+    ],
+    "points": [
+      { "id": "Pt-301A", "name": "Point 301A (Agra Branch Flyover Diverge)", "from_track": "TDL-DN-MAIN", "to_track": "TDL-BRANCH-AGRA", "x1": 180, "y1": 140, "x2": 270, "y2": 50, "type": "turnout" },
+      { "id": "Pt-302A", "name": "Point 302A (Plf 1-2 Loop Turnout)", "from_track": "TDL-DN-MAIN", "to_track": "TDL-LOOP-1", "x1": 210, "y1": 140, "x2": 280, "y2": 95, "type": "turnout" },
+      { "id": "Pt-303A", "name": "Point 303A (DN-UP Diamond Crossover)", "from_track": "TDL-DN-MAIN", "to_track": "TDL-UP-MAIN", "x1": 235, "y1": 140, "x2": 290, "y2": 185, "type": "crossover" },
+      { "id": "Pt-304A", "name": "Point 304A (Plf 3-4 UP Loop Turnout)", "from_track": "TDL-UP-MAIN", "to_track": "TDL-LOOP-2", "x1": 230, "y1": 185, "x2": 285, "y2": 230, "type": "turnout" },
+      { "id": "Pt-305A", "name": "Point 305A (Plf 5-7 Yard Turnout)", "from_track": "TDL-LOOP-2", "to_track": "TDL-LOOP-3", "x1": 255, "y1": 230, "x2": 300, "y2": 275, "type": "turnout" },
+      { "id": "Pt-306A", "name": "Point 306A (Tamping Base Lead Switch)", "from_track": "TDL-LOOP-3", "to_track": "TDL-TAMPING-DEPOT", "x1": 270, "y1": 275, "x2": 315, "y2": 320, "type": "turnout" },
+      { "id": "Pt-307A", "name": "Point 307A (Loco Crew Siding Diverge)", "from_track": "TDL-TAMPING-DEPOT", "to_track": "TDL-CREW-SIDING", "x1": 285, "y1": 320, "x2": 330, "y2": 360, "type": "turnout" },
+      { "id": "Pt-311A", "name": "Point 311A (DN Loop 1 Exit Trailing)", "from_track": "TDL-LOOP-1", "to_track": "TDL-DN-MAIN", "x1": 780, "y1": 95, "x2": 840, "y2": 140, "type": "trailing" },
+      { "id": "Pt-312A", "name": "Point 312A (UP Loop 2 Exit Trailing)", "from_track": "TDL-LOOP-2", "to_track": "TDL-UP-MAIN", "x1": 780, "y1": 230, "x2": 835, "y2": 185, "type": "trailing" },
+      { "id": "Pt-313A", "name": "Point 313A (East Junction Exit Crossover)", "from_track": "TDL-UP-MAIN", "to_track": "TDL-DN-MAIN", "x1": 845, "y1": 185, "x2": 895, "y2": 140, "type": "crossover" }
+    ],
+    "signals": [
+      { "id": "S-209 (Home DN)", "type": "HOME", "x": 120, "y": 140, "direction": "DN", "label": "209HS" },
+      { "id": "S-210 (Home UP)", "type": "HOME", "x": 925, "y": 185, "direction": "UP", "label": "210HS" },
+      { "id": "S-215 (Starter Plf 1)", "type": "STARTER", "x": 760, "y": 95, "direction": "DN", "label": "S215" },
+      { "id": "S-216 (Starter DN Main)", "type": "STARTER", "x": 760, "y": 140, "direction": "DN", "label": "S216" },
+      { "id": "S-218 (Starter UP Main)", "type": "STARTER", "x": 330, "y": 185, "direction": "UP", "label": "S218" },
+      { "id": "S-225 (Adv Starter DN)", "type": "ADV_STARTER", "x": 940, "y": 140, "direction": "DN", "label": "225AS" },
+      { "id": "S-226 (Adv Starter UP)", "type": "ADV_STARTER", "x": 105, "y": 185, "direction": "UP", "label": "226AS" }
+    ],
+    "ohe_masts": [
+      { "id": "M-209/2", "km": 209.1, "x": 150, "y": 125, "wear_pct": 28.1, "status": "GOOD" },
+      { "id": "M-209/6", "km": 209.3, "x": 360, "y": 125, "wear_pct": 45.3, "status": "WORN" },
+      { "id": "M-209/10", "km": 209.5, "x": 550, "y": 125, "wear_pct": 82.0, "status": "CRITICAL" },
+      { "id": "M-209/14", "km": 209.7, "x": 750, "y": 125, "wear_pct": 33.0, "status": "GOOD" },
+      { "id": "M-209/18", "km": 209.9, "x": 910, "y": 125, "wear_pct": 16.2, "status": "GOOD" }
+    ]
+  },
+  {
+    "station_code": "FZD",
+    "station_name": "Firozabad",
+    "km": 226.0,
+    "division": "Prayagraj (NCR)",
+    "interlocking_type": "Electronic Interlocking (EI)",
+    "layout_type": "INTERMEDIATE_STATION",
+    "layout_source": "Standard IRSEM Reference Layout based on Official Station Infrastructure Data",
+    "platform_count": 4,
+    "track_count": 6,
+    "speed_limit_kmph": 160,
+    "tracks": [
+      { "id": "FZD-DN-LOOP", "label": "DN Loop Line (Plf 1)", "type": "loop", "y": 90, "is_main": false },
+      { "id": "FZD-DN-MAIN", "label": "DN Main Line", "type": "mainline", "y": 140, "is_main": true },
+      { "id": "FZD-UP-MAIN", "label": "UP Main Line", "type": "mainline", "y": 190, "is_main": true },
+      { "id": "FZD-UP-LOOP", "label": "UP Loop Line (Plf 4)", "type": "loop", "y": 240, "is_main": false }
+    ],
+    "platforms": [
+      { "number": "1", "y": 90, "x_start": 350, "x_end": 720, "side": "north" },
+      { "number": "2-3", "y": 165, "x_start": 350, "x_end": 720, "side": "island" },
+      { "number": "4", "y": 240, "x_start": 350, "x_end": 720, "side": "south" }
+    ],
+    "points": [
+      { "id": "Pt-351A", "name": "Point 351A (DN Loop Diverge)", "from_track": "FZD-DN-MAIN", "to_track": "FZD-DN-LOOP", "x1": 220, "y1": 140, "x2": 290, "y2": 90, "type": "turnout" },
+      { "id": "Pt-352A", "name": "Point 352A (DN-UP Main Crossover)", "from_track": "FZD-DN-MAIN", "to_track": "FZD-UP-MAIN", "x1": 240, "y1": 140, "x2": 295, "y2": 190, "type": "crossover" },
+      { "id": "Pt-353A", "name": "Point 353A (UP Loop Diverge)", "from_track": "FZD-UP-MAIN", "to_track": "FZD-UP-LOOP", "x1": 230, "y1": 190, "x2": 290, "y2": 240, "type": "turnout" },
+      { "id": "Pt-361A", "name": "Point 361A (DN Loop Trailing Entry)", "from_track": "FZD-DN-LOOP", "to_track": "FZD-DN-MAIN", "x1": 740, "y1": 90, "x2": 800, "y2": 140, "type": "trailing" },
+      { "id": "Pt-362A", "name": "Point 362A (UP Loop Trailing Entry)", "from_track": "FZD-UP-LOOP", "to_track": "FZD-UP-MAIN", "x1": 740, "y1": 240, "x2": 795, "y2": 190, "type": "trailing" }
+    ],
+    "signals": [
+      { "id": "S-226 (Home DN)", "type": "HOME", "x": 150, "y": 140, "direction": "DN", "label": "226HS" },
+      { "id": "S-227 (Home UP)", "type": "HOME", "x": 880, "y": 190, "direction": "UP", "label": "227HS" },
+      { "id": "S-231 (Starter DN Main)", "type": "STARTER", "x": 720, "y": 140, "direction": "DN", "label": "S231" },
+      { "id": "S-232 (Starter UP Main)", "type": "STARTER", "x": 350, "y": 190, "direction": "UP", "label": "S232" }
+    ],
+    "ohe_masts": [
+      { "id": "M-226/2", "km": 226.1, "x": 180, "y": 125, "wear_pct": 21.0, "status": "GOOD" },
+      { "id": "M-226/8", "km": 226.5, "x": 530, "y": 125, "wear_pct": 34.0, "status": "GOOD" },
+      { "id": "M-226/14", "km": 226.9, "x": 840, "y": 125, "wear_pct": 19.5, "status": "GOOD" }
+    ]
+  },
+  {
+    "station_code": "ETW",
+    "station_name": "Etawah Junction",
+    "km": 301.0,
+    "division": "Prayagraj (NCR)",
+    "interlocking_type": "Electronic Interlocking (EI)",
+    "layout_type": "JUNCTION_BRANCH",
+    "layout_source": "Standard IRSEM Reference Layout based on Official Station Infrastructure Data",
+    "platform_count": 5,
+    "track_count": 8,
+    "speed_limit_kmph": 160,
+    "tracks": [
+      { "id": "ETW-BRANCH-MAINPURI", "label": "Mainpuri - Gwalior Branch Line", "type": "branch", "y": 70, "is_main": false },
+      { "id": "ETW-DN-LOOP", "label": "DN Loop Line (Plf 1)", "type": "loop", "y": 115, "is_main": false },
+      { "id": "ETW-DN-MAIN", "label": "DN Main Line (Speed 160 kmph)", "type": "mainline", "y": 160, "is_main": true },
+      { "id": "ETW-UP-MAIN", "label": "UP Main Line (Speed 160 kmph)", "type": "mainline", "y": 205, "is_main": true },
+      { "id": "ETW-UP-LOOP", "label": "UP Loop Line (Plf 4 & 5)", "type": "loop", "y": 250, "is_main": false }
+    ],
+    "platforms": [
+      { "number": "1", "y": 115, "x_start": 340, "x_end": 740, "side": "north" },
+      { "number": "2-3", "y": 182, "x_start": 340, "x_end": 740, "side": "island" },
+      { "number": "4-5", "y": 250, "x_start": 340, "x_end": 740, "side": "island" }
+    ],
+    "points": [
+      { "id": "Pt-381A", "name": "Point 381A (Mainpuri Branch Diverge)", "from_track": "ETW-DN-MAIN", "to_track": "ETW-BRANCH-MAINPURI", "x1": 200, "y1": 160, "x2": 275, "y2": 70, "type": "turnout" },
+      { "id": "Pt-382A", "name": "Point 382A (Plf 1 Loop Turnout)", "from_track": "ETW-DN-MAIN", "to_track": "ETW-DN-LOOP", "x1": 225, "y1": 160, "x2": 285, "y2": 115, "type": "turnout" },
+      { "id": "Pt-383A", "name": "Point 383A (DN-UP Main Crossover)", "from_track": "ETW-DN-MAIN", "to_track": "ETW-UP-MAIN", "x1": 245, "y1": 160, "x2": 295, "y2": 205, "type": "crossover" },
+      { "id": "Pt-384A", "name": "Point 384A (Plf 4-5 Loop Turnout)", "from_track": "ETW-UP-MAIN", "to_track": "ETW-UP-LOOP", "x1": 235, "y1": 205, "x2": 290, "y2": 250, "type": "turnout" },
+      { "id": "Pt-391A", "name": "Point 391A (DN Loop Exit Trailing)", "from_track": "ETW-DN-LOOP", "to_track": "ETW-DN-MAIN", "x1": 760, "y1": 115, "x2": 820, "y2": 160, "type": "trailing" },
+      { "id": "Pt-392A", "name": "Point 392A (UP Loop Exit Trailing)", "from_track": "ETW-UP-LOOP", "to_track": "ETW-UP-MAIN", "x1": 760, "y1": 250, "x2": 815, "y2": 205, "type": "trailing" }
+    ],
+    "signals": [
+      { "id": "S-301 (Home DN)", "type": "HOME", "x": 140, "y": 160, "direction": "DN", "label": "301HS" },
+      { "id": "S-302 (Home UP)", "type": "HOME", "x": 900, "y": 205, "direction": "UP", "label": "302HS" },
+      { "id": "S-311 (Starter DN Main)", "type": "STARTER", "x": 740, "y": 160, "direction": "DN", "label": "S311" },
+      { "id": "S-312 (Starter UP Main)", "type": "STARTER", "x": 340, "y": 205, "direction": "UP", "label": "S312" }
+    ],
+    "ohe_masts": [
+      { "id": "M-301/2", "km": 301.1, "x": 170, "y": 145, "wear_pct": 17.5, "status": "GOOD" },
+      { "id": "M-301/8", "km": 301.5, "x": 540, "y": 145, "wear_pct": 62.0, "status": "CRITICAL" },
+      { "id": "M-301/14", "km": 301.9, "x": 860, "y": 145, "wear_pct": 31.0, "status": "GOOD" }
+    ]
+  },
+  {
+    "station_code": "PHD",
+    "station_name": "Phaphund",
+    "km": 357.0,
+    "division": "Prayagraj (NCR)",
+    "interlocking_type": "Electronic Interlocking (EI)",
+    "layout_type": "INTERMEDIATE_STATION",
+    "layout_source": "Standard IRSEM Reference Layout based on Official Station Infrastructure Data",
+    "platform_count": 4,
+    "track_count": 6,
+    "speed_limit_kmph": 160,
+    "tracks": [
+      { "id": "PHD-DN-LOOP", "label": "DN Loop Line (Plf 1)", "type": "loop", "y": 90, "is_main": false },
+      { "id": "PHD-DN-MAIN", "label": "DN Main Line", "type": "mainline", "y": 140, "is_main": true },
+      { "id": "PHD-UP-MAIN", "label": "UP Main Line", "type": "mainline", "y": 190, "is_main": true },
+      { "id": "PHD-UP-LOOP", "label": "UP Loop Line (Plf 4)", "type": "loop", "y": 240, "is_main": false }
+    ],
+    "platforms": [
+      { "number": "1", "y": 90, "x_start": 350, "x_end": 720, "side": "north" },
+      { "number": "2-3", "y": 165, "x_start": 350, "x_end": 720, "side": "island" },
+      { "number": "4", "y": 240, "x_start": 350, "x_end": 720, "side": "south" }
+    ],
+    "points": [
+      { "id": "Pt-411A", "name": "Point 411A (DN Loop Diverge)", "from_track": "PHD-DN-MAIN", "to_track": "PHD-DN-LOOP", "x1": 220, "y1": 140, "x2": 290, "y2": 90, "type": "turnout" },
+      { "id": "Pt-412A", "name": "Point 412A (DN-UP Main Crossover)", "from_track": "PHD-DN-MAIN", "to_track": "PHD-UP-MAIN", "x1": 240, "y1": 140, "x2": 295, "y2": 190, "type": "crossover" },
+      { "id": "Pt-413A", "name": "Point 413A (UP Loop Diverge)", "from_track": "PHD-UP-MAIN", "to_track": "PHD-UP-LOOP", "x1": 230, "y1": 190, "x2": 290, "y2": 240, "type": "turnout" },
+      { "id": "Pt-421A", "name": "Point 421A (DN Loop Trailing Entry)", "from_track": "PHD-DN-LOOP", "to_track": "PHD-DN-MAIN", "x1": 740, "y1": 90, "x2": 800, "y2": 140, "type": "trailing" },
+      { "id": "Pt-422A", "name": "Point 422A (UP Loop Trailing Entry)", "from_track": "PHD-UP-LOOP", "to_track": "PHD-UP-MAIN", "x1": 740, "y1": 240, "x2": 795, "y2": 190, "type": "trailing" }
+    ],
+    "signals": [
+      { "id": "S-357 (Home DN)", "type": "HOME", "x": 150, "y": 140, "direction": "DN", "label": "357HS" },
+      { "id": "S-358 (Home UP)", "type": "HOME", "x": 880, "y": 190, "direction": "UP", "label": "358HS" },
+      { "id": "S-361 (Starter DN Main)", "type": "STARTER", "x": 720, "y": 140, "direction": "DN", "label": "S361" },
+      { "id": "S-362 (Starter UP Main)", "type": "STARTER", "x": 350, "y": 190, "direction": "UP", "label": "S362" }
+    ],
+    "ohe_masts": [
+      { "id": "M-357/2", "km": 357.1, "x": 180, "y": 125, "wear_pct": 15.0, "status": "GOOD" },
+      { "id": "M-357/8", "km": 357.5, "x": 530, "y": 125, "wear_pct": 48.0, "status": "WORN" },
+      { "id": "M-357/14", "km": 357.9, "x": 840, "y": 125, "wear_pct": 22.0, "status": "GOOD" }
+    ]
+  },
+  {
+    "station_code": "CNB",
+    "station_name": "Kanpur Central",
+    "km": 440.0,
+    "division": "Prayagraj (NCR)",
+    "interlocking_type": "Electronic Interlocking (EI - World's 3rd Largest Route Relay / EI)",
+    "layout_type": "MAJOR_TERMINAL_HUB",
+    "layout_source": "Standard IRSEM Reference Layout based on Official Station Infrastructure Data",
+    "platform_count": 10,
+    "track_count": 28,
+    "speed_limit_kmph": 110,
+    "tracks": [
+      { "id": "CNB-BRANCH-LUCKNOW", "label": "Lucknow NR/NER Quadruple Branch Line", "type": "branch", "y": 40, "is_main": false },
+      { "id": "CNB-T1", "label": "Platform Line 1 (City Side)", "type": "platform", "y": 75, "is_main": false },
+      { "id": "CNB-T2", "label": "Platform Line 2 & 3", "type": "platform", "y": 110, "is_main": false },
+      { "id": "CNB-DN-MAIN", "label": "DN Main Line (Howrah Inbound/Through)", "type": "mainline", "y": 150, "is_main": true },
+      { "id": "CNB-UP-MAIN", "label": "UP Main Line (Delhi Bound)", "type": "mainline", "y": 195, "is_main": true },
+      { "id": "CNB-T3", "label": "Platform Line 4 & 5", "type": "platform", "y": 235, "is_main": false },
+      { "id": "CNB-T4", "label": "Platform Line 6 & 7", "type": "platform", "y": 270, "is_main": false },
+      { "id": "CNB-T5", "label": "Platform Line 8 & 9", "type": "platform", "y": 305, "is_main": false },
+      { "id": "CNB-T6", "label": "Platform Line 10 (Cantt Side)", "type": "platform", "y": 340, "is_main": false },
+      { "id": "CNB-BRANCH-JHANSI", "label": "Jhansi / Banda / Prayagraj Branch", "type": "branch", "y": 380, "is_main": false },
+      { "id": "CNB-ELECTRIC-SHED", "label": "Electric Loco Shed (ELS) Kanpur Lead", "type": "siding", "y": 420, "is_main": false }
+    ],
+    "platforms": [
+      { "number": "1", "y": 75, "x_start": 330, "x_end": 770, "side": "north" },
+      { "number": "2-3", "y": 110, "x_start": 330, "x_end": 770, "side": "island" },
+      { "number": "4-5", "y": 235, "x_start": 330, "x_end": 770, "side": "island" },
+      { "number": "6-7", "y": 270, "x_start": 330, "x_end": 770, "side": "island" },
+      { "number": "8-9", "y": 305, "x_start": 330, "x_end": 770, "side": "island" },
+      { "number": "10", "y": 340, "x_start": 330, "x_end": 770, "side": "south" }
+    ],
+    "points": [
+      { "id": "Pt-401A", "name": "Point 401A (Lucknow Flyover Diverge)", "from_track": "CNB-DN-MAIN", "to_track": "CNB-BRANCH-LUCKNOW", "x1": 180, "y1": 150, "x2": 260, "y2": 40, "type": "turnout" },
+      { "id": "Pt-402A", "name": "Point 402A (Plf 1 City Side Turnout)", "from_track": "CNB-DN-MAIN", "to_track": "CNB-T1", "x1": 200, "y1": 150, "x2": 270, "y2": 75, "type": "turnout" },
+      { "id": "Pt-403A", "name": "Point 403A (Plf 2-3 Loop Turnout)", "from_track": "CNB-DN-MAIN", "to_track": "CNB-T2", "x1": 220, "y1": 150, "x2": 280, "y2": 110, "type": "turnout" },
+      { "id": "Pt-404A", "name": "Point 404A (DN-UP Diamond Crossover West)", "from_track": "CNB-DN-MAIN", "to_track": "CNB-UP-MAIN", "x1": 240, "y1": 150, "x2": 295, "y2": 195, "type": "crossover" },
+      { "id": "Pt-405A", "name": "Point 405A (Plf 4-5 UP Loop Turnout)", "from_track": "CNB-UP-MAIN", "to_track": "CNB-T3", "x1": 230, "y1": 195, "x2": 285, "y2": 235, "type": "turnout" },
+      { "id": "Pt-406A", "name": "Point 406A (Plf 6-7 South Yard Turnout)", "from_track": "CNB-T3", "to_track": "CNB-T4", "x1": 250, "y1": 235, "x2": 295, "y2": 270, "type": "turnout" },
+      { "id": "Pt-407A", "name": "Point 407A (Plf 8-9 Siding Lead)", "from_track": "CNB-T4", "to_track": "CNB-T5", "x1": 265, "y1": 270, "x2": 310, "y2": 305, "type": "turnout" },
+      { "id": "Pt-408A", "name": "Point 408A (Cantt Side Plf 10 Lead)", "from_track": "CNB-T5", "to_track": "CNB-T6", "x1": 280, "y1": 305, "x2": 320, "y2": 340, "type": "turnout" },
+      { "id": "Pt-409A", "name": "Point 409A (Jhansi Line Chord Diverge)", "from_track": "CNB-T6", "to_track": "CNB-BRANCH-JHANSI", "x1": 295, "y1": 340, "x2": 335, "y2": 380, "type": "turnout" },
+      { "id": "Pt-410A", "name": "Point 410A (Electric Loco Shed ELS Lead)", "from_track": "CNB-BRANCH-JHANSI", "to_track": "CNB-ELECTRIC-SHED", "x1": 310, "y1": 380, "x2": 350, "y2": 420, "type": "turnout" },
+      { "id": "Pt-415A", "name": "Point 415A (Plf 1 East Trailing Crossover)", "from_track": "CNB-T1", "to_track": "CNB-DN-MAIN", "x1": 790, "y1": 75, "x2": 850, "y2": 150, "type": "trailing" },
+      { "id": "Pt-416A", "name": "Point 416A (Plf 4-5 East Exit Trailing)", "from_track": "CNB-T3", "to_track": "CNB-UP-MAIN", "x1": 790, "y1": 235, "x2": 845, "y2": 195, "type": "trailing" },
+      { "id": "Pt-417A", "name": "Point 417A (East Exit Main Crossover)", "from_track": "CNB-UP-MAIN", "to_track": "CNB-DN-MAIN", "x1": 855, "y1": 195, "x2": 905, "y2": 150, "type": "crossover" }
+    ],
+    "signals": [
+      { "id": "S-440 (Home DN)", "type": "HOME", "x": 120, "y": 150, "direction": "DN", "label": "440HS" },
+      { "id": "S-441 (Home UP)", "type": "HOME", "x": 930, "y": 195, "direction": "UP", "label": "441HS" },
+      { "id": "S-451 (Starter Plf 1)", "type": "STARTER", "x": 770, "y": 75, "direction": "DN", "label": "S451" },
+      { "id": "S-452 (Starter DN Main)", "type": "STARTER", "x": 770, "y": 150, "direction": "DN", "label": "S452" },
+      { "id": "S-454 (Starter UP Main)", "type": "STARTER", "x": 330, "y": 195, "direction": "UP", "label": "S454" },
+      { "id": "S-460 (Adv Starter DN)", "type": "ADV_STARTER", "x": 945, "y": 150, "direction": "DN", "label": "460AS" },
+      { "id": "S-461 (Adv Starter UP)", "type": "ADV_STARTER", "x": 105, "y": 195, "direction": "UP", "label": "461AS" }
+    ],
+    "ohe_masts": [
+      { "id": "M-440/2", "km": 440.1, "x": 140, "y": 135, "wear_pct": 24.0, "status": "GOOD" },
+      { "id": "M-440/6", "km": 440.3, "x": 370, "y": 135, "wear_pct": 51.5, "status": "WORN" },
+      { "id": "M-440/10", "km": 440.5, "x": 570, "y": 135, "wear_pct": 86.4, "status": "CRITICAL" },
+      { "id": "M-440/14", "km": 440.7, "x": 770, "y": 135, "wear_pct": 38.0, "status": "GOOD" },
+      { "id": "M-440/18", "km": 440.9, "x": 920, "y": 135, "wear_pct": 21.3, "status": "GOOD" }
+    ]
+  }
+]

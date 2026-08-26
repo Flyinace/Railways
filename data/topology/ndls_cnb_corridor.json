@@ -1,0 +1,108 @@
+{
+  "corridor_name": "New Delhi - Kanpur Central (NDLS-CNB) High-Density Trunk Corridor",
+  "zone": "Northern Railway (NR) / North Central Railway (NCR)",
+  "total_distance_km": 440.0,
+  "route_class": "Group A (130-160 kmph)",
+  "electrification": "25 kV AC 50 Hz OHE",
+  "signalling_type": "Automatic Block Signalling (ABS) with Electronic Interlocking (EI)",
+  "tracks": ["UP", "DN"],
+  "stations": [
+    {
+      "code": "NDLS",
+      "name": "New Delhi",
+      "km": 0.0,
+      "division": "Delhi (NR)",
+      "platforms": 16,
+      "speed_limit_kmph": 110,
+      "depots": ["Civil P-Way Depot", "S&T Signal Depot"]
+    },
+    {
+      "code": "GZB",
+      "name": "Ghaziabad Junction",
+      "km": 25.0,
+      "division": "Delhi (NR)",
+      "platforms": 6,
+      "speed_limit_kmph": 130,
+      "depots": ["TRD Tower Wagon Depot", "S&T Signal Depot", "Civil P-Way Gang Base"]
+    },
+    {
+      "code": "DER",
+      "name": "Dadri (DFC Junction)",
+      "km": 37.0,
+      "division": "Prayagraj (NCR)",
+      "platforms": 4,
+      "speed_limit_kmph": 130,
+      "depots": ["Freight Container Yard", "Civil P-Way Sub-depot"]
+    },
+    {
+      "code": "KRJ",
+      "name": "Khurja Junction",
+      "km": 83.0,
+      "division": "Prayagraj (NCR)",
+      "platforms": 5,
+      "speed_limit_kmph": 130,
+      "depots": ["Civil P-Way Gang Base"]
+    },
+    {
+      "code": "ALJN",
+      "name": "Aligarh Junction",
+      "km": 131.0,
+      "division": "Prayagraj (NCR)",
+      "platforms": 7,
+      "speed_limit_kmph": 160,
+      "depots": ["TRD Tower Wagon Depot", "S&T Signal Depot", "Civil P-Way Base"]
+    },
+    {
+      "code": "TDL",
+      "name": "Tundla Junction",
+      "km": 209.0,
+      "division": "Prayagraj (NCR)",
+      "platforms": 5,
+      "speed_limit_kmph": 160,
+      "depots": ["Major Tamping Machine Base", "Crew Change Depot", "TRD PSI Sub-station"]
+    },
+    {
+      "code": "FZD",
+      "name": "Firozabad",
+      "km": 226.0,
+      "division": "Prayagraj (NCR)",
+      "platforms": 4,
+      "speed_limit_kmph": 160,
+      "depots": ["Civil P-Way Sub-depot"]
+    },
+    {
+      "code": "ETW",
+      "name": "Etawah Junction",
+      "km": 301.0,
+      "division": "Prayagraj (NCR)",
+      "platforms": 5,
+      "speed_limit_kmph": 160,
+      "depots": ["TRD Tower Wagon Depot", "S&T Signal Depot", "Civil P-Way Gang Base"]
+    },
+    {
+      "code": "PHD",
+      "name": "Phaphund",
+      "km": 357.0,
+      "division": "Prayagraj (NCR)",
+      "platforms": 4,
+      "speed_limit_kmph": 160,
+      "depots": ["Civil P-Way Sub-depot"]
+    },
+    {
+      "code": "CNB",
+      "name": "Kanpur Central",
+      "km": 440.0,
+      "division": "Prayagraj (NCR)",
+      "platforms": 10,
+      "speed_limit_kmph": 110,
+      "depots": ["Major Electric Loco Shed", "TRD Tower Wagon Depot", "S&T Divisional Lab", "Heavy Track Machine Base"]
+    }
+  ],
+  "machine_fleet": {
+    "tamping_machines": 2,
+    "bcm_machines": 1,
+    "tower_wagons": 3,
+    "usfd_testing_trolleys": 4,
+    "signal_testing_gangs": 5
+  }
+}

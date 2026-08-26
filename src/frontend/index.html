@@ -1,0 +1,397 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AI Automatic Block Planning System | Indian Railways</title>
+    <link rel="stylesheet" href="/static/css/style.css">
+    <!-- Google Fonts & Plotly CDN -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;600;700&display=swap" rel="stylesheet">
+    <script src="https://cdn.plot.ly/plotly-2.35.2.min.js"></script>
+</head>
+<body>
+    <div class="app-container">
+        <!-- Top Railway Header -->
+        <header class="app-header">
+            <div class="header-left">
+                <div class="railway-crest">IR</div>
+                <div class="header-title-group">
+                    <h1>
+                        INDIAN RAILWAYS &bull; AUTOMATIC BLOCK PLANNING SYSTEM
+                    </h1>
+                    <p class="subtitle">AI-Powered Multi-Department Shadow Maintenance & Corridor Optimization (SIH 2024)</p>
+                </div>
+            </div>
+            <div class="header-center">
+                <div class="corridor-badge">
+                    <span class="pulse-dot"></span>
+                    <span class="corridor-name">NDLS &ndash; CNB TRUNK ROUTE (440 KM)</span>
+                </div>
+            </div>
+            <div class="header-right">
+                <div class="division-info">
+                    <span class="div-tag">NORTHERN &amp; NCR ZONES</span>
+                    <span class="time-clock" id="live-clock">12:00:00 UTC</span>
+                </div>
+                <button class="btn-primary" onclick="openSimulatorModal()">
+                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M13 2L3 14h9l-1 8 10-12h-9l1-8z"/></svg>
+                    What-If Simulator
+                </button>
+            </div>
+        </header>
+
+        <!-- KPI Executive Summary Strip (Fluent Light Aesthetic) -->
+        <section class="kpi-strip">
+            <div class="kpi-card">
+                <div class="kpi-icon-wrap bg-blue">
+                    <!-- Fluent Timer Icon -->
+                    <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
+                </div>
+                <div class="kpi-data">
+                    <span class="kpi-label">Corridor Downtime Saved</span>
+                    <div class="kpi-value-row">
+                        <span class="kpi-val" id="kpi-downtime-saved">--%</span>
+                        <span class="badge-success" id="kpi-downtime-sub">Calculating...</span>
+                    </div>
+                </div>
+            </div>
+
+            <div class="kpi-card">
+                <div class="kpi-icon-wrap bg-purple">
+                    <!-- Fluent Link / Bundling Icon -->
+                    <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"/><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"/></svg>
+                </div>
+                <div class="kpi-data">
+                    <span class="kpi-label">Multi-Dept Bundling Rate</span>
+                    <div class="kpi-value-row">
+                        <span class="kpi-val" id="kpi-bundling-rate">--%</span>
+                        <span class="badge-accent">Coordinated</span>
+                    </div>
+                </div>
+            </div>
+
+            <div class="kpi-card">
+                <div class="kpi-icon-wrap bg-emerald">
+                    <!-- Fluent Shield Checkmark Icon -->
+                    <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/><polyline points="9 12 11 14 15 10"/></svg>
+                </div>
+                <div class="kpi-data">
+                    <span class="kpi-label">Train Punctuality Protected</span>
+                    <div class="kpi-value-row">
+                        <span class="kpi-val" id="kpi-punctuality">100%</span>
+                        <span class="badge-success">0 Delay Min</span>
+                    </div>
+                </div>
+            </div>
+
+            <div class="kpi-card">
+                <div class="kpi-icon-wrap bg-amber">
+                    <!-- Fluent Wrench Tool Icon -->
+                    <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14.7 6.3a1 1 0 0 0 0 1.4l1.6 1.6a1 1 0 0 0 1.4 0l3.77-3.77a6 6 0 0 1-7.94 7.94l-6.91 6.91a2.12 2.12 0 0 1-3-3l6.91-6.91a6 6 0 0 1 7.94-7.94l-3.76 3.76z"/></svg>
+                </div>
+                <div class="kpi-data">
+                    <span class="kpi-label">Critical Defects Addressed</span>
+                    <div class="kpi-value-row">
+                        <span class="kpi-val" id="kpi-critical-solved">-- Tasks</span>
+                        <span class="badge-accent">100% Tier-1</span>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Navigation Tabs with Fluent Icons -->
+        <nav class="nav-tabs">
+            <button class="tab-btn active" onclick="switchTab('marey-tab')">
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="22 12 18 12 15 21 9 3 6 12 2 12"/></svg>
+                Marey String Chart (Time-Distance)
+            </button>
+            <button class="tab-btn" onclick="switchTab('gantt-tab')">
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="4" width="18" height="18" rx="2" ry="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/><line x1="8" y1="14" x2="16" y2="14"/></svg>
+                Multi-Dept Gantt Bundling
+            </button>
+            <button class="tab-btn" onclick="switchTab('network-tab')">
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polygon points="1 6 1 22 8 18 16 22 23 18 23 2 16 6 8 2 1 6"/><line x1="8" y1="2" x2="8" y2="18"/><line x1="16" y1="6" x2="16" y2="22"/></svg>
+                Corridor Track Topology Map
+            </button>
+            <button class="tab-btn" onclick="switchTab('assets-tab')">
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1 0 2.83 2 2 0 0 1-2.83 0l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-2 2 2 2 0 0 1-2-2v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83 0 2 2 0 0 1 0-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1-2-2 2 2 0 0 1 2-2h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 0-2.83 2 2 0 0 1 2.83 0l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 2-2 2 2 0 0 1 2 2v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 0 2 2 0 0 1 0 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 2 2 2 2 0 0 1-2 2h-.09a1.65 1.65 0 0 0-1.51 1z"/></svg>
+                Asset Risk &amp; XAI Hub
+            </button>
+            <button class="tab-btn" onclick="switchTab('horizon-tab')">
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="4" width="18" height="18" rx="2" ry="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg>
+                Multi-Horizon Plans
+            </button>
+            <button class="tab-btn" onclick="switchTab('memo-tab')">
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/><polyline points="10 9 9 9 8 9"/></svg>
+                BDMS Official Memos
+            </button>
+        </nav>
+
+        <!-- Tab Contents -->
+        <main class="main-viewport">
+            <!-- TAB 1: MAREY STRING CHART -->
+            <div id="marey-tab" class="tab-pane active">
+                <div class="pane-header">
+                    <div class="pane-title-group">
+                        <h2>Corridor Time-Distance Marey Diagram</h2>
+                        <p>Visualizes train paths across 24 hours against shaded optimal maintenance blocks. Proves zero passenger disruption.</p>
+                    </div>
+                    <div class="pane-controls">
+                        <label class="control-label">Direction Filter:</label>
+                        <select id="marey-dir-select" onchange="renderMareyChart()" class="custom-select">
+                            <option value="ALL">ALL (UP &amp; DN Lines)</option>
+                            <option value="DN">DN Line (NDLS &rarr; CNB)</option>
+                            <option value="UP">UP Line (CNB &rarr; NDLS)</option>
+                        </select>
+                        <button class="btn-secondary" onclick="loadOptimalSchedule()">
+                            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="23 4 23 10 17 10"/><path d="M20.49 15a9 9 0 1 1-2.12-9.36L23 10"/></svg>
+                            Refresh Solver
+                        </button>
+                    </div>
+                </div>
+                <div class="chart-wrapper">
+                    <div id="marey-plot-container" class="plot-box"></div>
+                </div>
+            </div>
+
+            <!-- TAB 2: GANTT CHART -->
+            <div id="gantt-tab" class="tab-pane">
+                <div class="pane-header">
+                    <div class="pane-title-group">
+                        <h2>Multi-Department Joint Maintenance Gantt</h2>
+                        <p>Shows coordinated shadow blocks merging Engineering (Track), TRD (OHE), and S&amp;T (Signals) into unified shutdown windows.</p>
+                    </div>
+                    <div class="legend-row">
+                        <span class="legend-chip track-chip">Civil / Track (TMS)</span>
+                        <span class="legend-chip ohe-chip">Electrical / OHE (TDMS)</span>
+                        <span class="legend-chip signal-chip">Signal &amp; Telecom (SMMS)</span>
+                        <span class="legend-chip bundle-chip">AI Joint Bundled Block</span>
+                    </div>
+                </div>
+                <div class="chart-wrapper">
+                    <div id="gantt-plot-container" class="plot-box"></div>
+                </div>
+                <div class="comparison-summary-card" id="gantt-comparison-card">
+                    <!-- Dynamic comparison table -->
+                </div>
+            </div>
+
+            <!-- TAB 3: NETWORK TRACK MAP -->
+            <div id="network-tab" class="tab-pane">
+                <div class="pane-header">
+                    <div class="pane-title-group">
+                        <h2>NDLS &ndash; CNB Corridor Track Section Map (440 KM)</h2>
+                        <p>Centralized Traffic Control (CTC) schematic board showing UP &amp; DN lines, station junctions, speed limits, and active blocks.</p>
+                    </div>
+                </div>
+                <div id="corridor-track-diagram"></div>
+                <div id="station-detail-pane"></div>
+            </div>
+
+            <!-- TAB 4: ASSETS & XAI HUB -->
+            <div id="assets-tab" class="tab-pane">
+                <div class="pane-header">
+                    <div class="pane-title-group">
+                        <h2>Asset Health Intelligence &amp; Explainable AI (XAI)</h2>
+                        <p>XGBoost-predicted failure probabilities, remaining useful life (RUL), and plain-English controller justification cards.</p>
+                    </div>
+                    <div class="pane-controls">
+                        <select id="asset-dept-select" onchange="loadAssetsTable()" class="custom-select">
+                            <option value="ALL">All Departments</option>
+                            <option value="ENGINEERING_TRACK">Engineering (Track / TMS)</option>
+                            <option value="TRACTION_DISTRIBUTION_OHE">TRD (OHE / TDMS)</option>
+                            <option value="SIGNAL_AND_TELECOM">S&amp;T (Signals / SMMS)</option>
+                        </select>
+                        <input type="file" id="csv-file-input" style="display:none" onchange="handleFileUpload(event)">
+                        <button class="btn-secondary" onclick="document.getElementById('csv-file-input').click()">
+                            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="17 8 12 3 7 8"/><line x1="12" y1="3" x2="12" y2="15"/></svg>
+                            Upload Custom CSV
+                        </button>
+                    </div>
+                </div>
+                <div class="assets-grid-layout">
+                    <div class="table-container">
+                        <table class="data-table" id="assets-table">
+                            <thead>
+                                <tr>
+                                    <th>Asset ID</th>
+                                    <th>Dept</th>
+                                    <th>Section</th>
+                                    <th>Criticality</th>
+                                    <th>Failure Risk</th>
+                                    <th>RUL (Days)</th>
+                                    <th>Action</th>
+                                </tr>
+                            </thead>
+                            <tbody id="assets-tbody">
+                                <tr><td colspan="7" class="text-center">Loading assets...</td></tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    <div class="xai-card-pane" id="xai-detail-card">
+                        <div class="empty-state-card">
+                            <svg class="empty-icon" width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1 0 2.83 2 2 0 0 1-2.83 0l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-2 2 2 2 0 0 1-2-2v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83 0 2 2 0 0 1 0-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1-2-2 2 2 0 0 1 2-2h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 0-2.83 2 2 0 0 1 2.83 0l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 2-2 2 2 0 0 1 2 2v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 0 2 2 0 0 1 0 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 2 2 2 2 0 0 1-2 2h-.09a1.65 1.65 0 0 0-1.51 1z"/></svg>
+                            <h3 style="font-size: 1rem; color: var(--text-primary); margin-top: 8px;">Explainable AI Justification</h3>
+                            <p style="font-size: 0.8rem; color: var(--text-muted); margin-top: 4px;">Click "Explain" on any asset row to view the XGBoost feature attribution breakdown and controller recommendation.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- TAB 5: MULTI-HORIZON PLANS -->
+            <div id="horizon-tab" class="tab-pane">
+                <div class="pane-header">
+                    <div class="pane-title-group">
+                        <h2>Multi-Horizon Block Planning Engine</h2>
+                        <p>Switch between 30-Day Strategic Macro horizons and 7-Day Tactical Matrix rosters.</p>
+                    </div>
+                    <div class="horizon-toggle-group">
+                        <button class="btn-toggle active" id="btn-weekly-toggle" onclick="showHorizon('WEEKLY')">7-Day Tactical Matrix</button>
+                        <button class="btn-toggle" id="btn-monthly-toggle" onclick="showHorizon('MONTHLY')">30-Day Strategic Plan</button>
+                    </div>
+                </div>
+                <div id="horizon-content-box" class="horizon-container">
+                    <!-- Dynamic weekly/monthly render -->
+                </div>
+            </div>
+
+            <!-- TAB 6: BDMS MEMOS -->
+            <div id="memo-tab" class="tab-pane">
+                <div class="pane-header">
+                    <div class="pane-title-group">
+                        <h2>BDMS Official Block Sanction Notices</h2>
+                        <p>Generate and download printable Indian Railways standardized block sanction memoranda for Station Masters.</p>
+                    </div>
+                    <div class="pane-controls">
+                        <select id="memo-block-select" onchange="loadSelectedMemo()" class="custom-select">
+                            <!-- Populated dynamically -->
+                        </select>
+                        <button class="btn-primary" onclick="printMemo()">
+                            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="6 9 6 2 18 2 18 9"/><path d="M6 18H4a2 2 0 0 1-2-2v-5a2 2 0 0 1 2-2h16a2 2 0 0 1 2 2v5a2 2 0 0 1-2 2h-2"/><rect x="6" y="14" width="12" height="8"/></svg>
+                            Print Official Notice
+                        </button>
+                    </div>
+                </div>
+                <div class="memo-paper" id="memo-paper-content">
+                    <pre class="memo-text" id="memo-pre-text">Select a block to generate the official BDMS memo.</pre>
+                </div>
+            </div>
+        </main>
+
+        <!-- STATION YARD INTERLOCKING SCHEMATIC MODAL (Option C) -->
+        <div id="yard-modal" class="modal-overlay">
+            <div class="yard-modal-card">
+                <div class="yard-modal-header">
+                    <div>
+                        <h3 id="yard-modal-title" style="color:var(--color-primary); font-size:1.05rem; font-weight:700; display:flex; align-items:center; gap:8px;">
+                            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 12h18M3 6h18M3 18h18"/></svg>
+                            Station Yard Interlocking Schematic
+                        </h3>
+                        <p id="yard-modal-subtitle" style="font-size:0.78rem; color:var(--text-muted); margin-top:2px;">
+                            Electronic Interlocking (EI) Layout &amp; Diagnostics
+                        </p>
+                    </div>
+                    <button class="modal-close" onclick="closeYardModal()">&times;</button>
+                </div>
+                <div class="yard-modal-body" id="yard-svg-wrapper">
+                    <!-- Dynamic SVG Rendered by yard_schematic.js -->
+                </div>
+            </div>
+        </div>
+
+        <!-- WHAT-IF DISRUPTION SIMULATOR MODAL -->
+        <div id="simulator-modal" class="modal-overlay">
+            <div class="modal-card">
+                <div class="modal-header">
+                    <h3>
+                        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M13 2L3 14h9l-1 8 10-12h-9l1-8z"/></svg>
+                        Dynamic "What-If" Perturbation Simulator
+                    </h3>
+                    <button class="modal-close" onclick="closeSimulatorModal()">&times;</button>
+                </div>
+                <div class="modal-body">
+                    <p class="modal-desc">Test real-time system resilience. Inject a late passenger train or an emergency rail fracture to observe the AI solver recalculate optimal slots live in sub-second time.</p>
+                    
+                    <div class="sim-mode-tabs">
+                        <button class="sim-tab active" id="sim-tab-train" onclick="switchSimMode('TRAIN')">Train Delay Injection</button>
+                        <button class="sim-tab" id="sim-tab-defect" onclick="switchSimMode('DEFECT')">Emergency Defect Insertion</button>
+                    </div>
+
+                    <!-- Train Delay Controls -->
+                    <div id="sim-controls-train" class="sim-form-pane">
+                        <div class="form-group">
+                            <label>Target Train:</label>
+                            <select id="sim-train-select" class="custom-select">
+                                <option value="12424">12424 Dibrugarh Rajdhani Express (DN)</option>
+                                <option value="22436">22436 Vande Bharat Express (DN)</option>
+                                <option value="12004">12004 Lucknow Swarna Shatabdi (DN)</option>
+                                <option value="12302">12302 Howrah Rajdhani Express (DN)</option>
+                                <option value="12566">12566 Bihar Sampark Kranti (DN)</option>
+                                <option value="22435">22435 Vande Bharat Express (UP)</option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label>Delay to Inject (Minutes):</label>
+                            <input type="range" id="sim-delay-range" min="15" max="120" step="5" value="40" oninput="document.getElementById('delay-val-badge').innerText = this.value + ' Min'">
+                            <span class="badge-val" id="delay-val-badge">40 Min</span>
+                        </div>
+                        <button class="btn-primary full-width" onclick="runTrainDelaySimulation()">
+                            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polygon points="5 3 19 12 5 21 5 3"/></svg>
+                            Recalculate Corridor Schedule
+                        </button>
+                    </div>
+
+                    <!-- Emergency Defect Controls -->
+                    <div id="sim-controls-defect" class="sim-form-pane" style="display:none">
+                        <div class="form-group">
+                            <label>Location Section:</label>
+                            <select id="sim-defect-sec" class="custom-select">
+                                <option value="GZB - DER">Ghaziabad (GZB) &ndash; Dadri (DER)</option>
+                                <option value="ALJN - TDL">Aligarh (ALJN) &ndash; Tundla (TDL)</option>
+                                <option value="TDL - FZD">Tundla (TDL) &ndash; Firozabad (FZD)</option>
+                                <option value="ETW - PHD">Etawah (ETW) &ndash; Phaphund (PHD)</option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label>Line &amp; Department:</label>
+                            <div class="row-flex">
+                                <select id="sim-defect-line" class="custom-select flex-1">
+                                    <option value="UP">UP Line</option>
+                                    <option value="DN">DN Line</option>
+                                </select>
+                                <select id="sim-defect-dept" class="custom-select flex-1">
+                                    <option value="ENGINEERING_TRACK">Civil / Track (TMS)</option>
+                                    <option value="TRACTION_DISTRIBUTION_OHE">TRD / OHE (TDMS)</option>
+                                    <option value="SIGNAL_AND_TELECOM">S&amp;T / Signal (SMMS)</option>
+                                </select>
+                            </div>
+                        </div>
+                        <button class="btn-primary full-width" onclick="runDefectSimulation()">
+                            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polygon points="5 3 19 12 5 21 5 3"/></svg>
+                            Insert Emergency Block &amp; Resolve
+                        </button>
+                    </div>
+
+                    <!-- Simulation Result Feed -->
+                    <div id="sim-result-box" class="sim-result-container" style="display:none">
+                        <div class="sim-result-header">
+                            <span class="badge-success" id="sim-status-badge">RECALCULATED IN 0.40s</span>
+                            <span id="sim-res-summary" class="sim-res-text">Zero train collisions.</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Application JavaScript Modules -->
+    <script src="/static/js/app.js"></script>
+    <script src="/static/js/marey_chart.js"></script>
+    <script src="/static/js/gantt_chart.js"></script>
+    <script src="/static/js/network_map.js"></script>
+    <script src="/static/js/yard_schematic.js"></script>
+    <script src="/static/js/simulator_ui.js"></script>
+</body>
+</html>

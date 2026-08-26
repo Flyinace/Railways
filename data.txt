@@ -1,0 +1,51 @@
+# DAY 1
+
+import random
+import pandas as pd
+
+data = []
+
+for i in range(500):
+    age = random.randint(1,20)
+    condition = random.randint(20,100)
+    previous_failure = random.randint(0,5)
+    days_since_maintenance = random.randint(10,300)
+    load = random.randint(20,100)
+    temperature = random.randint(15,50)
+
+    # CREATING A SIMPLE RISK SCORE
+    risk = (
+        age*1.5
+        +(100 - condition)*0.4
+        +previous_failure*4
+        +days_since_maintenance*0.03
+        +load*0.05
+    )
+    #   CONVERT RISK INTO A FAILURE LABEL
+    failure = 1 if risk >55 else 0
+    data.append([
+        f"A{i+1:04d}",
+        age,
+        condition,
+        previous_failure,
+        days_since_maintenance,
+        load,
+        temperature,
+        failure
+    ])
+columns = [
+     "asset_id",
+     "age",
+     "condition",
+     "previous_failure",
+     "days_since_maintenance",
+     "load",
+     "temperature",
+     "failure"
+ ]
+df = pd.DataFrame(data,columns= columns)
+df.to_csv("../data/assets.csv",index = False) #index is false because panda add rows number if we set indes to false it does not create it
+print(df.head()) # only print first  5 rows
+print("\nDataset shape:", df.shape) # print(rows,column)
+print("\nFailure counts:")
+print(df["failure"].value_counts()) #select failure column and count the value of 0 and 1

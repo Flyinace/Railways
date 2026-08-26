@@ -1,0 +1,1034 @@
+/* ==========================================================================
+   INDIAN RAILWAYS AUTOMATIC BLOCK PLANNING SYSTEM
+   MINIMALIST MODERN LIGHT THEME (Zero Gradients, Flat Minimalist UI, Fluent Design)
+   ========================================================================== */
+
+:root {
+    /* Clean Light Theme Palette */
+    --bg-base: #f8fafc;
+    --bg-surface: #ffffff;
+    --bg-surface-elevated: #ffffff;
+    --bg-surface-subtle: #f1f5f9;
+    --bg-surface-hover: #e2e8f0;
+
+    --border-color: #e2e8f0;
+    --border-subtle: #edf2f7;
+    --border-focus: #3b82f6;
+
+    /* Typography & Hierarchy */
+    --text-primary: #0f172a;
+    --text-secondary: #475569;
+    --text-muted: #64748b;
+    --text-inverse: #ffffff;
+
+    /* Crisp Solid Functional Colors (No Gradients) */
+    --color-primary: #0f2b5c;      /* Indian Railways Deep Navy */
+    --color-blue: #2563eb;         /* Royal Blue */
+    --color-indigo: #4f46e5;       /* Modern Indigo */
+    --color-emerald: #059669;      /* Forest Emerald */
+    --color-amber: #d97706;        /* Safety Amber */
+    --color-crimson: #dc2626;      /* Caution Crimson */
+    --color-slate: #475569;        /* Neutral Slate */
+
+    /* Typography */
+    --font-main: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+    --font-mono: 'JetBrains Mono', monospace;
+
+    /* Radii & Shadow (Minimal Flat Elevation) */
+    --radius-xs: 4px;
+    --radius-sm: 6px;
+    --radius-md: 8px;
+    --radius-lg: 12px;
+    --shadow-subtle: 0 1px 3px rgba(0, 0, 0, 0.05), 0 1px 2px rgba(0, 0, 0, 0.03);
+    --shadow-card: 0 1px 4px rgba(15, 23, 42, 0.06);
+    --shadow-modal: 0 10px 25px rgba(15, 23, 42, 0.15);
+}
+
+/* Base Reset */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: var(--font-main);
+    background-color: var(--bg-base);
+    color: var(--text-primary);
+    line-height: 1.5;
+    -webkit-font-smoothing: antialiased;
+    overflow-x: hidden;
+}
+
+.app-container {
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh;
+}
+
+/* ==========================================================================
+   Header (Clean Minimalist Railway Control Bar)
+   ========================================================================== */
+.app-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 12px 24px;
+    background-color: var(--bg-surface);
+    border-bottom: 1px solid var(--border-color);
+    box-shadow: var(--shadow-subtle);
+    position: sticky;
+    top: 0;
+    z-index: 50;
+}
+
+.header-left {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+}
+
+.railway-crest {
+    width: 36px;
+    height: 36px;
+    background-color: var(--color-primary);
+    color: #ffffff;
+    border-radius: var(--radius-sm);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: 800;
+    font-size: 0.95rem;
+    letter-spacing: 0.5px;
+}
+
+.header-title-group h1 {
+    font-size: 1.05rem;
+    font-weight: 700;
+    color: var(--color-primary);
+    letter-spacing: -0.2px;
+    display: flex;
+    align-items: center;
+    gap: 6px;
+}
+
+.header-title-group .subtitle {
+    font-size: 0.78rem;
+    color: var(--text-muted);
+    font-weight: 500;
+}
+
+.header-center {
+    display: flex;
+    align-items: center;
+}
+
+.corridor-badge {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    background-color: var(--bg-surface-subtle);
+    border: 1px solid var(--border-color);
+    padding: 6px 14px;
+    border-radius: 20px;
+    font-size: 0.82rem;
+    font-weight: 600;
+    color: var(--color-primary);
+}
+
+.pulse-dot {
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+    background-color: var(--color-emerald);
+}
+
+.header-right {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+}
+
+.division-info {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-end;
+}
+
+.div-tag {
+    font-size: 0.7rem;
+    font-weight: 700;
+    color: var(--text-secondary);
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+}
+
+.time-clock {
+    font-family: var(--font-mono);
+    font-size: 0.88rem;
+    font-weight: 600;
+    color: var(--color-primary);
+}
+
+/* Buttons */
+.btn-primary {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    background-color: var(--color-primary);
+    color: #ffffff;
+    border: 1px solid transparent;
+    padding: 8px 16px;
+    border-radius: var(--radius-sm);
+    font-size: 0.85rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: background-color 0.15s ease;
+}
+
+.btn-primary:hover {
+    background-color: #1b3d7a;
+}
+
+.btn-secondary {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    background-color: var(--bg-surface);
+    color: var(--text-primary);
+    border: 1px solid var(--border-color);
+    padding: 6px 14px;
+    border-radius: var(--radius-sm);
+    font-size: 0.82rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.15s ease;
+}
+
+.btn-secondary:hover {
+    background-color: var(--bg-surface-subtle);
+    border-color: #cbd5e1;
+}
+
+/* ==========================================================================
+   KPI Summary Strip
+   ========================================================================== */
+.kpi-strip {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 16px;
+    padding: 16px 24px;
+}
+
+.kpi-card {
+    display: flex;
+    align-items: center;
+    gap: 14px;
+    background-color: var(--bg-surface);
+    border: 1px solid var(--border-color);
+    border-radius: var(--radius-md);
+    padding: 14px 18px;
+    box-shadow: var(--shadow-card);
+}
+
+.kpi-icon-wrap {
+    width: 42px;
+    height: 42px;
+    border-radius: var(--radius-sm);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+}
+
+.kpi-icon-wrap.bg-blue {
+    background-color: #eff6ff;
+    color: var(--color-blue);
+}
+
+.kpi-icon-wrap.bg-purple {
+    background-color: #f5f3ff;
+    color: var(--color-indigo);
+}
+
+.kpi-icon-wrap.bg-emerald {
+    background-color: #ecfdf5;
+    color: var(--color-emerald);
+}
+
+.kpi-icon-wrap.bg-amber {
+    background-color: #fffbeb;
+    color: var(--color-amber);
+}
+
+.kpi-icon-wrap svg {
+    width: 22px;
+    height: 22px;
+}
+
+.kpi-data {
+    display: flex;
+    flex-direction: column;
+    gap: 2px;
+}
+
+.kpi-label {
+    font-size: 0.78rem;
+    font-weight: 600;
+    color: var(--text-muted);
+    text-transform: uppercase;
+    letter-spacing: 0.3px;
+}
+
+.kpi-value-row {
+    display: flex;
+    align-items: baseline;
+    gap: 8px;
+}
+
+.kpi-val {
+    font-family: var(--font-mono);
+    font-size: 1.35rem;
+    font-weight: 700;
+    color: var(--text-primary);
+}
+
+.badge-success {
+    font-size: 0.75rem;
+    font-weight: 600;
+    background-color: #ecfdf5;
+    color: var(--color-emerald);
+    padding: 2px 6px;
+    border-radius: var(--radius-xs);
+    border: 1px solid #d1fae5;
+}
+
+.badge-accent {
+    font-size: 0.75rem;
+    font-weight: 600;
+    background-color: #f1f5f9;
+    color: var(--text-secondary);
+    padding: 2px 6px;
+    border-radius: var(--radius-xs);
+    border: 1px solid var(--border-color);
+}
+
+/* ==========================================================================
+   Navigation Tabs
+   ========================================================================== */
+.nav-tabs {
+    display: flex;
+    gap: 6px;
+    padding: 0 24px;
+    border-bottom: 1px solid var(--border-color);
+    background-color: var(--bg-surface);
+}
+
+.tab-btn {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    background: transparent;
+    border: none;
+    border-bottom: 2px solid transparent;
+    padding: 12px 16px;
+    font-size: 0.85rem;
+    font-weight: 600;
+    color: var(--text-secondary);
+    cursor: pointer;
+    transition: all 0.15s ease;
+}
+
+.tab-btn svg {
+    width: 18px;
+    height: 18px;
+    color: var(--text-muted);
+}
+
+.tab-btn:hover {
+    color: var(--color-primary);
+    background-color: var(--bg-surface-subtle);
+}
+
+.tab-btn.active {
+    color: var(--color-primary);
+    border-bottom-color: var(--color-primary);
+    font-weight: 700;
+}
+
+.tab-btn.active svg {
+    color: var(--color-primary);
+}
+
+/* ==========================================================================
+   Main Viewport & Tab Panes
+   ========================================================================== */
+.main-viewport {
+    flex: 1;
+    padding: 20px 24px;
+}
+
+.tab-pane {
+    display: none;
+}
+
+.tab-pane.active {
+    display: block;
+}
+
+.pane-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 16px;
+    gap: 16px;
+    flex-wrap: wrap;
+}
+
+.pane-title-group h2 {
+    font-size: 1.15rem;
+    font-weight: 700;
+    color: var(--color-primary);
+    letter-spacing: -0.2px;
+}
+
+.pane-title-group p {
+    font-size: 0.82rem;
+    color: var(--text-muted);
+    margin-top: 2px;
+}
+
+.pane-controls {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.control-label {
+    font-size: 0.82rem;
+    font-weight: 600;
+    color: var(--text-secondary);
+}
+
+.custom-select {
+    background-color: var(--bg-surface);
+    color: var(--text-primary);
+    border: 1px solid var(--border-color);
+    padding: 6px 12px;
+    border-radius: var(--radius-sm);
+    font-size: 0.82rem;
+    font-weight: 500;
+    cursor: pointer;
+    outline: none;
+}
+
+.custom-select:focus {
+    border-color: var(--color-blue);
+}
+
+.chart-wrapper {
+    background-color: var(--bg-surface);
+    border: 1px solid var(--border-color);
+    border-radius: var(--radius-md);
+    padding: 16px;
+    box-shadow: var(--shadow-card);
+}
+
+.plot-box {
+    width: 100%;
+    min-height: 520px;
+}
+
+/* ==========================================================================
+   Gantt Chart Legend & Summary
+   ========================================================================== */
+.legend-row {
+    display: flex;
+    gap: 10px;
+    flex-wrap: wrap;
+}
+
+.legend-chip {
+    font-size: 0.75rem;
+    font-weight: 600;
+    padding: 4px 10px;
+    border-radius: var(--radius-xs);
+    border: 1px solid var(--border-color);
+}
+
+.legend-chip.track-chip {
+    background-color: #eff6ff;
+    color: var(--color-blue);
+    border-color: #bfdbfe;
+}
+
+.legend-chip.ohe-chip {
+    background-color: #fffbeb;
+    color: var(--color-amber);
+    border-color: #fde68a;
+}
+
+.legend-chip.signal-chip {
+    background-color: #ecfdf5;
+    color: var(--color-emerald);
+    border-color: #a7f3d0;
+}
+
+.legend-chip.bundle-chip {
+    background-color: #f5f3ff;
+    color: var(--color-indigo);
+    border-color: #ddd6fe;
+}
+
+.comparison-summary-card {
+    background-color: var(--bg-surface);
+    border: 1px solid var(--border-color);
+    border-radius: var(--radius-md);
+    padding: 16px;
+    margin-top: 14px;
+    box-shadow: var(--shadow-card);
+}
+
+/* ==========================================================================
+   Corridor Track Section Map (CTC Schematic Board)
+   ========================================================================== */
+.ctc-corridor-board {
+    background-color: var(--bg-surface);
+    border: 1px solid var(--border-color);
+    border-radius: var(--radius-md);
+    padding: 20px;
+    box-shadow: var(--shadow-card);
+    margin-bottom: 16px;
+}
+
+.ctc-legend {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    border-bottom: 1px solid var(--border-color);
+    padding-bottom: 12px;
+    margin-bottom: 16px;
+}
+
+.ctc-legend-title {
+    font-size: 0.85rem;
+    font-weight: 700;
+    color: var(--color-primary);
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    display: flex;
+    align-items: center;
+    gap: 6px;
+}
+
+.ctc-legend-items {
+    display: flex;
+    gap: 16px;
+    font-size: 0.78rem;
+    color: var(--text-secondary);
+}
+
+.ctc-line-indicator {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+}
+
+.ctc-dot {
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+}
+
+.track-schematic-grid {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+    overflow-x: auto;
+    padding-bottom: 10px;
+}
+
+.track-row {
+    display: flex;
+    align-items: center;
+    min-width: 980px;
+}
+
+.track-header-tag {
+    width: 90px;
+    font-family: var(--font-mono);
+    font-size: 0.75rem;
+    font-weight: 700;
+    padding: 4px 8px;
+    border-radius: var(--radius-xs);
+    text-align: center;
+    flex-shrink: 0;
+}
+
+.track-header-tag.dn-tag {
+    background-color: #eff6ff;
+    color: var(--color-blue);
+    border: 1px solid #bfdbfe;
+}
+
+.track-header-tag.up-tag {
+    background-color: #f5f3ff;
+    color: var(--color-indigo);
+    border: 1px solid #ddd6fe;
+}
+
+.track-rail-segments {
+    display: flex;
+    flex: 1;
+    align-items: center;
+}
+
+.rail-segment-box {
+    flex: 1;
+    height: 34px;
+    background-color: #f8fafc;
+    border: 1px solid var(--border-color);
+    border-left: none;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    position: relative;
+    cursor: pointer;
+    transition: all 0.15s ease;
+}
+
+.rail-segment-box:first-child {
+    border-left: 1px solid var(--border-color);
+    border-top-left-radius: 4px;
+    border-bottom-left-radius: 4px;
+}
+
+.rail-segment-box:last-child {
+    border-top-right-radius: 4px;
+    border-bottom-right-radius: 4px;
+}
+
+.rail-segment-box:hover {
+    background-color: #e2e8f0;
+}
+
+.rail-segment-box.active-block {
+    background-color: #fef2f2;
+    border-color: #fca5a5;
+}
+
+.block-tag-badge {
+    font-family: var(--font-mono);
+    font-size: 0.68rem;
+    font-weight: 700;
+    color: var(--color-crimson);
+    background-color: #ffffff;
+    padding: 2px 6px;
+    border-radius: var(--radius-xs);
+    border: 1px solid #fca5a5;
+    box-shadow: 0 1px 2px rgba(0, 0, 0, 0.05);
+}
+
+.station-node-row {
+    display: flex;
+    min-width: 980px;
+    padding-left: 90px;
+}
+
+.station-pill-item {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    cursor: pointer;
+}
+
+.station-badge-bubble {
+    width: 32px;
+    height: 32px;
+    background-color: var(--color-primary);
+    color: #ffffff;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 0.78rem;
+    font-weight: 700;
+    border: 2px solid #ffffff;
+    box-shadow: var(--shadow-subtle);
+    transition: transform 0.15s ease;
+}
+
+.station-pill-item:hover .station-badge-bubble {
+    transform: scale(1.1);
+}
+
+.station-name-text {
+    font-size: 0.78rem;
+    font-weight: 700;
+    color: var(--text-primary);
+    margin-top: 4px;
+}
+
+.station-km-text {
+    font-family: var(--font-mono);
+    font-size: 0.7rem;
+    color: var(--text-muted);
+}
+
+.station-detail-card {
+    background-color: var(--bg-surface);
+    border: 1px solid var(--border-color);
+    border-radius: var(--radius-md);
+    padding: 16px;
+    box-shadow: var(--shadow-card);
+}
+
+/* ==========================================================================
+   Station Yard Interlocking Modal (Option C)
+   ========================================================================== */
+.yard-modal-card {
+    background-color: var(--bg-surface);
+    border: 1px solid var(--border-color);
+    border-radius: var(--radius-lg);
+    width: 95%;
+    max-width: 1120px;
+    box-shadow: var(--shadow-modal);
+    overflow: hidden;
+    max-height: 92vh;
+    display: flex;
+    flex-direction: column;
+}
+
+.yard-modal-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 14px 20px;
+    border-bottom: 1px solid var(--border-color);
+    background-color: #f8fafc;
+}
+
+.yard-modal-body {
+    padding: 20px;
+    overflow-y: auto;
+    flex: 1;
+}
+
+.yard-schematic-scrollbox {
+    background-color: #ffffff;
+    border: 1px solid var(--border-color);
+    border-radius: var(--radius-md);
+    padding: 16px;
+    overflow-x: auto;
+    box-shadow: var(--shadow-subtle);
+}
+
+.yard-svg-canvas {
+    width: 100%;
+    min-width: 980px;
+    display: block;
+}
+
+.yard-point-line-group line {
+    transition: stroke 0.15s ease;
+}
+
+.yard-point-line-group:hover line {
+    stroke: var(--color-indigo);
+    stroke-width: 3.5;
+}
+
+/* ==========================================================================
+   Asset Health & XAI Table Layout
+   ========================================================================== */
+.assets-grid-layout {
+    display: grid;
+    grid-template-columns: 1fr 380px;
+    gap: 16px;
+}
+
+.table-container {
+    background-color: var(--bg-surface);
+    border: 1px solid var(--border-color);
+    border-radius: var(--radius-md);
+    overflow: hidden;
+    box-shadow: var(--shadow-card);
+}
+
+.data-table {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 0.82rem;
+    text-align: left;
+}
+
+.data-table thead tr {
+    background-color: var(--bg-surface-subtle);
+    border-bottom: 1px solid var(--border-color);
+}
+
+.data-table th {
+    padding: 10px 14px;
+    font-weight: 700;
+    color: var(--text-secondary);
+    font-size: 0.75rem;
+    text-transform: uppercase;
+    letter-spacing: 0.3px;
+}
+
+.data-table tbody tr {
+    border-bottom: 1px solid var(--border-subtle);
+    transition: background-color 0.15s ease;
+}
+
+.data-table tbody tr:hover {
+    background-color: #f8fafc;
+}
+
+.data-table td {
+    padding: 10px 14px;
+    color: var(--text-primary);
+}
+
+.tier-badge {
+    display: inline-block;
+    padding: 2px 8px;
+    border-radius: var(--radius-xs);
+    font-size: 0.72rem;
+    font-weight: 700;
+    text-transform: uppercase;
+}
+
+.tier-badge.tier-critical {
+    background-color: #fef2f2;
+    color: var(--color-crimson);
+    border: 1px solid #fecaca;
+}
+
+.tier-badge.tier-high {
+    background-color: #fffbeb;
+    color: var(--color-amber);
+    border: 1px solid #fde68a;
+}
+
+.tier-badge.tier-medium {
+    background-color: #eff6ff;
+    color: var(--color-blue);
+    border: 1px solid #bfdbfe;
+}
+
+.tier-badge.tier-low {
+    background-color: #f1f5f9;
+    color: var(--text-secondary);
+    border: 1px solid #e2e8f0;
+}
+
+.xai-card-pane {
+    background-color: var(--bg-surface);
+    border: 1px solid var(--border-color);
+    border-radius: var(--radius-md);
+    padding: 18px;
+    box-shadow: var(--shadow-card);
+}
+
+.empty-state-card {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    height: 100%;
+    min-height: 280px;
+    text-align: center;
+    color: var(--text-muted);
+}
+
+.empty-icon {
+    font-size: 2rem;
+    margin-bottom: 10px;
+    color: #94a3b8;
+}
+
+/* ==========================================================================
+   Multi-Horizon & BDMS Memos
+   ========================================================================== */
+.horizon-toggle-group {
+    display: flex;
+    background-color: var(--bg-surface-subtle);
+    border: 1px solid var(--border-color);
+    border-radius: var(--radius-sm);
+    padding: 2px;
+}
+
+.btn-toggle {
+    background: transparent;
+    border: none;
+    padding: 6px 14px;
+    border-radius: var(--radius-xs);
+    font-size: 0.8rem;
+    font-weight: 600;
+    color: var(--text-secondary);
+    cursor: pointer;
+}
+
+.btn-toggle.active {
+    background-color: var(--bg-surface);
+    color: var(--color-primary);
+    box-shadow: var(--shadow-subtle);
+}
+
+.memo-paper {
+    background-color: #ffffff;
+    border: 1px solid var(--border-color);
+    border-radius: var(--radius-md);
+    padding: 24px;
+    box-shadow: var(--shadow-card);
+}
+
+.memo-text {
+    font-family: var(--font-mono);
+    font-size: 0.82rem;
+    color: #1e293b;
+    white-space: pre-wrap;
+    line-height: 1.6;
+}
+
+/* ==========================================================================
+   Modal (Minimalist Clean Dialog)
+   ========================================================================== */
+.modal-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    background-color: rgba(15, 23, 42, 0.45);
+    display: none;
+    align-items: center;
+    justify-content: center;
+    z-index: 100;
+}
+
+.modal-card {
+    background-color: var(--bg-surface);
+    border: 1px solid var(--border-color);
+    border-radius: var(--radius-lg);
+    width: 90%;
+    max-width: 540px;
+    box-shadow: var(--shadow-modal);
+    overflow: hidden;
+}
+
+.modal-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 16px 20px;
+    border-bottom: 1px solid var(--border-color);
+    background-color: #f8fafc;
+}
+
+.modal-header h3 {
+    font-size: 1rem;
+    font-weight: 700;
+    color: var(--color-primary);
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.modal-close {
+    background: transparent;
+    border: none;
+    font-size: 1.3rem;
+    color: var(--text-muted);
+    cursor: pointer;
+}
+
+.modal-body {
+    padding: 20px;
+}
+
+.modal-desc {
+    font-size: 0.82rem;
+    color: var(--text-secondary);
+    margin-bottom: 16px;
+}
+
+.sim-mode-tabs {
+    display: flex;
+    gap: 8px;
+    margin-bottom: 16px;
+}
+
+.sim-tab {
+    flex: 1;
+    padding: 8px;
+    background-color: var(--bg-surface-subtle);
+    border: 1px solid var(--border-color);
+    border-radius: var(--radius-sm);
+    font-size: 0.8rem;
+    font-weight: 600;
+    color: var(--text-secondary);
+    cursor: pointer;
+}
+
+.sim-tab.active {
+    background-color: #eff6ff;
+    color: var(--color-blue);
+    border-color: #bfdbfe;
+}
+
+.form-group {
+    margin-bottom: 14px;
+}
+
+.form-group label {
+    display: block;
+    font-size: 0.78rem;
+    font-weight: 700;
+    color: var(--text-secondary);
+    margin-bottom: 6px;
+    text-transform: uppercase;
+}
+
+.row-flex {
+    display: flex;
+    gap: 8px;
+}
+
+.flex-1 {
+    flex: 1;
+}
+
+.full-width {
+    width: 100%;
+}
+
+.badge-val {
+    font-family: var(--font-mono);
+    font-size: 0.85rem;
+    font-weight: 700;
+    color: var(--color-blue);
+    margin-left: 10px;
+}
+
+.sim-result-container {
+    margin-top: 16px;
+    padding: 12px;
+    background-color: #f8fafc;
+    border: 1px solid var(--border-color);
+    border-radius: var(--radius-sm);
+}
+
+.sim-result-header {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.sim-res-text {
+    font-size: 0.8rem;
+    color: var(--text-primary);
+    font-weight: 500;
+}

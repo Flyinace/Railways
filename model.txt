@@ -1,0 +1,78 @@
+# DAY 2
+
+import pandas as pd
+from sklearn.model_selection import train_test_split
+from sklearn.ensemble import RandomForestClassifier
+from sklearn.metrics import accuracy_score
+from sklearn.metrics import classification_report, confusion_matrix
+
+df = pd.read_csv("../data/assets.csv")# read the dataset
+
+
+#These are the colums we will give to the ML model
+features = [
+    "age",
+    "condition",
+    "previous_failure",
+    "days_since_maintenance",
+    "load",
+    "temperature"
+]
+
+#X = input / features to the ml
+X = df[features]
+#y = output/target
+y = df["failure"]
+
+X_train, X_test, y_train, y_test= train_test_split(
+    X,
+    y,
+    test_size=0.2, # divide data into 20 percent in the test phase
+    random_state =42
+)
+
+
+model = RandomForestClassifier( n_estimators= 100,random_state= 42)
+model.fit(X_train, y_train)
+y_pred = model.predict(X_test)
+
+
+# DAY 3
+
+# Failure probability prediction
+probabilities = model.predict_proba(X_test)
+failure_probability = probabilities[:,1]
+failure_percentage = failure_probability*100
+
+# create result talbe
+result = X_test.copy()
+
+result["actual_failure"] = y_test.values
+result["predicted_failure"] =  y_pred
+result["failure_percentage"] = failure_percentage
+
+# DAY 4
+
+
+# FUNCTION TO ASSIGN PRIORITY
+def get_priority(percentage):
+    if percentage >= 80:
+        return "CRITICAL"
+    elif percentage >= 60:
+        return "HIGH"
+    elif percentage >= 30:
+        return "MEDIUM"
+    else:
+        return "LOW"
+
+# ADD PRIOTITY (WORDS TO THE DATA)
+result["priority"] = result["failure_percentage"].apply(get_priority)
+#ADD ASSET ID
+result["asset_id"] = df.loc[X_test.index, "asset_id"]
+
+
+# SORT HIGHEST RISK FIRST
+result = result.sort_values(
+    by="failure_percentage",
+    ascending=False
+)
