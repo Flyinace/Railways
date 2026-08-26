@@ -6,6 +6,7 @@ The **Indian Railways AI-Powered Automatic Block Planning System** is an intelli
 ### Core Purpose
 - **The Problem:** Indian Railways infrastructure maintenance across Civil (Engineering/TMS), Electrical (Traction Distribution/TDMS), and S&T (Signalling & Telecom/SMMS) is managed in departmental silos via manual Block Demand Management System (BDMS) requests. Independent maintenance blocks cause excessive track downtime, conflict with commercial train operations, and degrade line capacity.
 - **The Solution:** An integrated AI system modeling the 440 KM New Delhi – Kanpur Central (NDLS–CNB) high-density trunk corridor. It extracts and unifies multi-department defect logs, applies Machine Learning (XGBoost + Random Forest) for asset criticality and duration estimation, uses Mathematical Optimization (Google OR-Tools CP-SAT) to generate conflict-free multi-department "Shadow Blocks", and serves a real-time Control Office dashboard (featuring Marey string diagrams, Gantt charts, Centralized Traffic Control [CTC] schematic track maps, Station Yard Electronic Interlocking drill-downs, and dynamic disruption recovery).
+- **Source Control Repository:** [`https://github.com/Flyinace/Railways`](https://github.com/Flyinace/Railways) (Branch: `main`)
 
 ---
 
@@ -27,6 +28,7 @@ The **Indian Railways AI-Powered Automatic Block Planning System** is an intelli
 ## 3. Folder Structure & Module Boundaries
 ```
 SIH RAILWAY/
+├── .gitignore                         # Git exclusion rules (cache, compiled binaries, venvs)
 ├── CONTEXT.md                         # Long-term architectural memory & constraints (this file)
 ├── PROGRESS.md                        # Active session scratchpad & status tracking
 ├── requirements.txt                   # Production Python package dependencies
