@@ -13,21 +13,28 @@
 </head>
 <body>
     <div class="app-container">
-        <!-- Top Railway Header -->
+        <!-- Top Railway Control Bar -->
         <header class="app-header">
             <div class="header-left">
                 <div class="railway-crest">IR</div>
                 <div class="header-title-group">
                     <h1>
+                        <!-- Fluent Train 24 Regular -->
+                        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="4" y="3" width="16" height="16" rx="2"/><path d="M4 11h16M12 3v8M8 15h.01M16 15h.01M6 19l-2 2M18 19l2 2"/></svg>
                         INDIAN RAILWAYS &bull; AUTOMATIC BLOCK PLANNING SYSTEM
                     </h1>
-                    <p class="subtitle">AI-Powered Multi-Department Shadow Maintenance & Corridor Optimization (SIH 2024)</p>
+                    <p class="subtitle">AI-Powered Multi-Department Shadow Maintenance &amp; Corridor Optimization (SIH 2024)</p>
                 </div>
             </div>
             <div class="header-center">
                 <div class="corridor-badge">
                     <span class="pulse-dot"></span>
-                    <span class="corridor-name">NDLS &ndash; CNB TRUNK ROUTE (440 KM)</span>
+                    <span class="corridor-name">NDLS &ndash; CNB HIGH-DENSITY TRUNK (440 KM)</span>
+                </div>
+                <div class="corridor-ticker">
+                    <span>Capacity: <strong>94.2%</strong></span> &bull;
+                    <span>Signalling: <strong>ABS Quad-Aspect</strong></span> &bull;
+                    <span>Traction: <strong>25 kV AC Live</strong></span>
                 </div>
             </div>
             <div class="header-right">
@@ -36,45 +43,52 @@
                     <span class="time-clock" id="live-clock">12:00:00 UTC</span>
                 </div>
                 <button class="btn-primary" onclick="openSimulatorModal()">
+                    <!-- Fluent Flash Sparkle 24 Regular -->
                     <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M13 2L3 14h9l-1 8 10-12h-9l1-8z"/></svg>
                     What-If Simulator
                 </button>
             </div>
         </header>
 
-        <!-- KPI Executive Summary Strip (Fluent Light Aesthetic) -->
+        <!-- KPI Executive Summary Strip (Fluent Light OCC Aesthetic) -->
         <section class="kpi-strip">
             <div class="kpi-card">
                 <div class="kpi-icon-wrap bg-blue">
-                    <!-- Fluent Timer Icon -->
+                    <!-- Fluent Timer 24 Regular -->
                     <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
                 </div>
                 <div class="kpi-data">
                     <span class="kpi-label">Corridor Downtime Saved</span>
                     <div class="kpi-value-row">
-                        <span class="kpi-val" id="kpi-downtime-saved">--%</span>
-                        <span class="badge-success" id="kpi-downtime-sub">Calculating...</span>
+                        <span class="kpi-val" id="kpi-downtime-saved">78.7%</span>
+                        <span class="badge-success" id="kpi-downtime-sub">78.0 Hrs Saved</span>
+                    </div>
+                    <div class="kpi-sparkline">
+                        <div class="kpi-sparkbar" style="width: 78.7%; background-color: var(--color-blue);"></div>
                     </div>
                 </div>
             </div>
 
             <div class="kpi-card">
                 <div class="kpi-icon-wrap bg-purple">
-                    <!-- Fluent Link / Bundling Icon -->
-                    <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"/><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"/></svg>
+                    <!-- Fluent Arrow Sync 24 Regular -->
+                    <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21.5 2v6h-6M21.34 15.57a10 10 0 1 1-.57-8.38l5.67-5.67"/></svg>
                 </div>
                 <div class="kpi-data">
                     <span class="kpi-label">Multi-Dept Bundling Rate</span>
                     <div class="kpi-value-row">
-                        <span class="kpi-val" id="kpi-bundling-rate">--%</span>
+                        <span class="kpi-val" id="kpi-bundling-rate">100%</span>
                         <span class="badge-accent">Coordinated</span>
+                    </div>
+                    <div class="kpi-sparkline">
+                        <div class="kpi-sparkbar" style="width: 100%; background-color: var(--color-indigo);"></div>
                     </div>
                 </div>
             </div>
 
             <div class="kpi-card">
                 <div class="kpi-icon-wrap bg-emerald">
-                    <!-- Fluent Shield Checkmark Icon -->
+                    <!-- Fluent Shield Checkmark 24 Regular -->
                     <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/><polyline points="9 12 11 14 15 10"/></svg>
                 </div>
                 <div class="kpi-data">
@@ -83,49 +97,73 @@
                         <span class="kpi-val" id="kpi-punctuality">100%</span>
                         <span class="badge-success">0 Delay Min</span>
                     </div>
+                    <div class="kpi-sparkline">
+                        <div class="kpi-sparkbar" style="width: 100%; background-color: var(--color-emerald);"></div>
+                    </div>
                 </div>
             </div>
 
             <div class="kpi-card">
                 <div class="kpi-icon-wrap bg-amber">
-                    <!-- Fluent Wrench Tool Icon -->
+                    <!-- Fluent Wrench 24 Regular -->
                     <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14.7 6.3a1 1 0 0 0 0 1.4l1.6 1.6a1 1 0 0 0 1.4 0l3.77-3.77a6 6 0 0 1-7.94 7.94l-6.91 6.91a2.12 2.12 0 0 1-3-3l6.91-6.91a6 6 0 0 1 7.94-7.94l-3.76 3.76z"/></svg>
                 </div>
                 <div class="kpi-data">
                     <span class="kpi-label">Critical Defects Addressed</span>
                     <div class="kpi-value-row">
-                        <span class="kpi-val" id="kpi-critical-solved">-- Tasks</span>
+                        <span class="kpi-val" id="kpi-critical-solved">14 Tasks</span>
                         <span class="badge-accent">100% Tier-1</span>
+                    </div>
+                    <div class="kpi-sparkline">
+                        <div class="kpi-sparkbar" style="width: 92%; background-color: var(--color-amber);"></div>
                     </div>
                 </div>
             </div>
         </section>
 
-        <!-- Navigation Tabs with Fluent Icons -->
+        <!-- Navigation Tabs with Fluent Icons & Keyboard Shortcuts -->
         <nav class="nav-tabs">
             <button class="tab-btn active" onclick="switchTab('marey-tab')">
+                <!-- Fluent Timeline 24 Regular -->
                 <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="22 12 18 12 15 21 9 3 6 12 2 12"/></svg>
-                Marey String Chart (Time-Distance)
+                Marey String Chart
+                <span class="tab-badge">24H</span>
+                <span class="tab-key-tag">[1]</span>
             </button>
             <button class="tab-btn" onclick="switchTab('gantt-tab')">
+                <!-- Fluent Calendar LTR 24 Regular -->
                 <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="4" width="18" height="18" rx="2" ry="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/><line x1="8" y1="14" x2="16" y2="14"/></svg>
                 Multi-Dept Gantt Bundling
+                <span class="tab-badge">6 Bundles</span>
+                <span class="tab-key-tag">[2]</span>
             </button>
             <button class="tab-btn" onclick="switchTab('network-tab')">
+                <!-- Fluent Map 24 Regular -->
                 <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polygon points="1 6 1 22 8 18 16 22 23 18 23 2 16 6 8 2 1 6"/><line x1="8" y1="2" x2="8" y2="18"/><line x1="16" y1="6" x2="16" y2="22"/></svg>
                 Corridor Track Topology Map
+                <span class="tab-badge">10 Stations</span>
+                <span class="tab-key-tag">[3]</span>
             </button>
             <button class="tab-btn" onclick="switchTab('assets-tab')">
+                <!-- Fluent Gauge 24 Regular -->
                 <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1 0 2.83 2 2 0 0 1-2.83 0l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-2 2 2 2 0 0 1-2-2v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83 0 2 2 0 0 1 0-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1-2-2 2 2 0 0 1 2-2h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 0-2.83 2 2 0 0 1 2.83 0l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 2-2 2 2 0 0 1 2 2v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 0 2 2 0 0 1 0 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 2 2 2 2 0 0 1-2 2h-.09a1.65 1.65 0 0 0-1.51 1z"/></svg>
                 Asset Risk &amp; XAI Hub
+                <span class="tab-badge">14 Critical</span>
+                <span class="tab-key-tag">[4]</span>
             </button>
             <button class="tab-btn" onclick="switchTab('horizon-tab')">
+                <!-- Fluent Table Stack Above 24 Regular -->
                 <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="4" width="18" height="18" rx="2" ry="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg>
                 Multi-Horizon Plans
+                <span class="tab-badge">Strategic</span>
+                <span class="tab-key-tag">[5]</span>
             </button>
             <button class="tab-btn" onclick="switchTab('memo-tab')">
+                <!-- Fluent Document Bullet List 24 Regular -->
                 <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/><polyline points="10 9 9 9 8 9"/></svg>
                 BDMS Official Memos
+                <span class="tab-badge">Sanctions</span>
+                <span class="tab-key-tag">[6]</span>
             </button>
         </nav>
 
@@ -139,13 +177,18 @@
                         <p>Visualizes train paths across 24 hours against shaded optimal maintenance blocks. Proves zero passenger disruption.</p>
                     </div>
                     <div class="pane-controls">
-                        <label class="control-label">Direction Filter:</label>
+                        <div class="filter-chips-row">
+                            <button class="filter-chip active" id="marey-chip-all" onclick="filterMareyCategory('ALL')">All Trains</button>
+                            <button class="filter-chip" id="marey-chip-prem" onclick="filterMareyCategory('PREMIUM')">Rajdhani / Vande Bharat</button>
+                            <button class="filter-chip" id="marey-chip-exp" onclick="filterMareyCategory('EXPRESS')">Superfast / Express</button>
+                        </div>
                         <select id="marey-dir-select" onchange="renderMareyChart()" class="custom-select">
                             <option value="ALL">ALL (UP &amp; DN Lines)</option>
                             <option value="DN">DN Line (NDLS &rarr; CNB)</option>
                             <option value="UP">UP Line (CNB &rarr; NDLS)</option>
                         </select>
                         <button class="btn-secondary" onclick="loadOptimalSchedule()">
+                            <!-- Fluent Arrow Sync 16 Regular -->
                             <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="23 4 23 10 17 10"/><path d="M20.49 15a9 9 0 1 1-2.12-9.36L23 10"/></svg>
                             Refresh Solver
                         </button>
@@ -164,17 +207,29 @@
                         <p>Shows coordinated shadow blocks merging Engineering (Track), TRD (OHE), and S&amp;T (Signals) into unified shutdown windows.</p>
                     </div>
                     <div class="legend-row">
-                        <span class="legend-chip track-chip">Civil / Track (TMS)</span>
-                        <span class="legend-chip ohe-chip">Electrical / OHE (TDMS)</span>
-                        <span class="legend-chip signal-chip">Signal &amp; Telecom (SMMS)</span>
-                        <span class="legend-chip bundle-chip">AI Joint Bundled Block</span>
+                        <span class="legend-chip track-chip">
+                            <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="2" y="6" width="20" height="12" rx="2"/></svg>
+                            Civil / Track (TMS)
+                        </span>
+                        <span class="legend-chip ohe-chip">
+                            <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M13 2L3 14h9l-1 8 10-12h-9l1-8z"/></svg>
+                            Electrical / OHE (TDMS)
+                        </span>
+                        <span class="legend-chip signal-chip">
+                            <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="6"/></svg>
+                            Signal &amp; Telecom (SMMS)
+                        </span>
+                        <span class="legend-chip bundle-chip">
+                            <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"/></svg>
+                            AI Joint Bundled Block
+                        </span>
                     </div>
                 </div>
                 <div class="chart-wrapper">
                     <div id="gantt-plot-container" class="plot-box"></div>
                 </div>
                 <div class="comparison-summary-card" id="gantt-comparison-card">
-                    <!-- Dynamic comparison table -->
+                    <!-- Dynamic comparison table populated by gantt_chart.js -->
                 </div>
             </div>
 
@@ -198,6 +253,11 @@
                         <p>XGBoost-predicted failure probabilities, remaining useful life (RUL), and plain-English controller justification cards.</p>
                     </div>
                     <div class="pane-controls">
+                        <!-- Live Search Input -->
+                        <div class="search-input-wrap">
+                            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
+                            <input type="text" id="asset-search-input" placeholder="Search Asset ID, Station, Component..." oninput="filterAssetsTableLive()">
+                        </div>
                         <select id="asset-dept-select" onchange="loadAssetsTable()" class="custom-select">
                             <option value="ALL">All Departments</option>
                             <option value="ENGINEERING_TRACK">Engineering (Track / TMS)</option>
@@ -206,6 +266,7 @@
                         </select>
                         <input type="file" id="csv-file-input" style="display:none" onchange="handleFileUpload(event)">
                         <button class="btn-secondary" onclick="document.getElementById('csv-file-input').click()">
+                            <!-- Fluent Arrow Upload 16 Regular -->
                             <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="17 8 12 3 7 8"/><line x1="12" y1="3" x2="12" y2="15"/></svg>
                             Upload Custom CSV
                         </button>
@@ -269,6 +330,7 @@
                             <!-- Populated dynamically -->
                         </select>
                         <button class="btn-primary" onclick="printMemo()">
+                            <!-- Fluent Print 16 Regular -->
                             <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="6 9 6 2 18 2 18 9"/><path d="M6 18H4a2 2 0 0 1-2-2v-5a2 2 0 0 1 2-2h16a2 2 0 0 1 2 2v5a2 2 0 0 1-2 2h-2"/><rect x="6" y="14" width="12" height="8"/></svg>
                             Print Official Notice
                         </button>
@@ -285,15 +347,23 @@
             <div class="yard-modal-card">
                 <div class="yard-modal-header">
                     <div>
-                        <h3 id="yard-modal-title" style="color:var(--color-primary); font-size:1.05rem; font-weight:700; display:flex; align-items:center; gap:8px;">
-                            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 12h18M3 6h18M3 18h18"/></svg>
+                        <h3 id="yard-modal-title" style="color:var(--color-primary); font-size:1.02rem; font-weight:700; display:flex; align-items:center; gap:8px;">
+                            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 12h18M3 6h18M3 18h18"/></svg>
                             Station Yard Interlocking Schematic
                         </h3>
-                        <p id="yard-modal-subtitle" style="font-size:0.78rem; color:var(--text-muted); margin-top:2px;">
+                        <p id="yard-modal-subtitle" style="font-size:0.76rem; color:var(--text-muted); margin-top:2px;">
                             Electronic Interlocking (EI) Layout &amp; Diagnostics
                         </p>
                     </div>
-                    <button class="modal-close" onclick="closeYardModal()">&times;</button>
+                    <div class="yard-toolbar">
+                        <button class="yard-toggle-btn active" id="toggle-layer-pts" onclick="toggleYardLayer('points')">Points (IRSEM)</button>
+                        <button class="yard-toggle-btn active" id="toggle-layer-sigs" onclick="toggleYardLayer('signals')">Signals</button>
+                        <button class="yard-toggle-btn active" id="toggle-layer-masts" onclick="toggleYardLayer('masts')">25kV OHE</button>
+                        <button class="yard-toggle-btn" onclick="zoomYardSvg(1.15)" title="Zoom In">+</button>
+                        <button class="yard-toggle-btn" onclick="zoomYardSvg(0.85)" title="Zoom Out">&minus;</button>
+                        <button class="yard-toggle-btn" onclick="resetYardZoom()" title="Reset Zoom">&#x21bb;</button>
+                        <button class="modal-close" onclick="closeYardModal()">&times;</button>
+                    </div>
                 </div>
                 <div class="yard-modal-body" id="yard-svg-wrapper">
                     <!-- Dynamic SVG Rendered by yard_schematic.js -->
@@ -301,11 +371,12 @@
             </div>
         </div>
 
-        <!-- WHAT-IF DISRUPTION SIMULATOR MODAL -->
+        <!-- WHAT-IF DISRUPTION SIMULATOR MODAL (With 1-Click Judge Presets) -->
         <div id="simulator-modal" class="modal-overlay">
             <div class="modal-card">
                 <div class="modal-header">
                     <h3>
+                        <!-- Fluent Flash Sparkle 18 Regular -->
                         <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M13 2L3 14h9l-1 8 10-12h-9l1-8z"/></svg>
                         Dynamic "What-If" Perturbation Simulator
                     </h3>
@@ -314,6 +385,20 @@
                 <div class="modal-body">
                     <p class="modal-desc">Test real-time system resilience. Inject a late passenger train or an emergency rail fracture to observe the AI solver recalculate optimal slots live in sub-second time.</p>
                     
+                    <!-- 1-Click Judge Demo Presets -->
+                    <div class="preset-strip">
+                        <div class="preset-title">
+                            <!-- Fluent Lightbulb 16 Regular -->
+                            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 18h6M10 22h4M12 2a7 7 0 0 0-7 7c0 2.5 1.5 4.5 3 6h8c1.5-1.5 3-3.5 3-6a7 7 0 0 0-7-7z"/></svg>
+                            1-Click Pitch Presets (For Live Demos):
+                        </div>
+                        <div class="preset-btns-row">
+                            <button class="btn-preset" onclick="triggerJudgePreset('FOG_RAJDHANI')">&#9889; Fog Delay: 12424 Rajdhani (+45m)</button>
+                            <button class="btn-preset" onclick="triggerJudgePreset('RAIL_FRACTURE')">&#9888; Emergency Fracture at Tundla (KM 215)</button>
+                            <button class="btn-preset" onclick="triggerJudgePreset('OHE_SNAG')">&#9889; Morning OHE Trip at Ghaziabad</button>
+                        </div>
+                    </div>
+
                     <div class="sim-mode-tabs">
                         <button class="sim-tab active" id="sim-tab-train" onclick="switchSimMode('TRAIN')">Train Delay Injection</button>
                         <button class="sim-tab" id="sim-tab-defect" onclick="switchSimMode('DEFECT')">Emergency Defect Insertion</button>

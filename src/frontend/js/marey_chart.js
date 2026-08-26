@@ -1,8 +1,18 @@
 /**
- * Interactive Marey Time-Distance String Chart (Minimalist Light Theme).
+ * Interactive Marey Time-Distance String Chart (Microsoft Fluent Light Theme).
  * Standard Indian Railways Control Office diagram.
- * Shows train trajectories across 24h alongside shaded maintenance blocks.
+ * Shows train trajectories across 24h alongside shaded maintenance blocks and live time scrubber.
  */
+
+let activeMareyCategory = "ALL";
+
+function filterMareyCategory(cat) {
+    activeMareyCategory = cat;
+    document.querySelectorAll(".filter-chips-row .filter-chip").forEach(btn => btn.classList.remove("active"));
+    const activeBtn = document.getElementById(`marey-chip-${cat.toLowerCase().slice(0, 4)}`);
+    if (activeBtn) activeBtn.classList.add("active");
+    renderMareyChart();
+}
 
 function renderMareyChart() {
     const container = document.getElementById("marey-plot-container");
@@ -29,6 +39,12 @@ function renderMareyChart() {
     const trains = {};
     currentTimetableData.forEach(row => {
         if (dirFilter !== "ALL" && row.direction !== dirFilter) return;
+
+        // Apply category filter
+        const isPremium = row.train_type === "RAJDHANI" || row.train_type === "VANDE_BHARAT" || row.train_type === "SHATABDI";
+        if (activeMareyCategory === "PREMIUM" && !isPremium) return;
+        if (activeMareyCategory === "EXPRESS" && isPremium) return;
+
         if (!trains[row.train_number]) {
             trains[row.train_number] = {
                 number: row.train_number,
@@ -42,7 +58,6 @@ function renderMareyChart() {
     });
 
     for (const [tNo, tData] of Object.entries(trains)) {
-        // Sort stops chronologically by arrival time of day so train progression moves forward in time
         tData.stops.sort((a, b) => a.arrival_min_of_day - b.arrival_min_of_day);
 
         const timesHours = [];
@@ -53,134 +68,171 @@ function renderMareyChart() {
             const h = st.arrival_min_of_day / 60.0;
             timesHours.push(h);
             distancesKm.push(st.km_location);
-            hoverTexts.push(`<b>${tData.name} (${tNo})</b><br>Station: ${st.station} (KM ${st.km_location})<br>Scheduled Time: ${st.arrival_time}<br>Line: ${tData.dir} Direction`);
+            hoverTexts.push(`<b>${tData.name} (${tNo})</b><br>Station: ${st.station} (KM ${st.km_location})<br>Scheduled Time: ${st.arrival_time}<br>Direction: ${tData.dir} Line`);
         });
 
-        // Clean, distinct solid colors by train type (No gradients)
-        let color = "#2563eb"; // default royal blue
-        let width = 2;
-        if (tData.type === "VANDE_BHARAT") {
-            color = "#dc2626"; // Crimson Red
-            width = 3.0;
-        } else if (tData.type === "RAJDHANI" || tData.type === "SHATABDI") {
-            color = "#7c3aed"; // Violet / Purple
-            width = 2.5;
-        } else if (tData.type === "SUPERFAST") {
-            color = "#0284c7"; // Sky Blue
+        // Clean Solid Departmental Tones
+        let color = "#2563eb";
+        let width = 1.8;
+        let dash = "solid";
+
+        if (tData.type === "RAJDHANI") {
+            color = "#dc2626"; // Crimson
+            width = 2.4;
+        } else if (tData.type === "VANDE_BHARAT") {
+            color = "#4f46e5"; // Indigo
+            width = 2.4;
+        } else if (tData.type === "SHATABDI") {
+            color = "#059669"; // Emerald
             width = 2.0;
         } else if (tData.type === "FREIGHT") {
-            color = "#059669"; // Forest Green
-            width = 1.5;
+            color = "#64748b"; // Slate
+            width = 1.4;
+            dash = "dash";
         }
 
         traces.push({
             x: timesHours,
             y: distancesKm,
             mode: "lines+markers",
-            name: `${tData.number} ${tData.name}`,
+            name: `${tNo} (${tData.name.split(" ")[0]})`,
+            text: hoverTexts,
+            hoverinfo: "text",
             line: {
                 color: color,
                 width: width,
-                dash: tData.type === "FREIGHT" ? "dot" : "solid"
+                dash: dash
             },
-            marker: { size: 3.5, color: color },
-            hoverinfo: "text",
-            text: hoverTexts,
+            marker: {
+                size: 4,
+                color: color
+            },
             showlegend: false
         });
     }
 
-    // 2. Add Shaded Maintenance Blocks as shapes
+    // 2. Add Shaded Maintenance Blocks (Shapes)
     const shapes = [];
     const annotations = [];
 
     if (currentScheduleData && currentScheduleData.scheduled_blocks) {
-        currentScheduleData.scheduled_blocks.forEach(b => {
-            if (dirFilter !== "ALL" && b.line !== dirFilter) return;
+        currentScheduleData.scheduled_blocks.forEach(block => {
+            const startH = timeStrToHours(block.start_time);
+            const endH = timeStrToHours(block.end_time);
 
-            const secParts = b.section.split("-");
-            const fromSt = secParts[0].trim();
-            const toSt = secParts[1].trim();
+            const kmParts = block.km_range.split("-").map(k => parseFloat(k.trim()));
+            const kmMin = Math.min(...kmParts);
+            const kmMax = Math.max(...kmParts);
 
-            const y0 = Math.min(stationKms[fromSt] || 0, stationKms[toSt] || 440);
-            const y1 = Math.max(stationKms[fromSt] || 0, stationKms[toSt] || 440);
-
-            const [sh, sm] = b.start_time.split(":").map(Number);
-            const [eh, em] = b.end_time.split(":").map(Number);
-
-            const x0 = sh + sm / 60.0;
-            let x1 = eh + em / 60.0;
-            if (x1 < x0) x1 += 24.0;
-
-            // Clean light theme fill
             shapes.push({
                 type: "rect",
-                xref: "x",
-                yref: "y",
-                x0: x0,
-                x1: x1,
-                y0: y0,
-                y1: y1,
-                fillcolor: b.is_multi_department ? "rgba(79, 70, 229, 0.16)" : "rgba(37, 99, 235, 0.12)",
+                x0: startH,
+                x1: endH,
+                y0: kmMin,
+                y1: kmMax,
+                fillcolor: "rgba(99, 102, 241, 0.16)",
                 line: {
-                    color: b.is_multi_department ? "#4f46e5" : "#2563eb",
+                    color: "#6366f1",
                     width: 1.5,
-                    dash: "solid"
-                }
+                    dash: "dot"
+                },
+                layer: "below"
             });
 
             annotations.push({
-                x: (x0 + x1) / 2.0,
-                y: (y0 + y1) / 2.0,
-                xref: "x",
-                yref: "y",
-                text: `<b>${b.schedule_id}</b><br>${b.is_multi_department ? 'SHADOW BUNDLED' : 'BLOCK'} (${b.duration_min}m)`,
+                x: (startH + endH) / 2.0,
+                y: (kmMin + kmMax) / 2.0,
+                text: `<b>${block.schedule_id}</b><br>${block.duration_min}m (${block.line})`,
                 showarrow: false,
-                font: { size: 9, color: "#0f172a", family: "Inter, sans-serif" },
-                bgcolor: "#ffffff",
-                bordercolor: b.is_multi_department ? "#4f46e5" : "#2563eb",
+                font: {
+                    family: "JetBrains Mono, monospace",
+                    size: 9.5,
+                    color: "#312e81"
+                },
+                bgcolor: "rgba(255, 255, 255, 0.95)",
+                bordercolor: "#c7d2fe",
                 borderwidth: 1,
-                borderpad: 4
+                borderpad: 3
             });
         });
     }
 
+    // 3. Current Time Cursor (IST)
+    const now = new Date();
+    const currentIstHour = now.getHours() + (now.getMinutes() / 60.0);
+    if (currentIstHour >= 0 && currentIstHour <= 24) {
+        shapes.push({
+            type: "line",
+            x0: currentIstHour,
+            x1: currentIstHour,
+            y0: 0,
+            y1: 440,
+            line: {
+                color: "#dc2626",
+                width: 1.5,
+                dash: "dashdot"
+            }
+        });
+        annotations.push({
+            x: currentIstHour,
+            y: 430,
+            text: "NOW (IST)",
+            showarrow: false,
+            font: { family: "JetBrains Mono", size: 8, color: "#dc2626" },
+            bgcolor: "#ffffff",
+            bordercolor: "#dc2626",
+            borderwidth: 1
+        });
+    }
+
+    const stationTicks = Object.keys(stationKms);
+    const stationVals = Object.values(stationKms);
+
     const layout = {
-        title: {
-            text: `<b>Marey Time-Distance Diagram</b> (${dirFilter === 'ALL' ? 'UP & DN Trains' : dirFilter + ' Line'}) &mdash; Shaded Boxes = Optimal Maintenance Blocks`,
-            font: { color: "#0f2b5c", size: 14, family: "Inter, sans-serif" }
-        },
+        title: false,
+        margin: { l: 85, r: 30, t: 20, b: 50 },
+        height: 520,
         paper_bgcolor: "#ffffff",
-        plot_bgcolor: "#f8fafc",
-        margin: { l: 75, r: 35, t: 45, b: 45 },
+        plot_bgcolor: "#ffffff",
         xaxis: {
-            title: "Time of Day (24-Hour Timeline)",
-            titlefont: { size: 11, color: "#475569" },
+            title: {
+                text: "Time of Day (Hours IST - 24H Timeline)",
+                font: { family: "Inter, sans-serif", size: 11, color: "#475569" }
+            },
             range: [0, 24],
             dtick: 2,
-            tickmode: "array",
-            tickvals: [0, 2, 4, 6, 8, 10, 12, 14, 16, 18, 20, 22, 24],
-            ticktext: ["00:00", "02:00", "04:00", "06:00", "08:00", "10:00", "12:00", "14:00", "16:00", "18:00", "20:00", "22:00", "24:00"],
-            color: "#475569",
-            gridcolor: "#e2e8f0",
-            zeroline: false
+            tickformat: "%02d:00",
+            gridcolor: "#f1f5f9",
+            zeroline: false,
+            tickfont: { family: "JetBrains Mono, monospace", size: 10, color: "#64748b" }
         },
         yaxis: {
-            title: "Corridor Distance from New Delhi (KM)",
-            titlefont: { size: 11, color: "#475569" },
-            range: [0, 450],
+            title: {
+                text: "Corridor Stations & Chainage (KM)",
+                font: { family: "Inter, sans-serif", size: 11, color: "#475569" }
+            },
             tickmode: "array",
-            tickvals: Object.values(stationKms),
-            ticktext: Object.keys(stationKms).map(k => `${k} (${stationKms[k]}k)`),
-            color: "#475569",
-            gridcolor: "#e2e8f0",
-            zeroline: false
+            tickvals: stationVals,
+            ticktext: stationTicks.map((st, i) => `<b>${st}</b> (${stationVals[i]}k)`),
+            range: [450, -10],
+            gridcolor: "#f1f5f9",
+            tickfont: { family: "JetBrains Mono, monospace", size: 9.5, color: "#334155" }
         },
         shapes: shapes,
         annotations: annotations,
         hovermode: "closest"
     };
 
-    const config = { responsive: true, displayModeBar: false };
-    Plotly.newPlot("marey-plot-container", traces, layout, config);
+    const config = {
+        responsive: true,
+        displayModeBar: false
+    };
+
+    Plotly.newPlot(container, traces, layout, config);
+}
+
+function timeStrToHours(timeStr) {
+    if (!timeStr) return 0;
+    const parts = timeStr.split(":").map(Number);
+    return parts[0] + parts[1] / 60.0;
 }
