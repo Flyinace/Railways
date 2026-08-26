@@ -106,11 +106,11 @@ function updateKPICards(metrics) {
     const punctualityEl = document.getElementById("kpi-punctuality");
     const criticalEl = document.getElementById("kpi-critical-solved");
 
-    if (downtimeEl) downtimeEl.innerText = `${metrics.downtime_reduction_percentage}%`;
-    if (downtimeSub) downtimeSub.innerText = `${metrics.total_hours_saved} Hrs Saved`;
-    if (bundlingEl) bundlingEl.innerText = `${metrics.bundling_success_rate_percentage}%`;
+    if (downtimeEl) downtimeEl.innerText = `${metrics.downtime_reduction_pct}%`;
+    if (downtimeSub) downtimeSub.innerText = `${metrics.downtime_saved_hours} Hrs Saved`;
+    if (bundlingEl) bundlingEl.innerText = `${metrics.multi_department_bundling_rate_pct}%`;
     if (punctualityEl) punctualityEl.innerText = "100%";
-    if (criticalEl) criticalEl.innerText = `${metrics.critical_tasks_addressed} Tasks`;
+    if (criticalEl) criticalEl.innerText = `${metrics.total_tasks_completed} Tasks`;
 }
 
 async function loadAssetsTable() {
@@ -306,41 +306,50 @@ function renderWeeklyTacticalMatrix(data) {
     const container = document.getElementById("horizon-content-box");
     if (!container || !data.schedule_matrix) return;
 
+    const kpi = data.coordination_kpi || {};
+
     let tableHtml = `
         <div style="background:#ffffff; border:1px solid var(--border-color); border-radius:var(--radius-md); overflow:hidden; box-shadow:var(--shadow-card);">
             <div style="display:flex; justify-content:space-between; align-items:center; padding:12px 16px; background:var(--bg-surface-subtle); border-bottom:1px solid var(--border-color);">
                 <strong style="font-size:0.85rem; color:var(--color-primary);">7-Day Corridor Possession & Gang Deployment Matrix</strong>
                 <div style="display:flex; gap:12px; font-size:0.75rem;">
-                    <span>Night Shift Utilization: <strong>${data.coordination_kpi.night_shift_percentage}%</strong></span> &bull;
-                    <span>Gang Utilization: <strong>${data.coordination_kpi.gang_utilization_rate_pct}%</strong></span>
+                    <span>Night Shift Utilization: <strong>${kpi.night_shift_percentage || 0}%</strong></span> &bull;
+                    <span>Gang Utilization: <strong>${kpi.gang_utilization_rate_pct || 0}%</strong></span>
                 </div>
             </div>
             <table class="data-table">
                 <thead>
                     <tr>
-                        <th>Day / Date</th>
+                        <th>Day</th>
+                        <th>Task / Asset</th>
                         <th>Corridor Section</th>
-                        <th>Planned Window</th>
-                        <th>Shift Type</th>
-                        <th>Gang / Machines</th>
-                        <th>Departments</th>
+                        <th>Shift Window</th>
+                        <th>Duration</th>
+                        <th>Priority</th>
+                        <th>Gang</th>
                     </tr>
                 </thead>
                 <tbody>
     `;
 
-    data.schedule_matrix.forEach(r => {
-        tableHtml += `
-            <tr>
-                <td style="font-weight:700;">${r.day_name} (${r.date})</td>
-                <td style="font-family:var(--font-mono);">${r.section} (${r.line})</td>
-                <td style="font-family:var(--font-mono); font-weight:700; color:var(--color-blue);">${r.time_window}</td>
-                <td><span class="tier-badge ${r.shift === 'NIGHT' ? 'tier-medium' : 'tier-low'}">${r.shift}</span></td>
-                <td>${r.gangs_deployed.join(", ")}</td>
-                <td><span style="font-size:0.74rem; font-weight:600;">${r.departments.join(" + ")}</span></td>
-            </tr>
-        `;
-    });
+    // schedule_matrix is a dict keyed by day name: { "Monday": [...], "Tuesday": [...] }
+    for (const [dayName, tasks] of Object.entries(data.schedule_matrix)) {
+        if (!Array.isArray(tasks)) continue;
+        tasks.forEach(r => {
+            const isNight = (r.shift || "").toLowerCase().includes("night");
+            tableHtml += `
+                <tr>
+                    <td style="font-weight:700;">${dayName}</td>
+                    <td style="font-family:var(--font-mono); font-size:0.76rem;">${r.asset_id || r.task_id}</td>
+                    <td style="font-family:var(--font-mono);">${r.section} (${r.line})</td>
+                    <td style="font-family:var(--font-mono); font-weight:700; color:var(--color-blue);">${r.shift}</td>
+                    <td style="font-family:var(--font-mono);">${r.duration_min} min</td>
+                    <td><span class="tier-badge ${r.priority === 'CRITICAL' ? 'tier-critical' : (r.priority === 'HIGH' ? 'tier-high' : 'tier-medium')}">${r.priority}</span></td>
+                    <td style="font-size:0.76rem;">${r.assigned_gang}</td>
+                </tr>
+            `;
+        });
+    }
 
     tableHtml += `</tbody></table></div>`;
     container.innerHTML = tableHtml;
