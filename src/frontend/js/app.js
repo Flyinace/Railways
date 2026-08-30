@@ -15,7 +15,9 @@ document.addEventListener("DOMContentLoaded", () => {
     loadCorridorTopology();
     loadOptimalSchedule();
     loadAssetsTable();
+    loadPendingDemands();
     showHorizon("WEEKLY");
+    setInterval(loadPendingDemands, 5000);
 });
 
 function initClock() {
@@ -439,3 +441,196 @@ async function handleFileUpload(e) {
         alert("Upload failed: " + err.message);
     }
 }
+
+// ==============================================================================
+// LIVE DEPARTMENTAL DEMAND QUEUE & AI SHADOW BUNDLER (OCC INTEGRATION)
+// ==============================================================================
+
+async function loadPendingDemands() {
+    try {
+        const res = await fetch(`${API_BASE}/api/demand/pending`);
+        const data = await res.json();
+        renderPendingDemands(data);
+    } catch (err) {
+        console.error("Failed to load pending demands:", err);
+    }
+}
+
+function renderPendingDemands(data) {
+    const badge = document.getElementById("occ-demand-badge");
+    const unbundledTxt = document.getElementById("occ-unbundled-txt");
+    const emptyDiv = document.getElementById("occ-demand-empty");
+    const tableWrap = document.getElementById("occ-demand-table-wrap");
+    const tbody = document.getElementById("occ-demand-tbody");
+    const btnSanction = document.getElementById("btn-auto-bundle-sanction");
+
+    const count = data.total_pending || 0;
+    const hours = data.total_unbundled_hours || 0.0;
+
+    if (badge) badge.innerText = `${count} Pending Requisition${count === 1 ? '' : 's'}`;
+    if (unbundledTxt) unbundledTxt.innerText = `(${hours} Hrs Unbundled Track Downtime)`;
+
+    if (count === 0) {
+        if (emptyDiv) emptyDiv.style.display = "block";
+        if (tableWrap) tableWrap.style.display = "none";
+        if (btnSanction) btnSanction.disabled = true;
+        return;
+    }
+
+    if (emptyDiv) emptyDiv.style.display = "none";
+    if (tableWrap) tableWrap.style.display = "block";
+    if (btnSanction) btnSanction.disabled = false;
+
+    if (!tbody) return;
+
+    let rows = "";
+    (data.demands || []).forEach(d => {
+        let deptPillClass = "portal-pill-tms";
+        let deptShort = "TMS";
+        if (d.department === "TRACTION_DISTRIBUTION_OHE") {
+            deptPillClass = "portal-pill-tdms";
+            deptShort = "TDMS";
+        } else if (d.department === "SIGNAL_AND_TELECOM") {
+            deptPillClass = "portal-pill-smms";
+            deptShort = "SMMS";
+        }
+
+        const pwrBadge = d.power_block_required 
+            ? `<span style="font-size:0.68rem; font-weight:700; color:#b45309; background:#fffbeb; border:1px solid #fde68a; padding:1px 5px; border-radius:3px;">⚡ 25kV Power Cut</span> ` 
+            : "";
+        const discBadge = d.disconnection_required 
+            ? `<span style="font-size:0.68rem; font-weight:700; color:#047857; background:#ecfdf5; border:1px solid #a7f3d0; padding:1px 5px; border-radius:3px;">✓ S&amp;T Disc.</span> ` 
+            : "";
+
+        rows += `
+            <tr>
+                <td><span class="portal-pill ${deptPillClass}" style="font-size:0.70rem; font-weight:700;">${deptShort}</span></td>
+                <td style="font-family:var(--font-mono); font-weight:700; font-size:0.78rem;">${d.demand_id}</td>
+                <td style="font-family:var(--font-mono);">${d.section_from} &ndash; ${d.section_to} (${d.line})</td>
+                <td>
+                    <span style="font-weight:600; font-size:0.78rem;">${d.defect_category}</span>
+                    <span style="display:block; font-size:0.70rem; color:var(--text-muted);">${d.description}</span>
+                </td>
+                <td style="font-family:var(--font-mono); font-weight:600; color:var(--color-crimson);">${d.duration_requested_min} min</td>
+                <td style="font-size:0.75rem;">
+                    <strong>${d.machine_required}</strong>
+                    <span style="display:block; font-size:0.70rem; color:var(--text-muted);">${d.gang_crew}</span>
+                </td>
+                <td>${pwrBadge}${discBadge}</td>
+                <td><span class="status-badge status-pending">🟡 PENDING BUNDLING</span></td>
+            </tr>
+        `;
+    });
+
+    tbody.innerHTML = rows;
+}
+
+async function triggerAutoBundleAndSanction() {
+    const btn = document.getElementById("btn-auto-bundle-sanction");
+    if (btn) {
+        btn.disabled = true;
+        btn.innerHTML = `<svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg> CP-SAT BUNDLING &amp; OPTIMIZING...`;
+    }
+
+    try {
+        const res = await fetch(`${API_BASE}/api/demand/bundle_and_sanction`, {
+            method: "POST"
+        });
+        const data = await res.json();
+
+        if (data.status === "SUCCESS") {
+            alert(`✓ AI SHADOW BUNDLING SUCCESS!\n${data.message}`);
+            if (data.updated_schedule) {
+                currentScheduleData = data.updated_schedule;
+                updateKPICards(currentScheduleData.metrics);
+                populateMemoDropdown(currentScheduleData.scheduled_blocks);
+                if (typeof renderMareyChart === "function") renderMareyChart();
+                if (typeof renderGanttChart === "function") renderGanttChart();
+                if (typeof renderNetworkTrackDiagram === "function" && currentTopologyData) {
+                    renderNetworkTrackDiagram(currentTopologyData);
+                }
+            }
+        } else {
+            alert(data.message || "Optimization complete.");
+        }
+
+        loadPendingDemands();
+    } catch (err) {
+        alert("Bundling failed: " + err.message);
+    } finally {
+        if (btn) {
+            btn.disabled = false;
+            btn.innerHTML = `<svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/></svg> Auto-Bundle &amp; Sanction Shadow Block`;
+        }
+    }
+}
+
+async function loadQuickDemoDemands() {
+    // Injects 3 simultaneous co-located demands on ALJN-TDL (Track, OHE, Signal)
+    const demandsToInject = [
+        {
+            department: "ENGINEERING_TRACK",
+            defect_category: "Rail Flaw (USFD Immediate)",
+            section_from: "ALJN",
+            section_to: "TDL",
+            line: "DN",
+            km_start: 135.5,
+            km_end: 138.0,
+            machine_required: "CSM_TAMPING",
+            power_block_required: true,
+            disconnection_required: false,
+            gang_crew: "Track Gang B (14 Trackmen - ALJN Depot)",
+            duration_requested_min: 210,
+            priority: "CRITICAL",
+            description: "Deep rail crack detected on DN mainline at KM 135.5 (Tamping required)"
+        },
+        {
+            department: "TRACTION_DISTRIBUTION_OHE",
+            defect_category: "Contact Wire Wear (Condemning 8.8mm)",
+            section_from: "ALJN",
+            section_to: "TDL",
+            line: "DN",
+            km_start: 136.2,
+            km_end: 137.5,
+            machine_required: "TOWER_WAGON",
+            power_block_required: true,
+            disconnection_required: false,
+            gang_crew: "TRD Linemen Gang B (6 Linemen - ALJN Base)",
+            duration_requested_min: 180,
+            priority: "CRITICAL",
+            description: "Contact wire diameter worn to 8.8mm near Mast 136/12 (Pantograph risk)"
+        },
+        {
+            department: "SIGNAL_AND_TELECOM",
+            defect_category: "Point Machine Sluggish Throw (>5.8s Pt-101A)",
+            section_from: "ALJN",
+            section_to: "TDL",
+            line: "DN",
+            km_start: 135.0,
+            km_end: 136.0,
+            machine_required: "SIGNAL_GANG",
+            power_block_required: false,
+            disconnection_required: true,
+            gang_crew: "Signal Gang B (4 Technicians - ALJN Division)",
+            duration_requested_min: 120,
+            priority: "CRITICAL",
+            description: "Sluggish throw time 5.9s on Pt-101A crossover (Motor overhaul needed)"
+        }
+    ];
+
+    for (const d of demandsToInject) {
+        await fetch(`${API_BASE}/api/demand/raise`, {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify(d)
+        });
+    }
+
+    loadPendingDemands();
+}
+
+async function clearDemoDemands() {
+    await fetch(`${API_BASE}/api/demand/clear`, { method: "POST" });
+    loadPendingDemands();
+}
+

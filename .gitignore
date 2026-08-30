@@ -39,3 +39,8 @@ env/
 # OS files
 .DS_Store
 Thumbs.db
+
+# Ephemeral runtime CSVs
+data/raw/temp_*.csv
+data/processed/temp_*.csv
+

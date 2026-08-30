@@ -42,13 +42,74 @@
                     <span class="div-tag">NORTHERN &amp; NCR ZONES</span>
                     <span class="time-clock" id="live-clock">12:00:00 UTC</span>
                 </div>
-                <button class="btn-primary" onclick="openSimulatorModal()">
+                <!-- Department Portal Direct Links -->
+                <div class="portal-nav-pills">
+                    <a href="/tms" target="_blank" class="portal-pill portal-pill-tms" title="Open Civil / Track Management System Portal">
+                        <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14.7 6.3a1 1 0 0 0 0 1.4l1.6 1.6a1 1 0 0 0 1.4 0l3.77-3.77a6 6 0 0 1-7.94 7.94l-6.91 6.91a2.12 2.12 0 0 1-3-3l6.91-6.91a6 6 0 0 1 7.94-7.94l-3.76 3.76z"/></svg>
+                        TMS Portal
+                    </a>
+                    <a href="/tdms" target="_blank" class="portal-pill portal-pill-tdms" title="Open Traction Distribution Management System Portal">
+                        <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/></svg>
+                        TDMS Portal
+                    </a>
+                    <a href="/smms" target="_blank" class="portal-pill portal-pill-smms" title="Open Signal Maintenance Management System Portal">
+                        <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="2"/><path d="M16.24 7.76a6 6 0 0 1 0 8.49m-8.48-.01a6 6 0 0 1 0-8.49m11.31-2.82a10 10 0 0 1 0 14.14m-14.14 0a10 10 0 0 1 0-14.14"/></svg>
+                        SMMS Portal
+                    </a>
+                </div>
+                <!-- Compact Backup Simulator Icon Button -->
+                <button class="btn-icon-subtle" onclick="openSimulatorModal()" title="What-If Disruption Simulator (Backup Mode)">
                     <!-- Fluent Flash Sparkle 24 Regular -->
                     <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M13 2L3 14h9l-1 8 10-12h-9l1-8z"/></svg>
-                    What-If Simulator
                 </button>
             </div>
         </header>
+
+        <!-- LIVE DEPARTMENTAL DEMAND QUEUE & AI SHADOW BUNDLER -->
+        <section class="occ-demand-section" id="occ-demand-section">
+            <div class="occ-demand-header">
+                <div class="occ-demand-title-wrap">
+                    <span class="pulse-dot" style="background:#059669;"></span>
+                    <strong style="font-size:0.86rem; color:var(--color-primary); letter-spacing:-0.2px;">LIVE DEPARTMENTAL DEMAND QUEUE</strong>
+                    <span class="demand-count-badge" id="occ-demand-badge">0 Pending Requisitions</span>
+                    <span style="font-size:0.75rem; color:var(--text-muted);" id="occ-unbundled-txt">(0.0 Hrs Unbundled Track Downtime)</span>
+                </div>
+                <div style="display:flex; align-items:center; gap:10px;">
+                    <button class="btn-portal-back" style="font-size:0.72rem; padding:4px 9px;" onclick="loadQuickDemoDemands()" title="Injects 3 simultaneous demands on ALJN-TDL for Track, OHE & S&T">
+                        ⚡ Quick Demo: Inject 3 Demands (ALJN-TDL)
+                    </button>
+                    <button class="btn-portal-back" style="font-size:0.72rem; padding:4px 8px;" onclick="clearDemoDemands()" title="Reset Queue">
+                        ↺ Reset Queue
+                    </button>
+                    <button class="btn-sanction-auto" id="btn-auto-bundle-sanction" onclick="triggerAutoBundleAndSanction()">
+                        <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/></svg>
+                        Auto-Bundle &amp; Sanction Shadow Block
+                    </button>
+                </div>
+            </div>
+            <div id="occ-demand-list-container" style="padding:10px 16px;">
+                <div id="occ-demand-empty" style="text-align:center; padding:12px; color:var(--text-muted); font-size:0.78rem;">
+                    All incoming departmental maintenance demands have been processed and optimized. No unbundled requests pending in queue.
+                </div>
+                <div id="occ-demand-table-wrap" style="display:none; overflow-x:auto;">
+                    <table class="data-table" style="margin:0;">
+                        <thead>
+                            <tr>
+                                <th>Department</th>
+                                <th>Demand ID</th>
+                                <th>Section &amp; Line</th>
+                                <th>Defect Category / Description</th>
+                                <th>Duration</th>
+                                <th>Machines &amp; Gang</th>
+                                <th>Safety Flags</th>
+                                <th>Status</th>
+                            </tr>
+                        </thead>
+                        <tbody id="occ-demand-tbody"></tbody>
+                    </table>
+                </div>
+            </div>
+        </section>
 
         <!-- KPI Executive Summary Strip (Fluent Light OCC Aesthetic) -->
         <section class="kpi-strip">

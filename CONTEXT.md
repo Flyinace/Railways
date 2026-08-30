@@ -30,9 +30,12 @@ The **Indian Railways AI-Powered Automatic Block Planning System** is an intelli
 SIH RAILWAY/
 ├── .gitignore                         # Git exclusion rules (cache, compiled binaries, venvs)
 ├── CONTEXT.md                         # Long-term architectural memory & constraints (this file)
+├── DOCUMENTATION.md                   # Comprehensive technical handbook for developers
+├── LICENSE                            # MIT Open-Source License
 ├── PROGRESS.md                        # Active session scratchpad & status tracking
+├── README.md                          # Production GitHub landing documentation with visual walkthrough
 ├── requirements.txt                   # Production Python package dependencies
-├── run_system.py                      # Bootstrap script with automatic Python 3.13 delegation
+├── run_system.py                      # Bootstrap script with automatic Python 3.13 delegation & 0.0.0.0 binding
 ├── data/
 │   ├── topology/
 │   │   ├── ndls_cnb_corridor.json     # 10 stations, chainages, speed limits, depot fleet
@@ -46,24 +49,33 @@ SIH RAILWAY/
 │   │   ├── smms_signal_defects.csv    # 450 S&T assets (IRSEM point machines, track circuits)
 │   │   ├── unified_maintenance_backlog.csv # 1,850 merged multi-dept requisitions
 │   │   ├── ml_predictions.csv         # ML risk scores, priority tiers, predicted RUL & durations
+│   │   ├── pending_demands.json       # Live departmental demand queue (TMS, TDMS, SMMS)
 │   │   └── optimized_schedule.json    # OR-Tools CP-SAT solved optimal block schedule
 │   └── uploads/                       # User-uploaded custom CSV maintenance logs
+├── docs/
+│   └── assets/                        # High-resolution UI captures & architectural assets
 ├── src/
 │   ├── __init__.py
 │   ├── api/
 │   │   ├── __init__.py
-│   │   └── main.py                    # FastAPI app, CORS, REST routes, static file serving
+│   │   └── main.py                    # FastAPI app, CORS, REST routes, portal servers & demand APIs
 │   ├── frontend/
-│   │   ├── index.html                 # Minimalist SPA layout with Microsoft Fluent icons & yard modal
+│   │   ├── index.html                 # Central OCC Master Desk SPA with Live Demand Queue & portal links
+│   │   ├── tms.html                   # Track Management System (IRCEP TMS Civil Desk) portal
+│   │   ├── tdms.html                  # Traction Distribution Management System (RailSaver TRD Desk) portal
+│   │   ├── smms.html                  # Signal Maintenance Management System (SMMS IR S&T Desk) portal
 │   │   ├── css/
-│   │   │   └── style.css              # Minimalist light theme tokens, flat borders, responsive layout
+│   │   │   └── style.css              # Minimalist light theme tokens, portal branding, responsive layouts
 │   │   └── js/
-│   │       ├── app.js                 # App coordinator, API client, tab navigation, KPI binder
+│   │       ├── app.js                 # Central OCC coordinator, live demand queue loader, CP-SAT bundler
+│   │       ├── tms_portal.js          # TMS portal controller & status poller
+│   │       ├── tdms_portal.js         # TDMS portal controller & 25 kV power permit poller
+│   │       ├── smms_portal.js         # SMMS portal controller & disconnection notice poller
 │   │       ├── marey_chart.js         # Light-theme time-distance string chart renderer (Plotly.js)
 │   │       ├── gantt_chart.js         # Light-theme shadow bundling comparison renderer (Plotly.js)
 │   │       ├── network_map.js         # CTC schematic track board with UP/DN parallel lines
 │   │       ├── yard_schematic.js      # SVG station yard interlocking schematic & point inspector
-│   │       └── simulator_ui.js        # What-If perturbation modal controller
+│   │       └── simulator_ui.js        # What-If perturbation backup controller
 │   ├── generator/
 │   │   ├── __init__.py
 │   │   ├── rdso_formulas.py           # Official RDSO/IRPWM/ACTM/IRSEM engineering equations
@@ -90,7 +102,7 @@ SIH RAILWAY/
 │       └── disruption_engine.py       # Sub-second train delay & emergency defect rescheduler
 └── tests/
     ├── test_data_generator.py         # Unit tests for RDSO formulas and data synthesizers
-    └── test_system_integration.py     # End-to-end integration tests (ML, optimizer, speed, API, Yard)
+    └── test_system_integration.py     # End-to-end integration tests (ML, optimizer, speed, API, Yard, Demands)
 ```
 
 ---

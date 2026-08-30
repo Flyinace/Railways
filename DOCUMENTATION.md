@@ -334,7 +334,17 @@ Provides sub-second real-time rescheduling when corridor perturbations occur:
 ### 4.5 Asynchronous REST API Layer (`src/api/`)
 
 #### [`main.py`](file:///c:/Users/jefin/OneDrive/Desktop/SIH%20RAILWAY/src/api/main.py)
-Production FastAPI application exposing stateless REST endpoints and serving the OCC web client:
+Production FastAPI application exposing stateless REST endpoints and serving the 4-portal operations network:
+- `GET /`: Serves the Central OCC Master Desk dashboard (`src/frontend/index.html`).
+- `GET /tms`: Serves the Track Management System portal (`src/frontend/tms.html`).
+- `GET /tdms`: Serves the Traction Distribution Management System portal (`src/frontend/tdms.html`).
+- `GET /smms`: Serves the Signal Maintenance Management System portal (`src/frontend/smms.html`).
+- `POST /api/demand/raise`: Ingests an ad-hoc or emergency maintenance demand from any department portal. Auto-enforces 25 kV AC power cuts and S&T/T-351 disconnection notices.
+- `GET /api/demand/pending`: Returns all pending (unsanctioned) demands and total unbundled hours for the Central OCC live queue.
+- `GET /api/demand/status/{department}`: Returns demand statuses filtered by department (`ENGINEERING_TRACK`, `TRACTION_DISTRIBUTION_OHE`, `SIGNAL_AND_TELECOM`, or `ALL`).
+- `POST /api/demand/bundle_and_sanction`: Invokes Google OR-Tools CP-SAT on the pending demand queue, clusters co-located demands into shadow blocks, updates statuses to `APPROVED_SHADOW_BLOCK`, and assigns official sanction windows.
+- `GET /api/demand/history`: Returns full demand audit history.
+- `POST /api/demand/clear`: Resets the live demand queue for fresh presentation demos.
 - `GET /api/corridor/topology`: Returns the 10-station corridor definition, chainages, and depot machine fleets.
 - `GET /api/corridor/timetable`: Returns the 29-train timetable for Marey chart rendering.
 - `GET /api/schedule/optimal`: Returns the CP-SAT optimal daily schedule and summary metrics.
@@ -350,30 +360,44 @@ Production FastAPI application exposing stateless REST endpoints and serving the
 
 ---
 
-### 4.6 Operations Control Center (OCC) Frontend (`src/frontend/`)
+### 4.6 Operations Control Center (OCC) & Department Portals (`src/frontend/`)
 
-#### [`index.html`](file:///c:/Users/jefin/OneDrive/Desktop/SIH%20RAILWAY/src/frontend/index.html)
-Single-page application layout adhering to the Microsoft Fluent Design System:
-- Clean header with live IST time clock, corridor capacity ticker (`94.2%`), and What-If simulator trigger.
+#### [`index.html`](file:///c:/Users/jefin/OneDrive/Desktop/SIH%20RAILWAY/src/frontend/index.html) & [`app.js`](file:///c:/Users/jefin/OneDrive/Desktop/SIH%20RAILWAY/src/frontend/js/app.js)
+Single-page application layout for the Central OCC Chief Section Controller:
+- Top bar with direct navigation pills to the 3 field portals (`TMS Portal`, `TDMS Portal`, `SMMS Portal`) and compact backup simulator icon button.
+- **Live Departmental Demand Queue Section:** Live feed displaying incoming field requisitions with department badges, unbundled track possession hours, 1-click Quick Demo injection, and the prominent **`Auto-Bundle & Sanction Shadow Block`** action button.
 - 4 KPI summary cards with mini sparkline progress bars.
 - 6 primary navigation tabs with badge counters and keyboard shortcuts (`[1]` to `[6]`).
 - Station Yard Interlocking SVG modal dialog (Option C).
-- What-If Perturbation Simulator modal dialog with 1-click pitch presets.
+- Auto-polls `/api/demand/pending` every 5 seconds for zero-lag queue synchronization.
+
+#### [`tms.html`](file:///c:/Users/jefin/OneDrive/Desktop/SIH%20RAILWAY/src/frontend/tms.html) & [`tms_portal.js`](file:///c:/Users/jefin/OneDrive/Desktop/SIH%20RAILWAY/src/frontend/js/tms_portal.js)
+Dedicated Track Management System (IRCEP Civil Engineering Desk) portal:
+- Steel Blue (`#1e40af`) branding.
+- Defect category selectors (USFD rail flaw, TGI deterioration, ballast deficiency, joint welding, sleeper renewal).
+- Heavy track machinery assignment (`CSM_TAMPING`, `BCM`, `USFD_TROLLEY`, `MANUAL_GANG`).
+- Live requisitions table with auto-polling (5s), status badges, and BDMS memo preview.
+
+#### [`tdms.html`](file:///c:/Users/jefin/OneDrive/Desktop/SIH%20RAILWAY/src/frontend/tdms.html) & [`tdms_portal.js`](file:///c:/Users/jefin/OneDrive/Desktop/SIH%20RAILWAY/src/frontend/js/tdms_portal.js)
+Dedicated Traction Distribution Management System (RailSaver TRD Desk) portal:
+- High-Voltage Amber (`#b45309`) branding.
+- OHE defect category selectors (Contact wire wear $<8.9\text{mm}$, dropper/cantilever, ATD, neutral section).
+- **Auto-Enforced Safety:** `25 kV AC Traction Power Isolation: MANDATORY`.
+- Live requisitions table showing **`⚡ 25kV ISOLATION PERMIT GRANTED`** and permit inspection.
+
+#### [`smms.html`](file:///c:/Users/jefin/OneDrive/Desktop/SIH%20RAILWAY/src/frontend/smms.html) & [`smms_portal.js`](file:///c:/Users/jefin/OneDrive/Desktop/SIH%20RAILWAY/src/frontend/js/smms_portal.js)
+Dedicated Signal Maintenance Management System (SMMS IR S&T Desk) portal:
+- Forest Emerald (`#047857`) branding.
+- S&T defect selectors (Point machine sluggish throw $>5.8\text{s}$, track circuit drop $<0.8\text{V}$, axle counter sync).
+- **Auto-Enforced Safety:** `S&T Disconnection Notice (Form S&T/T-351): MANDATORY`.
+- Live requisitions table showing **`✓ S&T/T-351 MEMO ACCEPTED`** and disconnection order inspection.
 
 #### [`style.css`](file:///c:/Users/jefin/OneDrive/Desktop/SIH%20RAILWAY/src/frontend/css/style.css)
 Minimalist modern light theme CSS architecture:
 - Multi-layer surface tokens: `#f8fafc` base canvas, `#ffffff` card surfaces, `#f1f5f9` sub-panels, `#e2e8f0` hairline borders.
 - Typography engine with tabular numerals: `font-feature-settings: "tnum", "cv02", "cv03", "cv04", "cv11"` to prevent numeric layout jitter.
 - Departmental color signatures: Steel Blue (`#1e40af`) for Track, Amber (`#b45309`) for OHE, Forest Emerald (`#047857`) for Signals, Unified Purple (`#6366f1`) for Bundles.
-- CSS pulse keyframes (`@keyframes ctcPulse`) for active block highlights.
-
-#### [`app.js`](file:///c:/Users/jefin/OneDrive/Desktop/SIH%20RAILWAY/src/frontend/js/app.js)
-Main application coordinator:
-- Manages tab navigation and Plotly resize relayouts.
-- Binds global keyboard shortcuts: `1` to `6` for tabs, `Escape` to close modals.
-- Implements client-side live search and filtering on the 100-asset table.
-- Renders horizontal SHAP waterfall feature attribution risk bars.
-- Includes a 1-click "Simulate Maintenance Repair" action resetting asset health to 100% and updating table rows dynamically.
+- Shared 2-column portal layouts (`.portal-grid`, `.portal-card`, `.portal-header`).
 
 #### [`marey_chart.js`](file:///c:/Users/jefin/OneDrive/Desktop/SIH%20RAILWAY/src/frontend/js/marey_chart.js)
 Interactive 24-hour time-distance string chart renderer:
@@ -398,6 +422,28 @@ Programmatic SVG station yard interlocking schematic renderer (Option C):
 - Renders tracks with visible 3.5px mainline strokes, platform slabs, point turnouts with IRSEM badges (`Pt-101A`), signal aspect heads, and 25 kV OHE masts.
 - Features **Layer Visibility Toggles** (Points, Signals, OHE Masts).
 - Features **Interactive Route Switch Simulation**: Clicking a turnout toggles between Normal route (straight) and Reverse route (diverging loop).
+
+---
+
+### 4.7 Automated Test Suite (`tests/`)
+
+#### [`test_system_integration.py`](file:///c:/Users/jefin/OneDrive/Desktop/SIH%20RAILWAY/tests/test_system_integration.py)
+End-to-end integration tests validating all 19 system invariants in 2.5s:
+1. `test_feature_pipeline`: Validates 18-dimension feature vector extraction.
+2. `test_safe_criticality_calculation`: Validates composite criticality scoring with NaN handling and TSR penalties.
+3. `test_slot_finder`: Validates headway detection ($\ge 45\text{ min} + 10\text{ min}$).
+4. `test_bundling_engine`: Validates spatial clustering and concurrent duration logic.
+5. `test_ortools_optimizer`: Validates CP-SAT optimal schedule generation and downtime reduction ($78.7\%$).
+6. `test_multi_horizon_plans`: Validates 30-Day strategic and 7-Day tactical matrix generation.
+7. `test_disruption_simulator_speed`: Validates sub-second train delay recovery ($< 1.0\text{s}$).
+8. `test_fastapi_endpoints`: Validates core REST API response codes and payloads.
+9. `test_station_yard_topology`: Validates IRSEM yard definitions for all 10 corridor stations.
+10. `test_station_yard_api`: Validates station yard interlocking API.
+11. `test_demand_safety_rule_enforcement`: Validates mandatory 25 kV power block and S&T disconnection enforcement.
+12. `test_demand_lifecycle_and_shadow_bundling`: Validates multi-department raise, pending queue accumulation, and 1-click CP-SAT shadow bundling.
+13. `test_department_portal_pages`: Validates HTTP 200 HTML responses for `/tms`, `/tdms`, `/smms`.
+14. `test_demand_history_and_clear`: Validates demand audit history and queue clearing.
+
 - Provides SVG Pan and Zoom controls (`+`, `-`, `Reset`).
 
 #### [`simulator_ui.js`](file:///c:/Users/jefin/OneDrive/Desktop/SIH%20RAILWAY/src/frontend/js/simulator_ui.js)

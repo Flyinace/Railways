@@ -146,6 +146,143 @@ class TestSystemIntegration(unittest.TestCase):
                 self.assertIn("health_index", data["points"][0])
                 self.assertIn("throw_time_sec", data["points"][0])
 
+    def test_demand_safety_rule_enforcement(self):
+        client = TestClient(app)
+        # OHE demand must enforce power_block_required
+        res_ohe = client.post("/api/demand/raise", json={
+            "department": "TRACTION_DISTRIBUTION_OHE",
+            "defect_category": "Contact Wire Wear",
+            "section_from": "ALJN",
+            "section_to": "TDL",
+            "line": "DN",
+            "km_start": 136.0,
+            "km_end": 137.0,
+            "machine_required": "TOWER_WAGON",
+            "power_block_required": False,  # Should be auto-enforced to True
+            "disconnection_required": False,
+            "gang_crew": "TRD Gang",
+            "duration_requested_min": 180,
+            "priority": "CRITICAL"
+        })
+        self.assertEqual(res_ohe.status_code, 200)
+        self.assertTrue(res_ohe.json()["demand"]["power_block_required"])
+
+        # S&T demand must enforce disconnection_required
+        res_sig = client.post("/api/demand/raise", json={
+            "department": "SIGNAL_AND_TELECOM",
+            "defect_category": "Point Machine Sluggish",
+            "section_from": "ALJN",
+            "section_to": "TDL",
+            "line": "DN",
+            "km_start": 135.0,
+            "km_end": 136.0,
+            "machine_required": "SIGNAL_GANG",
+            "power_block_required": False,
+            "disconnection_required": False,  # Should be auto-enforced to True
+            "gang_crew": "Signal Gang",
+            "duration_requested_min": 120,
+            "priority": "CRITICAL"
+        })
+        self.assertEqual(res_sig.status_code, 200)
+        self.assertTrue(res_sig.json()["demand"]["disconnection_required"])
+
+    def test_demand_lifecycle_and_shadow_bundling(self):
+        client = TestClient(app)
+        client.post("/api/demand/clear")
+
+        # 1. Raise Track Demand
+        client.post("/api/demand/raise", json={
+            "department": "ENGINEERING_TRACK",
+            "defect_category": "Rail Flaw (USFD)",
+            "section_from": "ALJN",
+            "section_to": "TDL",
+            "line": "DN",
+            "km_start": 135.5,
+            "km_end": 137.0,
+            "machine_required": "CSM_TAMPING",
+            "power_block_required": True,
+            "disconnection_required": False,
+            "gang_crew": "Track Gang B",
+            "duration_requested_min": 210,
+            "priority": "CRITICAL"
+        })
+
+        # 2. Raise OHE Demand
+        client.post("/api/demand/raise", json={
+            "department": "TRACTION_DISTRIBUTION_OHE",
+            "defect_category": "Contact Wire Wear",
+            "section_from": "ALJN",
+            "section_to": "TDL",
+            "line": "DN",
+            "km_start": 136.0,
+            "km_end": 137.0,
+            "machine_required": "TOWER_WAGON",
+            "power_block_required": True,
+            "disconnection_required": False,
+            "gang_crew": "TRD Linemen Gang B",
+            "duration_requested_min": 180,
+            "priority": "CRITICAL"
+        })
+
+        # 3. Raise Signal Demand
+        client.post("/api/demand/raise", json={
+            "department": "SIGNAL_AND_TELECOM",
+            "defect_category": "Point Machine Sluggish",
+            "section_from": "ALJN",
+            "section_to": "TDL",
+            "line": "DN",
+            "km_start": 135.0,
+            "km_end": 136.0,
+            "machine_required": "SIGNAL_GANG",
+            "power_block_required": False,
+            "disconnection_required": True,
+            "gang_crew": "Signal Gang B",
+            "duration_requested_min": 120,
+            "priority": "CRITICAL"
+        })
+
+        # 4. Check Pending Queue
+        res_q = client.get("/api/demand/pending")
+        self.assertEqual(res_q.status_code, 200)
+        self.assertEqual(res_q.json()["total_pending"], 3)
+        self.assertGreaterEqual(res_q.json()["total_unbundled_hours"], 8.0)
+
+        # 5. Trigger CP-SAT Shadow Bundling
+        res_b = client.post("/api/demand/bundle_and_sanction")
+        self.assertEqual(res_b.status_code, 200)
+        self.assertEqual(res_b.json()["status"], "SUCCESS")
+        self.assertEqual(res_b.json()["sanctioned_count"], 3)
+
+        # 6. Verify Pending Queue is Cleared
+        res_after = client.get("/api/demand/pending")
+        self.assertEqual(res_after.json()["total_pending"], 0)
+
+        # 7. Verify Department Status Endpoints Show Approved
+        for dept in ["ENGINEERING_TRACK", "TRACTION_DISTRIBUTION_OHE", "SIGNAL_AND_TELECOM"]:
+            res_dept = client.get(f"/api/demand/status/{dept}")
+            self.assertEqual(res_dept.status_code, 200)
+            self.assertGreater(len(res_dept.json()["demands"]), 0)
+            self.assertEqual(res_dept.json()["demands"][0]["status"], "APPROVED_SHADOW_BLOCK")
+
+    def test_department_portal_pages(self):
+        client = TestClient(app)
+        for route in ["/tms", "/tdms", "/smms"]:
+            res = client.get(route)
+            self.assertEqual(res.status_code, 200, f"Route {route} should return 200 HTML")
+            self.assertIn("text/html", res.headers.get("content-type", ""))
+
+    def test_demand_history_and_clear(self):
+        client = TestClient(app)
+        res_h = client.get("/api/demand/history")
+        self.assertEqual(res_h.status_code, 200)
+        self.assertIn("demands", res_h.json())
+
+        res_c = client.post("/api/demand/clear")
+        self.assertEqual(res_c.status_code, 200)
+        self.assertEqual(res_c.json()["status"], "SUCCESS")
+
 
 if __name__ == "__main__":
     unittest.main()
+
+

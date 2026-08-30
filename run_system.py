@@ -78,14 +78,30 @@ def main():
     sched_res = scheduler.solve_schedule()
 
     # Step 5: Start FastAPI Server
-    print("\n" + "-" * 80)
-    print("  All engines initialized successfully!")
-    print("  Starting Control Office Dashboard on: http://127.0.0.1:8000")
-    print("  Press Ctrl+C to stop the server.")
-    print("-" * 80 + "\n")
+    import socket
+    local_ip = "127.0.0.1"
+    try:
+        s = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
+        s.connect(("8.8.8.8", 80))
+        local_ip = s.getsockname()[0]
+        s.close()
+    except Exception:
+        pass
 
-    uvicorn.run("src.api.main:app", host="127.0.0.1", port=8000, reload=False)
+    print("\n" + "=" * 80)
+    print("  ALL SYSTEMS READY • 4-PORTAL ENTERPRISE CONTROL NETWORK ACTIVE")
+    print("=" * 80)
+    print(f"  🏢 Central OCC Master Desk:  http://127.0.0.1:8000/  (or http://{local_ip}:8000/)")
+    print(f"  🔨 Civil / Track (TMS):      http://127.0.0.1:8000/tms")
+    print(f"  ⚡ Traction / OHE (TDMS):    http://127.0.0.1:8000/tdms")
+    print(f"  🟢 Signal & Telecom (SMMS):  http://127.0.0.1:8000/smms")
+    print("=" * 80)
+    print("  Multi-device LAN access enabled. Open any portal above on phones/tablets.")
+    print("  Press Ctrl+C to stop the server.\n")
+
+    uvicorn.run("src.api.main:app", host="0.0.0.0", port=8000, reload=False)
 
 
 if __name__ == "__main__":
     main()
+

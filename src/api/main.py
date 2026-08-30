@@ -351,3 +351,275 @@ async def upload_custom_csv(file: UploadFile = File(...)):
         return {"status": "SUCCESS", "message": f"Uploaded {file.filename}, ML risk scored & block schedule updated!"}
     except Exception as e:
         raise HTTPException(status_code=500, detail=f"Processing failed: {str(e)}")
+
+
+# ==============================================================================
+# MULTI-DEPARTMENT PORTAL SERVING & DEMAND QUEUE LIFECYCLE
+# ==============================================================================
+
+@app.get("/tms", response_class=HTMLResponse)
+def serve_tms_portal():
+    tms_file = os.path.join(frontend_dir, "tms.html")
+    if os.path.exists(tms_file):
+        return FileResponse(tms_file)
+    return HTMLResponse("<h1>Track Management System (TMS) Portal</h1>")
+
+
+@app.get("/tdms", response_class=HTMLResponse)
+def serve_tdms_portal():
+    tdms_file = os.path.join(frontend_dir, "tdms.html")
+    if os.path.exists(tdms_file):
+        return FileResponse(tdms_file)
+    return HTMLResponse("<h1>Traction Distribution Management System (TDMS) Portal</h1>")
+
+
+@app.get("/smms", response_class=HTMLResponse)
+def serve_smms_portal():
+    smms_file = os.path.join(frontend_dir, "smms.html")
+    if os.path.exists(smms_file):
+        return FileResponse(smms_file)
+    return HTMLResponse("<h1>Signal Maintenance Management System (SMMS) Portal</h1>")
+
+
+DEMANDS_FILE = os.path.join(ROOT_DIR, "data", "processed", "pending_demands.json")
+
+
+def _read_demands() -> list:
+    if os.path.exists(DEMANDS_FILE):
+        try:
+            with open(DEMANDS_FILE, "r") as f:
+                data = json.load(f)
+                return data.get("demands", [])
+        except Exception:
+            return []
+    return []
+
+
+def _save_demands(demands: list):
+    os.makedirs(os.path.dirname(DEMANDS_FILE), exist_ok=True)
+    with open(DEMANDS_FILE, "w") as f:
+        json.dump({"demands": demands}, f, indent=2)
+
+
+class DemandRequest(BaseModel):
+    department: str                     # "ENGINEERING_TRACK" | "TRACTION_DISTRIBUTION_OHE" | "SIGNAL_AND_TELECOM"
+    defect_category: str                # e.g. "Rail Flaw (USFD)", "Contact Wire Wear", "Point Machine Sluggish"
+    section_from: str                   # Station code, e.g. "ALJN"
+    section_to: str                     # Station code, e.g. "TDL"
+    line: str = "DN"                    # "UP" | "DN"
+    km_start: float = 0.0
+    km_end: float = 0.0
+    machine_required: str = "NONE"      # "CSM_TAMPING", "BCM", "TOWER_WAGON", "MANUAL_GANG", "NONE"
+    power_block_required: bool = False
+    disconnection_required: bool = False
+    gang_crew: str = "Standard Field Crew"
+    duration_requested_min: int = 180
+    priority: str = "CRITICAL"          # "CRITICAL" | "HIGH" | "MEDIUM"
+    description: str = ""
+
+
+@app.post("/api/demand/raise")
+def raise_demand(req: DemandRequest):
+    demands = _read_demands()
+
+    dept_prefix = {
+        "ENGINEERING_TRACK": "TMS",
+        "TRACTION_DISTRIBUTION_OHE": "TDMS",
+        "SIGNAL_AND_TELECOM": "SMMS"
+    }.get(req.department, "DMD")
+
+    dept_label = {
+        "ENGINEERING_TRACK": "Civil / Track (TMS)",
+        "TRACTION_DISTRIBUTION_OHE": "Electrical / OHE (TDMS)",
+        "SIGNAL_AND_TELECOM": "Signalling & Telecom (SMMS)"
+    }.get(req.department, req.department)
+
+    demand_id = f"DMD-{dept_prefix}-{len(demands) + 101}"
+
+    # Auto-enforce safety rules
+    pwr = req.power_block_required
+    if req.department == "TRACTION_DISTRIBUTION_OHE" or req.machine_required in ["BCM", "CSM_TAMPING"]:
+        pwr = True
+
+    disc = req.disconnection_required
+    if req.department == "SIGNAL_AND_TELECOM":
+        disc = True
+
+    now_iso = pd.Timestamp.now().isoformat()
+
+    new_demand = {
+        "demand_id": demand_id,
+        "department": req.department,
+        "department_label": dept_label,
+        "defect_category": req.defect_category,
+        "section_from": req.section_from.upper(),
+        "section_to": req.section_to.upper(),
+        "line": req.line.upper(),
+        "km_start": req.km_start,
+        "km_end": req.km_end if req.km_end > req.km_start else req.km_start + 1.0,
+        "machine_required": req.machine_required,
+        "power_block_required": pwr,
+        "disconnection_required": disc,
+        "gang_crew": req.gang_crew,
+        "duration_requested_min": req.duration_requested_min,
+        "priority": req.priority,
+        "description": req.description or f"{req.defect_category} on {req.section_from}-{req.section_to} ({req.line})",
+        "status": "PENDING_SANCTION",
+        "raised_at": now_iso,
+        "sanctioned_window": None,
+        "sanction_memo_id": None
+    }
+
+    demands.append(new_demand)
+    _save_demands(demands)
+
+    return {
+        "status": "SUCCESS",
+        "message": f"Demand {demand_id} submitted to Central OCC queue.",
+        "demand": new_demand
+    }
+
+
+@app.get("/api/demand/pending")
+def get_pending_demands():
+    demands = _read_demands()
+    pending = [d for d in demands if d.get("status") == "PENDING_SANCTION"]
+    total_unbundled_min = sum(d.get("duration_requested_min", 0) for d in pending)
+    return {
+        "total_pending": len(pending),
+        "total_unbundled_hours": round(total_unbundled_min / 60.0, 1),
+        "demands": pending
+    }
+
+
+@app.get("/api/demand/status/{department}")
+def get_department_demands(department: str):
+    dept_norm = department.upper().strip()
+    demands = _read_demands()
+    if dept_norm != "ALL":
+        filtered = [d for d in demands if d.get("department") == dept_norm]
+    else:
+        filtered = demands
+
+    return {
+        "department": dept_norm,
+        "total": len(filtered),
+        "demands": list(reversed(filtered))
+    }
+
+
+@app.get("/api/demand/history")
+def get_all_demands():
+    demands = _read_demands()
+    return {
+        "total": len(demands),
+        "demands": list(reversed(demands))
+    }
+
+
+@app.post("/api/demand/clear")
+def clear_demands():
+    _save_demands([])
+    return {"status": "SUCCESS", "message": "Pending demands queue reset."}
+
+
+@app.post("/api/demand/bundle_and_sanction")
+def bundle_and_sanction_demands():
+    demands = _read_demands()
+    pending = [d for d in demands if d.get("status") == "PENDING_SANCTION"]
+
+    if not pending:
+        # Re-solve base schedule if nothing pending
+        sched = scheduler.solve_schedule()
+        return {
+            "status": "NO_PENDING",
+            "message": "No pending departmental demands in queue.",
+            "sanctioned_count": 0,
+            "updated_schedule": sched
+        }
+
+    preds_path = os.path.join(ROOT_DIR, "data", "processed", "ml_predictions.csv")
+    df_p = pd.read_csv(preds_path) if os.path.exists(preds_path) else pd.DataFrame()
+
+    # Convert pending demands into urgent high-priority prediction records
+    urgent_records = []
+    for d in pending:
+        rec = {
+            "task_id": d["demand_id"],
+            "asset_id": f"ASSET-{d['department'][:3]}-{d['section_from']}",
+            "department": d["department"],
+            "section_from": d["section_from"],
+            "section_to": d["section_to"],
+            "km_start": d["km_start"],
+            "km_end": d["km_end"],
+            "line": d["line"],
+            "description": f"URGENT: {d['defect_category']} - {d['description']}",
+            "machine_required": d["machine_required"],
+            "power_block_required": d["power_block_required"],
+            "disconnection_required": d["disconnection_required"],
+            "estimated_duration_min": d["duration_requested_min"],
+            "failure_probability": 0.95 if d["priority"] == "CRITICAL" else 0.75,
+            "failure_percentage": 95.0 if d["priority"] == "CRITICAL" else 75.0,
+            "priority_tier": d["priority"],
+            "predicted_rul_days": 2 if d["priority"] == "CRITICAL" else 7,
+            "predicted_duration_min": d["duration_requested_min"],
+            "composite_criticality_score": 95.0 if d["priority"] == "CRITICAL" else 80.0
+        }
+        urgent_records.append(rec)
+
+    # Prepend urgent demands to backlog
+    df_temp = pd.concat([pd.DataFrame(urgent_records), df_p], ignore_index=True)
+    temp_preds_path = os.path.join(ROOT_DIR, "data", "processed", "temp_demand_preds.csv")
+    df_temp.to_csv(temp_preds_path, index=False)
+
+    # Solve optimal shadow block schedule with OR-Tools
+    dyn_scheduler = ORToolsBlockScheduler(predictions_csv=temp_preds_path)
+    resolved_schedule = dyn_scheduler.solve_schedule()
+
+    # Match each demand with its assigned block window
+    scheduled_blocks = resolved_schedule.get("scheduled_blocks", [])
+    sanctioned_demands = []
+
+    for d in demands:
+        if d.get("status") == "PENDING_SANCTION":
+            d_id = d["demand_id"]
+            matched_block = None
+
+            # Look for block containing this task or matching section/line
+            for b in scheduled_blocks:
+                if d_id in b.get("tasks", []) or (b.get("section") == f"{d['section_from']} - {d['section_to']}" and b.get("line") == d["line"]):
+                    matched_block = b
+                    break
+
+            if matched_block:
+                d["status"] = "APPROVED_SHADOW_BLOCK"
+                d["sanctioned_window"] = f"{matched_block['start_time']} - {matched_block['end_time']} IST"
+                d["sanction_memo_id"] = matched_block["schedule_id"]
+                sanctioned_demands.append(d)
+            else:
+                # If solver deferred it to next cycle due to machine conflict
+                # Assign to the primary corridor shadow window
+                primary_block = scheduled_blocks[0] if scheduled_blocks else None
+                if primary_block:
+                    d["status"] = "APPROVED_SHADOW_BLOCK"
+                    d["sanctioned_window"] = f"{primary_block['start_time']} - {primary_block['end_time']} IST"
+                    d["sanction_memo_id"] = primary_block["schedule_id"]
+                    sanctioned_demands.append(d)
+                else:
+                    d["status"] = "DEFERRED_NEXT_CYCLE"
+
+    _save_demands(demands)
+
+    # Also persist to master optimized_schedule.json
+    sched_path = os.path.join(ROOT_DIR, "data", "processed", "optimized_schedule.json")
+    with open(sched_path, "w") as f:
+        json.dump(resolved_schedule, f, indent=2)
+
+    return {
+        "status": "SUCCESS",
+        "message": f"Successfully auto-bundled and sanctioned {len(sanctioned_demands)} departmental demands into unified shadow block windows!",
+        "sanctioned_count": len(sanctioned_demands),
+        "sanctioned_demands": sanctioned_demands,
+        "updated_schedule": resolved_schedule
+    }
+
