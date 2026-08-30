@@ -368,4 +368,4 @@ $$\max \sum_{b} \sum_{s} \left( \text{Criticality}_b + 500 \cdot \mathbb{I}_{\te
 5. Open a Pull Request against the `main` branch.
 
 ### License
-This project is licensed under the **MIT License**. See the `LICENSE` file for full terms.
+This project is licensed under the **MIT License**. See the `LICENSE` file for full terms..
