@@ -18,7 +18,7 @@
       "priority": "CRITICAL",
       "description": "Rail Flaw (USFD) on ALJN-TDL (DN)",
       "status": "APPROVED_SHADOW_BLOCK",
-      "raised_at": "2026-08-31T23:26:43.575475",
+      "raised_at": "2026-09-01T00:30:23.555894",
       "sanctioned_window": "11:40 - 15:27 IST",
       "sanction_memo_id": "SCHED-001"
     },
@@ -40,7 +40,7 @@
       "priority": "CRITICAL",
       "description": "Contact Wire Wear on ALJN-TDL (DN)",
       "status": "APPROVED_SHADOW_BLOCK",
-      "raised_at": "2026-08-31T23:26:43.606819",
+      "raised_at": "2026-09-01T00:30:23.591609",
       "sanctioned_window": "11:40 - 15:27 IST",
       "sanction_memo_id": "SCHED-001"
     },
@@ -62,7 +62,7 @@
       "priority": "CRITICAL",
       "description": "Point Machine Sluggish on ALJN-TDL (DN)",
       "status": "APPROVED_SHADOW_BLOCK",
-      "raised_at": "2026-08-31T23:26:43.637254",
+      "raised_at": "2026-09-01T00:30:23.621995",
       "sanctioned_window": "11:40 - 15:27 IST",
       "sanction_memo_id": "SCHED-001"
     },
@@ -84,7 +84,7 @@
       "priority": "CRITICAL",
       "description": "Contact Wire Wear on ALJN-TDL (DN)",
       "status": "PENDING_SANCTION",
-      "raised_at": "2026-08-31T23:26:44.303109",
+      "raised_at": "2026-09-01T00:30:24.305296",
       "sanctioned_window": null,
       "sanction_memo_id": null
     },
@@ -106,7 +106,7 @@
       "priority": "CRITICAL",
       "description": "Point Machine Sluggish on ALJN-TDL (DN)",
       "status": "PENDING_SANCTION",
-      "raised_at": "2026-08-31T23:26:44.337443",
+      "raised_at": "2026-09-01T00:30:24.336984",
       "sanctioned_window": null,
       "sanction_memo_id": null
     }

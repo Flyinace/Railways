@@ -14,6 +14,11 @@ let yardLayers = {
 let switchPositions = {}; // id -> 'NORMAL' | 'REVERSE'
 
 async function openYardSchematic(stationCode) {
+    // Close any open GIS map popup so the background is clean
+    if (typeof gisMap !== "undefined" && gisMap) {
+        gisMap.closePopup();
+    }
+
     const modal = document.getElementById("yard-modal");
     if (!modal) return;
 

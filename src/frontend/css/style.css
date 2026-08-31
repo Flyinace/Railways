@@ -738,6 +738,8 @@ body {
     overflow: hidden;
     box-shadow: var(--shadow-card);
     position: relative;
+    z-index: 1; /* Isolates Leaflet internal z-indexes within map container */
+    isolation: isolate;
     margin-bottom: 14px;
 }
 
@@ -1323,6 +1325,8 @@ body {
     max-height: 92vh;
     display: flex;
     flex-direction: column;
+    position: relative;
+    z-index: 100000;
 }
 
 .yard-modal-header {
@@ -1579,11 +1583,12 @@ body {
     left: 0;
     width: 100vw;
     height: 100vh;
-    background-color: rgba(15, 23, 42, 0.45);
+    background-color: rgba(15, 23, 42, 0.65);
+    backdrop-filter: blur(4px);
     display: none;
     align-items: center;
     justify-content: center;
-    z-index: 100;
+    z-index: 99999; /* Highest priority: always on top of Leaflet maps and all panels */
 }
 
 .modal-card {
@@ -1594,6 +1599,8 @@ body {
     max-width: 580px;
     box-shadow: var(--shadow-modal);
     overflow: hidden;
+    position: relative;
+    z-index: 100000;
 }
 
 .modal-header {

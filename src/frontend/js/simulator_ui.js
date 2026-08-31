@@ -5,6 +5,9 @@
  */
 
 function openSimulatorModal() {
+    if (typeof gisMap !== "undefined" && gisMap) {
+        gisMap.closePopup();
+    }
     const modal = document.getElementById("simulator-modal");
     if (modal) modal.style.display = "flex";
 }
