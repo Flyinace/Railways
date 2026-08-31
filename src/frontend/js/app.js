@@ -63,6 +63,8 @@ function switchTab(tabId) {
         setTimeout(renderMareyChart, 50);
     } else if (tabId === "gantt-tab" && typeof renderGanttChart === "function") {
         setTimeout(renderGanttChart, 50);
+    } else if (tabId === "network-tab") {
+        if (typeof invalidateGISMap === "function") setTimeout(invalidateGISMap, 80);
     }
 }
 
@@ -72,6 +74,9 @@ async function loadCorridorTopology() {
         currentTopologyData = await res.json();
         if (typeof renderNetworkTrackDiagram === "function") {
             renderNetworkTrackDiagram(currentTopologyData);
+        }
+        if (typeof initGISMap === "function") {
+            initGISMap(currentTopologyData);
         }
     } catch (e) {
         console.error("Failed to load topology:", e);
@@ -94,6 +99,9 @@ async function loadOptimalSchedule() {
         if (typeof renderGanttChart === "function") renderGanttChart();
         if (typeof renderNetworkTrackDiagram === "function" && currentTopologyData) {
             renderNetworkTrackDiagram(currentTopologyData);
+        }
+        if (typeof refreshGISBlockOverlays === "function") {
+            refreshGISBlockOverlays();
         }
     } catch (e) {
         console.error("Failed to load optimal schedule:", e);
@@ -548,6 +556,9 @@ async function triggerAutoBundleAndSanction() {
                 if (typeof renderGanttChart === "function") renderGanttChart();
                 if (typeof renderNetworkTrackDiagram === "function" && currentTopologyData) {
                     renderNetworkTrackDiagram(currentTopologyData);
+                }
+                if (typeof refreshGISBlockOverlays === "function") {
+                    refreshGISBlockOverlays();
                 }
             }
         } else {

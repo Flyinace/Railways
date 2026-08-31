@@ -210,8 +210,8 @@
       "downtime_saved_min": 751,
       "departments": [
         "TRACTION_DISTRIBUTION_OHE",
-        "SIGNAL_AND_TELECOM",
-        "ENGINEERING_TRACK"
+        "ENGINEERING_TRACK",
+        "SIGNAL_AND_TELECOM"
       ],
       "is_multi_department": true,
       "task_count": 6,

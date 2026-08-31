@@ -81,6 +81,12 @@ async function runTrainDelaySimulation() {
             populateMemoDropdown(currentScheduleData.scheduled_blocks);
             if (typeof renderMareyChart === "function") renderMareyChart();
             if (typeof renderGanttChart === "function") renderGanttChart();
+            if (typeof renderNetworkTrackDiagram === "function" && currentTopologyData) {
+                renderNetworkTrackDiagram(currentTopologyData);
+            }
+            if (typeof refreshGISBlockOverlays === "function") {
+                refreshGISBlockOverlays();
+            }
         }
     } catch (e) {
         document.getElementById("sim-status-badge").innerText = "ERROR";
@@ -117,6 +123,9 @@ async function runDefectSimulation() {
             if (typeof renderGanttChart === "function") renderGanttChart();
             if (typeof renderNetworkTrackDiagram === "function" && currentTopologyData) {
                 renderNetworkTrackDiagram(currentTopologyData);
+            }
+            if (typeof refreshGISBlockOverlays === "function") {
+                refreshGISBlockOverlays();
             }
         }
     } catch (e) {
