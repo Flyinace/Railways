@@ -27,8 +27,8 @@
       "unbundled_duration_min": 1150,
       "downtime_saved_min": 923,
       "departments": [
-        "TRACTION_DISTRIBUTION_OHE",
         "SIGNAL_AND_TELECOM",
+        "TRACTION_DISTRIBUTION_OHE",
         "ENGINEERING_TRACK"
       ],
       "is_multi_department": true,
@@ -162,9 +162,9 @@
       "unbundled_duration_min": 1018,
       "downtime_saved_min": 813,
       "departments": [
-        "ENGINEERING_TRACK",
         "SIGNAL_AND_TELECOM",
-        "TRACTION_DISTRIBUTION_OHE"
+        "TRACTION_DISTRIBUTION_OHE",
+        "ENGINEERING_TRACK"
       ],
       "is_multi_department": true,
       "task_count": 6,
@@ -209,8 +209,8 @@
       "unbundled_duration_min": 947,
       "downtime_saved_min": 751,
       "departments": [
-        "TRACTION_DISTRIBUTION_OHE",
         "SIGNAL_AND_TELECOM",
+        "TRACTION_DISTRIBUTION_OHE",
         "ENGINEERING_TRACK"
       ],
       "is_multi_department": true,
@@ -252,9 +252,9 @@
       "unbundled_duration_min": 829,
       "downtime_saved_min": 647,
       "departments": [
-        "ENGINEERING_TRACK",
         "SIGNAL_AND_TELECOM",
-        "TRACTION_DISTRIBUTION_OHE"
+        "TRACTION_DISTRIBUTION_OHE",
+        "ENGINEERING_TRACK"
       ],
       "is_multi_department": true,
       "task_count": 5,

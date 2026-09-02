@@ -8,13 +8,14 @@
 [![FastAPI](https://img.shields.io/badge/FastAPI-0.110.0-009688?style=flat-square&logo=fastapi&logoColor=white)](https://fastapi.tiangolo.com/)
 [![Google OR-Tools](https://img.shields.io/badge/Google%20OR--Tools-CP--SAT%20v9.8-4285F4?style=flat-square&logo=google&logoColor=white)](https://developers.google.com/optimization)
 [![XGBoost](https://img.shields.io/badge/XGBoost-v2.0.0-EB5424?style=flat-square)](https://xgboost.ai/)
+[![Leaflet.js](https://img.shields.io/badge/Leaflet.js-v1.9.4-199900?style=flat-square&logo=leaflet&logoColor=white)](https://leafletjs.com/)
 [![Plotly.js](https://img.shields.io/badge/Plotly.js-v2.35.2-3F4F75?style=flat-square&logo=plotly&logoColor=white)](https://plotly.com/javascript/)
 [![License](https://img.shields.io/badge/License-MIT-slate?style=flat-square)](LICENSE)
 [![Tests](https://img.shields.io/badge/Tests-19%2F19%20Passing-059669?style=flat-square)]()
 
 <br>
 
-An enterprise-grade mathematical optimization and predictive intelligence platform designed to eliminate corridor capacity loss across Indian Railways high-density trunk lines. Unifies Civil (TMS), Electrical (TDMS), and S&T (SMMS) maintenance backlogs into coordinated "shadow block" possessions using Google OR-Tools CP-SAT constraint programming, XGBoost failure prediction, and an authentic 4-portal operations network.
+An enterprise-grade mathematical optimization and predictive intelligence platform designed to eliminate corridor capacity loss across Indian Railways high-density trunk lines. Unifies Civil (TMS), Electrical (TDMS), and S&T (SMMS) maintenance backlogs into coordinated "shadow block" possessions using Google OR-Tools CP-SAT constraint programming, XGBoost failure prediction, a live geospatial GIS satellite radar map, and an authentic 4-portal operations network.
 
 <br>
 
@@ -58,7 +59,7 @@ Corridor Impact: 3.5 Hours Total Closure • 5.5 Hours Saved • Zero Train Dela
 - **Google OR-Tools CP-SAT Mathematical Optimizer:** Evaluates timetable headway gaps and multi-department task combinations simultaneously to construct provably optimal, conflict-free possession windows.
 - **Predictive Asset Intelligence (XGBoost + SHAP):** Predicts asset failure probability ($0.9751$ ROC-AUC) and Remaining Useful Life (RUL) with transparent, plain-English feature attribution cards for Section Controllers.
 - **Authentic 4-Portal Operations Network:** Models real-world Indian Railways field portals (IRCEP TMS, RailSaver TDMS, SMMS IR) connected to the Central Operations Control Center (OCC) with Human-in-the-Loop sanctioning.
-- **Interactive Operations Control Center (OCC) Console:** Minimalist, zero-lag client dashboard featuring 24-hour Marey time-distance string charts, multi-department Gantt diagrams, Centralized Traffic Control (CTC) corridor tracking, and IRSEM-compliant station yard interlocking schematics.
+- **Interactive Geospatial GIS Satellite Radar & OCC Console:** Real-time Leaflet GIS satellite radar map (ESRI/CartoDB) with animated shadow block radar pings, station quick-jump chips, 24-hour Marey string charts, multi-department Gantt diagrams, CTC track schematic, and IRSEM station yard interlocking schematics.
 - **Sub-Second Dynamic Disruption Rescheduler:** Solves timetable perturbations (e.g. +45 min passenger train delay or emergency rail fracture) and reschedules corridor possessions in under 0.40 seconds.
 - **Automated BDMS Sanction Generation:** Instantly drafts official, standardized Indian Railways Block Sanction Memoranda ready for dispatch to Section Controllers and Station Masters.
 
@@ -120,8 +121,8 @@ The platform operates across four connected portals and five modular processing 
 +----------------------------------------------------------------------------------------------------+
 |                                  OCC VISUALIZATION & SANCTION DISPATCH                             |
 |  +------------------------+ +-------------------------+ +---------------------+ +----------------+ |
-|  | Marey String Diagram   | | Multi-Dept Gantt View   | | CTC Corridor Map    | | Yard Interlock | |
-|  | (Plotly.js Time-Dist)  | | (Shadow Bundling Recov) | | (UP/DN Trunk Board) | | (Option C SVG) | |
+|  | Marey String Diagram   | | Multi-Dept Gantt View   | | GIS Satellite Radar | | Yard Interlock | |
+|  | (Plotly.js Time-Dist)  | | (Shadow Bundling Recov) | | (Leaflet / ESRI)    | | (Option C SVG) | |
 |  +------------------------+ +-------------------------+ +---------------------+ +----------------+ |
 +----------------------------------------------------------------------------------------------------+
 ```
@@ -151,23 +152,36 @@ Aggregates incoming field requisitions from TMS, TDMS, and SMMS in real time, co
 
 ---
 
-### 2. 24-Hour Corridor Marey Time-Distance Diagram
+### 2. Geospatial GIS Satellite Radar Map
+Interactive geospatial radar powered by Leaflet.js and ESRI World Imagery. Maps the 440 KM NDLS–CNB trunk corridor with precise GPS station anchors, quick-jump navigation chips, and live animated shadow block radar pings.
+
+![Geospatial GIS Satellite Radar](docs/assets/gis_satellite_radar.png)
+*Figure 2: Leaflet GIS Satellite Radar view showing electric cyan mainline polyline, station beacons, and pulsing neon shadow block boundary isolations on section ALJN–TDL.*
+
+| Glassmorphic Station Telemetry Popup | CartoDB Dark Matter GIS View |
+| :---: | :---: |
+| ![Station Popup](docs/assets/gis_station_popup.png) | ![Dark GIS Mode](docs/assets/gis_dark_mode.png) |
+| *Station speed limits, platforms, traction & 1-click Yard drill-down* | *High-contrast night operations tactical radar mode* |
+
+---
+
+### 3. 24-Hour Corridor Marey Time-Distance Diagram
 The primary tool used by Indian Railways Chief Section Controllers. Visualizes commercial passenger and freight paths across 24 hours alongside shaded optimal maintenance blocks.
 
 ![Marey Time-Distance String Diagram](docs/assets/marey_diagram.png)
-*Figure 2: 24-Hour Marey Diagram across the 440 KM New Delhi – Kanpur Central corridor showing train paths (Rajdhani, Vande Bharat, Superfast, Freight) and shaded multi-department maintenance windows with zero passenger headway conflict.*
+*Figure 3: 24-Hour Marey Diagram across the 440 KM New Delhi – Kanpur Central corridor showing train paths (Rajdhani, Vande Bharat, Superfast, Freight) and shaded multi-department maintenance windows with zero passenger headway conflict.*
 
 ---
 
-### 3. Multi-Department Joint Shadow Block Gantt Bundling
+### 4. Multi-Department Joint Shadow Block Gantt Bundling
 Visualizes individual departmental requisitions (Civil Track, TRD OHE, S&T Signals) merged into unified possession slots.
 
 ![Multi-Department Gantt Bundling](docs/assets/gantt_bundling.png)
-*Figure 3: Shadow block possession bundling recovering 78.0 hours of track possession time (78.7% downtime reduction) across the corridor.*
+*Figure 4: Shadow block possession bundling recovering 78.0 hours of track possession time (78.7% downtime reduction) across the corridor.*
 
 ---
 
-### 4. Dedicated Department Portals (TMS, TDMS, SMMS)
+### 5. Dedicated Department Portals (TMS, TDMS, SMMS)
 Field supervisors raise defects, request heavy machinery, and receive approved permits with granted time windows in real time.
 
 | Track Management Portal (TMS) | Traction Distribution Portal (TDMS) | Signal Maintenance Portal (SMMS) |
@@ -177,27 +191,27 @@ Field supervisors raise defects, request heavy machinery, and receive approved p
 
 ---
 
-### 5. Centralized Traffic Control (CTC) Corridor Track Topology Map
+### 6. Centralized Traffic Control (CTC) Corridor Track Topology Map
 Corridor overview tracking UP & DN parallel tracks, station chainages, section speed limits, and active possession boundaries.
 
 ![Centralized Traffic Control Map](docs/assets/ctc_topology_map.png)
-*Figure 4: CTC Schematic Board showing double-line track sections, intermediate station nodes, and live maintenance block isolations.*
+*Figure 5: CTC Schematic Board showing double-line track sections, intermediate station nodes, and live maintenance block isolations.*
 
 ---
 
-### 6. Station Yard Electronic Interlocking (EI) Schematic
+### 7. Station Yard Electronic Interlocking (EI) Schematic
 Authentic engineering drill-down for corridor junctions adhering to Indian Railways Signal Engineering Manual (IRSEM) standards.
 
 ![Station Yard Interlocking Schematic](docs/assets/yard_interlocking.png)
-*Figure 5: Tundla Junction (TDL) Interlocking Schematic displaying point machine health beacons, route turnout settings, signal aspects, and 25 kV traction masts.*
+*Figure 6: Tundla Junction (TDL) Interlocking Schematic displaying point machine health beacons, route turnout settings, signal aspects, and 25 kV traction masts.*
 
 ---
 
-### 7. Asset Health Intelligence & Explainable AI (SHAP) Diagnostics
+### 8. Asset Health Intelligence & Explainable AI (SHAP) Diagnostics
 Machine learning failure risk assessment with transparent feature attribution waterfalls explaining why an asset requires urgent intervention.
 
 ![Explainable AI Diagnostics Hub](docs/assets/xai_waterfall.png)
-*Figure 6: XGBoost feature attribution card showing point machine throw-time degradation and insulation resistance parameters driving a critical priority classification.*
+*Figure 7: XGBoost feature attribution card showing point machine throw-time degradation and insulation resistance parameters driving a critical priority classification.*
 
 ---
 
@@ -353,6 +367,7 @@ $$\max \sum_{b} \sum_{s} \left( \text{Criticality}_b + 500 \cdot \mathbb{I}_{\te
 | **Machine Learning** | Scikit-Learn | `1.4.1` | Random Forest duration model & feature preprocessing |
 | **Explainable AI (XAI)** | SHAP | `0.44.1` | TreeExplainer feature risk attribution |
 | **Data Processing** | pandas & numpy | `2.2.1 / 1.26.4` | Ingestion, vectorization, and data frames |
+| **Geospatial GIS Engine** | Leaflet.js | `1.9.4` | Interactive satellite radar & Dark GIS mapping (ESRI/CartoDB) |
 | **Visualization Canvas** | Plotly.js | `2.35.2` | Interactive Marey time-distance & Gantt diagrams |
 | **Vector Iconography** | Microsoft Fluent UI | `24-Regular SVG` | High-contrast industrial OCC icon system |
 

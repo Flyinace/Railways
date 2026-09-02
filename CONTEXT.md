@@ -20,7 +20,7 @@ The **Indian Railways AI-Powered Automatic Block Planning System** is an intelli
   - SHAP (`shap>=0.43.0`) for Explainable AI (XAI) feature attributions (lazy initialized)
   - Joblib (`joblib>=1.3.0`) for model weight serialization
 - **Mathematical Optimization:** Google OR-Tools (`ortools>=9.8.0`) CP-SAT Constraint Programming Solver
-- **Frontend Architecture:** Vanilla HTML5 + CSS3 + Modern JavaScript (ES6+), Plotly.js (`v2.35.2` via CDN), Programmatic SVG Schematics
+- **Frontend Architecture:** Vanilla HTML5 + CSS3 + Modern JavaScript (ES6+), Plotly.js (`v2.35.2` via CDN), Leaflet.js (`v1.9.4` via CDN) with ESRI World Imagery & CartoDB Dark Matter tile servers, Programmatic SVG Schematics
 - **Design System & Typography:** Inter, JetBrains Mono, Microsoft Fluent UI SVG icons (Zero gradients, Minimalist Modern Light Theme)
 
 ---
@@ -54,6 +54,15 @@ SIH RAILWAY/
 │   └── uploads/                       # User-uploaded custom CSV maintenance logs
 ├── docs/
 │   └── assets/                        # High-resolution UI captures & architectural assets
+│       ├── gis_satellite_radar.png    # High-resolution Leaflet ESRI satellite radar map
+│       ├── gis_station_popup.png      # Glassmorphic station beacon popup with live telemetry
+│       ├── gis_dark_mode.png          # CartoDB Dark Matter GIS radar view
+│       ├── ctc_topology_map.png       # Centralized Traffic Control UP/DN track diagram
+│       ├── yard_interlocking.png      # IRSEM station yard interlocking drill-down
+│       ├── occ_demand_queue.png       # Central OCC live demand queue & shadow bundler
+│       ├── marey_diagram.png          # 24-hour time-distance string chart
+│       ├── gantt_bundling.png         # Multi-department shadow block Gantt diagram
+│       └── xai_waterfall.png          # SHAP feature risk attribution card
 ├── src/
 │   ├── __init__.py
 │   ├── api/
@@ -68,6 +77,7 @@ SIH RAILWAY/
 │   │   │   └── style.css              # Minimalist light theme tokens, portal branding, responsive layouts
 │   │   └── js/
 │   │       ├── app.js                 # Central OCC coordinator, live demand queue loader, CP-SAT bundler
+│   │       ├── gis_map.js             # Leaflet geospatial satellite radar map & animated shadow block overlays
 │   │       ├── tms_portal.js          # TMS portal controller & status poller
 │   │       ├── tdms_portal.js         # TDMS portal controller & 25 kV power permit poller
 │   │       ├── smms_portal.js         # SMMS portal controller & disconnection notice poller
@@ -110,7 +120,7 @@ SIH RAILWAY/
 ## 4. Data Models & Schema Overview
 
 ### 4.1 Topology (`data/topology/ndls_cnb_corridor.json`)
-- **Stations (10):** `NDLS` (0.0k), `GZB` (25.0k), `DER` (37.0k), `KRJ` (83.0k), `ALJN` (131.0k), `TDL` (209.0k), `FZD` (226.0k), `ETW` (301.0k), `PHD` (357.0k), `CNB` (440.0k).
+- **Stations (10):** `NDLS` (0.0k, 28.6431°N, 77.2197°E), `GZB` (25.0k, 28.6679°N, 77.4326°E), `DER` (37.0k, 28.5397°N, 77.5539°E), `KRJ` (83.0k, 28.2562°N, 77.8498°E), `ALJN` (131.0k, 27.8974°N, 78.0880°E), `TDL` (209.0k, 27.2081°N, 78.2392°E), `FZD` (226.0k, 27.1513°N, 78.4005°E), `ETW` (301.0k, 26.7769°N, 79.0238°E), `PHD` (357.0k, 26.5683°N, 79.4674°E), `CNB` (440.0k, 26.4547°N, 80.3507°E).
 - **Line Config:** Double Broad Gauge (UP, DN), 25kV 50Hz AC Electrification, Automatic Block Signalling (ABS), Electronic Interlocking (EI).
 - **Machine Fleet:** 2 Tamping Machines, 1 Ballast Cleaning Machine (BCM), 3 Tower Wagons, 4 USFD Trolleys, 5 Signal Gangs.
 
@@ -180,3 +190,4 @@ $$\text{Score} = 35 \times P_{\text{fail}} + 25 \times \left(\frac{365 - \text{R
 6. **Safety Precedence Guardrail:** In 25kV electrified territory, any heavy track machine (BCM, CSM, Tamping) or track renewal within 2.75m of live OHE must enforce `power_block_required = True`.
 7. **Frontend Design Aesthetic:** Maintain the clean, minimalist modern light theme (`#f8fafc` canvas, `#ffffff` card surfaces, `1px solid #e2e8f0` flat borders, zero gradients, Microsoft Fluent UI SVG icons, high-contrast typography, and Plotly light mode templates). Never use default browser alerts for production flows.
 8. **Station Yard Schematics (Option C Standard):** Render track lines with clear, prominent visual stroke widths (3.5px solid Navy for mainlines, 2.5px for loops). Use authentic IRSEM standard point numbering (`Pt-101A`, `Pt-301A`) with dynamic health beacons (🟢 Safe, 🟡 Warning, 🔴 Sluggish). Always transparently attribute yard layouts as *Standard IRSEM Reference Layouts based on Official Station Infrastructure Data*.
+9. **Geospatial & Modal Stacking Context Guardrail:** Leaflet GIS map elements and canvas layers must remain isolated from modals. Modal dialogs (`yard-modal`, `disruption-modal`) must enforce elevated z-indexes (`z-index: 2000+`) and clean backdrop overlays to prevent map marker or tile bleed-through.

@@ -1,12 +1,18 @@
 # PROGRESS.md — Active Development Tracking
 
 ## 1. Current Phase
-- **Phase:** Phase 11 — Multi-Department Console System (TMS, TDMS, SMMS Portals + Live OCC Demand Queue) Shipped & Verified Locally
-- **Status:** Complete 4-portal multi-department ecosystem verified. All 3 departmental portals (`/tms`, `/tdms`, `/smms`) and the Central OCC Master Desk (`/`) are fully connected via live REST API communication. Live demand raising, auto-enforced safety rules, real-time unbundled downtime aggregation, and 1-click CP-SAT shadow bundling are verified. All 19 unit & integration tests pass (19/19 in 2.5s). Pushing to GitHub is pending user confirmation.
+- **Phase:** Phase 12 — Geospatial GIS Satellite Radar & Multi-Layer Map Engine Shipped & Verified Locally
+- **Status:** Complete geospatial radar tracking and multi-layer map system verified. High-resolution ESRI satellite imagery and CartoDB dark GIS modes are fully functional with live animated shadow block radar pings, station quick-jump navigation chips, glassmorphic station popups, and full integration with the IRSEM station yard interlocking modal. All 19 unit & integration tests pass (19/19 in 2.5s).
 
 ---
 
 ## 2. Completed Features (Shipped & Verified)
+- **Leaflet Geospatial Satellite Radar Map (`gis_map.js`):** Interactive geospatial map powered by Leaflet.js with ESRI World Imagery (High-Resolution Satellite) and CartoDB Dark Matter tile engines, mapping the full 440 KM New Delhi – Kanpur Central corridor with precise GPS station anchors and a high-contrast electric cyan railway mainline polyline (`#38bdf8`).
+- **3-Way Corridor View Toggle:** Seamless 1-click switching between 🛰️ Satellite Radar (ESRI), 🌙 Dark GIS (CartoDB), and 📐 Centralized Traffic Control (CTC) Schematic Board.
+- **Quick-Jump Station Navigation Chips:** Clickable horizontal chip bar (`📍 NDLS` through `📍 CNB`) featuring smooth `flyTo` camera easing, auto-zoom (level 13.5), and automated station popup opening.
+- **Animated Shadow Block Radar Pings:** Active scheduled blocks rendered with glowing neon boundaries (Crimson `#f43f5e` for multi-department bundles, Amber `#f59e0b` for single blocks), animated dash arrays, and multi-ring pulsating radar wave beacons at possession epicenters.
+- **Rich Glassmorphic Map Popups & Cross-Module Drill-Downs:** Station and block popups displaying operational metrics (max speed, platforms, ABS signalling, 25 kV traction, depot fleets, approved windows, downtime saved) with direct 1-click action buttons to *"Inspect Yard Interlocking"* and *"Test Disruption"*.
+- **Modal Stacking Context & Z-Index Isolation:** Elevated modal overlay z-indexes (`z-index: 2000+`) and isolated Leaflet map stacking context to guarantee zero map canvas bleed-through under interactive modals.
 - **Multi-Department Console Portals (TMS, TDMS, SMMS):** Built 3 dedicated, authentic Indian Railways departmental portals:
   - `http://127.0.0.1:8000/tms` &rarr; Track Management System (IRCEP Civil Engineering) with Steel Blue branding, tamping/BCM requisitions, and live approved status table.
   - `http://127.0.0.1:8000/tdms` &rarr; Traction Distribution Management System (RailSaver TRD) with High-Voltage Amber branding, auto-enforced 25 kV AC power cuts, tower wagon requests, and power permits.

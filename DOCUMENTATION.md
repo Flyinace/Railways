@@ -98,6 +98,7 @@ The software architecture is strictly modular and decoupled into five distinct l
 |  - Microsoft Fluent Design System (index.html, style.css -> Tabular Numerals, SVG Icons)          |
 |  - Interactive Marey String Diagram (marey_chart.js -> Plotly.js Time-Distance Chart with Scrubber)|
 |  - Multi-Dept Gantt Bundling Diagram (gantt_chart.js -> Plotly.js Task Stacking & Savings Metrics) |
+|  - Leaflet Geospatial Satellite Radar (gis_map.js -> ESRI Imagery, Dark GIS & Animated Radar Pings)|
 |  - Centralized Traffic Control Track Map (network_map.js -> UP/DN Parallel Lines & Active Blocks)  |
 |  - Station Yard Interlocking SVG Renderer (yard_schematic.js -> Option C Turnout Simulation)       |
 |  - What-If Disruption Simulator (simulator_ui.js -> 1-Click Judge Crisis Presets)                 |
@@ -138,12 +139,16 @@ SIH RAILWAY/
 │
 ├── docs/                              # Project documentation assets
 │   └── assets/                        # High-resolution architectural screenshots for GitHub README
-│       ├── marey_diagram.png
-│       ├── gantt_bundling.png
-│       ├── ctc_topology_map.png
-│       ├── yard_interlocking.png
-│       ├── xai_waterfall.png
-│       └── whatif_simulator.png
+│       ├── gis_satellite_radar.png    # Leaflet ESRI satellite radar map with active shadow blocks
+│       ├── gis_station_popup.png      # Glassmorphic station beacon popup with live telemetry
+│       ├── gis_dark_mode.png          # CartoDB Dark Matter GIS radar view
+│       ├── marey_diagram.png          # 24-hour time-distance string chart
+│       ├── gantt_bundling.png         # Multi-department shadow bundling Gantt chart
+│       ├── ctc_topology_map.png       # Centralized Traffic Control UP/DN track diagram
+│       ├── yard_interlocking.png      # Authentic IRSEM station yard interlocking layout
+│       ├── xai_waterfall.png          # SHAP feature risk attribution card
+│       ├── occ_demand_queue.png       # Central OCC live demand queue & shadow bundler
+│       └── whatif_simulator.png       # What-If perturbation disruption simulator
 │
 ├── src/                               # Application source code
 │   ├── __init__.py
@@ -152,10 +157,17 @@ SIH RAILWAY/
 │   │   └── main.py                    # FastAPI application, route handlers, and static file mounting
 │   ├── frontend/
 │   │   ├── index.html                 # Single Page Application HTML markup with Microsoft Fluent icons
+│   │   ├── tms.html                   # Track Management System (IRCEP Civil Desk) portal
+│   │   ├── tdms.html                  # Traction Distribution Management System (TRD Desk) portal
+│   │   ├── smms.html                  # Signal Maintenance Management System (S&T Desk) portal
 │   │   ├── css/
 │   │   │   └── style.css              # Minimalist light theme tokens, tabular numerals, layout styles
 │   │   └── js/
 │   │       ├── app.js                 # App state coordinator, API client, search filter, XAI renderer
+│   │       ├── gis_map.js             # Leaflet geospatial satellite radar map & animated shadow block overlays
+│   │       ├── tms_portal.js          # TMS portal controller & status poller
+│   │       ├── tdms_portal.js         # TDMS portal controller & 25 kV power permit poller
+│   │       ├── smms_portal.js         # SMMS portal controller & disconnection notice poller
 │   │       ├── marey_chart.js         # Interactive Marey time-distance string diagram (Plotly.js)
 │   │       ├── gantt_chart.js         # Multi-department shadow bundling Gantt chart (Plotly.js)
 │   │       ├── network_map.js         # CTC corridor track map with UP/DN parallel lines
@@ -411,8 +423,17 @@ Multi-department joint maintenance Gantt chart renderer:
 - Displays primary AI bundled possession bars and stacked sub-department tasks.
 - Populates an efficiency summary card comparing unbundled requests ($99.0\text{ hours}$) against bundled execution ($21.0\text{ hours}$), proving $78.0\text{ hours}$ ($78.7\%$) recovered track time.
 
+#### [`gis_map.js`](file:///c:/Users/jefin/OneDrive/Desktop/SIH%20RAILWAY/src/frontend/js/gis_map.js)
+Geospatial GIS Satellite Radar Map controller (Tab 3):
+- **Leaflet.js Tile Server Engine:** Embeds high-resolution satellite imagery (ESRI World Imagery) and CartoDB Dark Matter with zero API keys required.
+- **Corridor Trunk Polyline:** Renders the 440 KM New Delhi to Kanpur Central double-line railway route with electric cyan styling (`#38bdf8`) and dark drop-shadow halo for satellite contrast.
+- **3-Way View Switching (`switchMapView`):** Seamless 1-click toggling between 🛰️ Satellite Radar (ESRI), 🌙 Dark GIS (CartoDB), and 📐 Centralized Traffic Control (CTC) Schematic Board.
+- **Quick-Jump Station Navigation (`jumpToGISStation`):** Clickable horizontal chip bar (`📍 NDLS` to `📍 CNB`) triggering smooth `flyTo` camera easing, auto-zoom (level 13.5), and automatic station popup opening.
+- **Live Animated Shadow Block Radar Pings (`refreshGISBlockOverlays`):** Overlays active CP-SAT scheduled blocks with glowing neon strokes (Crimson `#f43f5e` for multi-department bundles, Amber `#f59e0b` for single blocks), animated dash arrays, and multi-ring pulsating radar wave beacons at possession epicenters.
+- **Rich Glassmorphic Popups:** Interactive station and block cards displaying speed limits, platforms, traction/signalling specs, and 1-click action buttons to *"Inspect Yard Interlocking"* (SVG Option C modal) and *"Test Disruption"* (What-If simulator).
+
 #### [`network_map.js`](file:///c:/Users/jefin/OneDrive/Desktop/SIH%20RAILWAY/src/frontend/js/network_map.js)
-Centralized Traffic Control (CTC) corridor track map renderer:
+Centralized Traffic Control (CTC) schematic track board renderer:
 - Renders double-track lines (DN Line to Kanpur, UP Line to New Delhi) with intermediate station nodes.
 - Highlights active maintenance blocks with pulsing crimson badges.
 - Includes an interactive Station Inspector drawer with an "Inspect Yard Interlocking" trigger button.
@@ -422,29 +443,8 @@ Programmatic SVG station yard interlocking schematic renderer (Option C):
 - Renders tracks with visible 3.5px mainline strokes, platform slabs, point turnouts with IRSEM badges (`Pt-101A`), signal aspect heads, and 25 kV OHE masts.
 - Features **Layer Visibility Toggles** (Points, Signals, OHE Masts).
 - Features **Interactive Route Switch Simulation**: Clicking a turnout toggles between Normal route (straight) and Reverse route (diverging loop).
-
----
-
-### 4.7 Automated Test Suite (`tests/`)
-
-#### [`test_system_integration.py`](file:///c:/Users/jefin/OneDrive/Desktop/SIH%20RAILWAY/tests/test_system_integration.py)
-End-to-end integration tests validating all 19 system invariants in 2.5s:
-1. `test_feature_pipeline`: Validates 18-dimension feature vector extraction.
-2. `test_safe_criticality_calculation`: Validates composite criticality scoring with NaN handling and TSR penalties.
-3. `test_slot_finder`: Validates headway detection ($\ge 45\text{ min} + 10\text{ min}$).
-4. `test_bundling_engine`: Validates spatial clustering and concurrent duration logic.
-5. `test_ortools_optimizer`: Validates CP-SAT optimal schedule generation and downtime reduction ($78.7\%$).
-6. `test_multi_horizon_plans`: Validates 30-Day strategic and 7-Day tactical matrix generation.
-7. `test_disruption_simulator_speed`: Validates sub-second train delay recovery ($< 1.0\text{s}$).
-8. `test_fastapi_endpoints`: Validates core REST API response codes and payloads.
-9. `test_station_yard_topology`: Validates IRSEM yard definitions for all 10 corridor stations.
-10. `test_station_yard_api`: Validates station yard interlocking API.
-11. `test_demand_safety_rule_enforcement`: Validates mandatory 25 kV power block and S&T disconnection enforcement.
-12. `test_demand_lifecycle_and_shadow_bundling`: Validates multi-department raise, pending queue accumulation, and 1-click CP-SAT shadow bundling.
-13. `test_department_portal_pages`: Validates HTTP 200 HTML responses for `/tms`, `/tdms`, `/smms`.
-14. `test_demand_history_and_clear`: Validates demand audit history and queue clearing.
-
-- Provides SVG Pan and Zoom controls (`+`, `-`, `Reset`).
+- Features **Point Machine Inspector & XAI Drill-Down**: Displays throw time, motor current, insulation resistance, and predicted RUL with a 1-click jump to the SHAP Explainability Engine.
+- Features SVG Pan and Zoom controls (`+`, `-`, `Reset`).
 
 #### [`simulator_ui.js`](file:///c:/Users/jefin/OneDrive/Desktop/SIH%20RAILWAY/src/frontend/js/simulator_ui.js)
 Controller for the What-If Disruption Simulator:
@@ -467,16 +467,21 @@ Unit tests for engineering formulas and dataset generators:
 - `test_unified_dataset_generation()`: Verifies data integrity across all 1,850 generated defect rows.
 
 #### [`test_system_integration.py`](file:///c:/Users/jefin/OneDrive/Desktop/SIH%20RAILWAY/tests/test_system_integration.py)
-End-to-end integration and API tests:
-- `test_ml_feature_pipeline()`: Verifies feature extraction dimensions.
-- `test_ml_model_predictions()`: Checks inference accuracy and RUL bounds.
-- `test_slot_finder()`: Checks headway gap identification.
-- `test_bundling_engine()`: Tests spatial partitioning and multi-department clustering.
-- `test_ortools_optimizer()`: Verifies CP-SAT solver convergence, zero headway conflict, and downtime reduction $\ge 70\%$.
-- `test_disruption_simulator_speed()`: Asserts sub-second solver re-optimization ($< 2.0\text{ seconds}$).
-- `test_fastapi_endpoints()`: Validates REST API responses using `fastapi.testclient.TestClient`.
-- `test_station_yard_topology()`: Verifies yard layout JSON schemas for all 10 corridor stations.
-- `test_station_yard_api()`: Verifies `/api/station/yard/{code}` endpoints.
+End-to-end integration tests validating all 19 system invariants in 2.5s:
+1. `test_feature_pipeline`: Validates 18-dimension feature vector extraction.
+2. `test_safe_criticality_calculation`: Validates composite criticality scoring with NaN handling and TSR penalties.
+3. `test_slot_finder`: Validates headway detection ($\ge 45\text{ min} + 10\text{ min}$).
+4. `test_bundling_engine`: Validates spatial clustering and concurrent duration logic.
+5. `test_ortools_optimizer`: Validates CP-SAT optimal schedule generation and downtime reduction ($78.7\%$).
+6. `test_multi_horizon_plans`: Validates 30-Day strategic and 7-Day tactical matrix generation.
+7. `test_disruption_simulator_speed`: Validates sub-second train delay recovery ($< 1.0\text{s}$).
+8. `test_fastapi_endpoints`: Validates core REST API response codes and payloads.
+9. `test_station_yard_topology`: Validates IRSEM yard definitions for all 10 corridor stations.
+10. `test_station_yard_api`: Validates station yard interlocking API.
+11. `test_demand_safety_rule_enforcement`: Validates mandatory 25 kV power block and S&T disconnection enforcement.
+12. `test_demand_lifecycle_and_shadow_bundling`: Validates multi-department raise, pending queue accumulation, and 1-click CP-SAT shadow bundling.
+13. `test_department_portal_pages`: Validates HTTP 200 HTML responses for `/tms`, `/tdms`, `/smms`.
+14. `test_demand_history_and_clear`: Validates demand audit history and queue clearing.
 
 ---
 
@@ -556,6 +561,21 @@ The frontend is constructed with **Vanilla JavaScript (ES6+) and CSS3** without 
   - 🟢 Safe ($\ge 75\%$ health): `#059669`
   - 🟡 Warning ($35 - 74\%$ health): `#d97706`
   - 🔴 Sluggish ($< 35\%$ health / $> 5.5\text{s}$ throw): `#dc2626`
+
+### 7.3 Leaflet Geospatial Radar Map Architecture (`gis_map.js`)
+The GIS Satellite Radar system models the entire 440 KM New Delhi – Kanpur Central corridor using high-resolution spatial projections and real GPS station benchmarks:
+- **Tile Server Layering:**
+  - Satellite Radar: `https://server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/{z}/{y}/{x}` (ESRI World Imagery, max zoom 18).
+  - Dark GIS Radar: `https://{s}.basemaps.cartocdn.com/dark_all/{z}/{x}/{y}{r}.png` (CartoDB Dark Matter, max zoom 19).
+- **Corridor Mainline Polyline Rendering:**
+  - Base shadow stroke (`weight: 8`, `opacity: 0.5`, `#0f172a`) ensures high contrast over varying satellite terrain.
+  - Active mainline stroke (`weight: 4`, `opacity: 0.95`, `#38bdf8`) connects all 10 GPS anchors from NDLS ($28.6431^\circ\text{N}, 77.2197^\circ\text{E}$) to CNB ($26.4547^\circ\text{N}, 80.3507^\circ\text{E}$).
+- **Animated Shadow Block Overlays:**
+  - Bounding line: Neon stroke (`#f43f5e` for multi-department bundles, `#f59e0b` for single blocks) with animated dashed stroke (`dashArray: "10, 8"`).
+  - Epicenter Radar Ping: CSS keyframe-animated expanding concentric ripple rings (`.gis-radar-wave` with `@keyframes gisRadarPing`).
+- **Modal Stacking Context Isolation:**
+  - Leaflet containers utilize internal z-indexing (`.leaflet-pane`, `.leaflet-top`, `.leaflet-bottom`).
+  - Interactive modals (`yard-modal`, `disruption-modal`) enforce `z-index: 2000` with backdrop blur to guarantee absolute isolation without DOM element re-parenting.
 
 ---
 
